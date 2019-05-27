@@ -698,6 +698,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 					state = STATE.PAN;
 
+
 				} else {
 
 					if ( scope.enableRotate === false ) return;

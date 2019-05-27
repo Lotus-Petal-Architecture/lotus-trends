@@ -43,7 +43,6 @@
 		<script src="../build/three.js"></script>
 		<script src="js/controls/OrbitControls.js"></script>
 		<script src="js/libs/stats.min.js"></script>
-		<script src="js/controls/TransformControls.js"></script>
 		<script>
 		    var scene = new THREE.Scene();
 		    var camera = new THREE.PerspectiveCamera
@@ -88,6 +87,7 @@
 		    group = new THREE.Group();
         	group.position.y = 0;
         	scene.add( group );
+
 
 
         	function petal (x, y, z, x0, y0, z0, x1, y1, z1, petalheight, ctrlpt, color_code) {
@@ -533,6 +533,10 @@
 			            ));          
 			}
 			group.add(new THREE.Line(geometry, material));
+
+
+
+
 			
 
 
@@ -548,6 +552,20 @@
 				group.rotation.y += 0.001;
 			}
 			animate();
+
+			document.addEventListener('mousedown', onDocumentMouseDown, false);
+
+
+        	function onDocumentMouseDown(event)
+
+        	{
+			var mouseposition = event.clientX;
+			if (mouseposition > 1000) 
+			{
+				window.open("https://www.lotus.fm", "_self");
+			}
+        }
+
 
 		</script>
 	</body>
