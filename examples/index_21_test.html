@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		 <meta charset=utf-8
+		<meta charset=utf-8
 		 Copyright 2019 by Lotus.fm LLC>
 		<title>Lotus Petal Content Discovery Demo</title>
 		<style>
@@ -43,7 +43,6 @@
 		<script src="../build/three.js"></script>
 		<script src="js/controls/OrbitControls.js"></script>
 		<script src="js/libs/stats.min.js"></script>
-		<script src="js/controls/TransformControls.js"></script>
 		<script>
 		    var scene = new THREE.Scene();
 		    var camera = new THREE.PerspectiveCamera
@@ -56,9 +55,7 @@
 		        container = document.createElement( 'div' );
                 document.body.appendChild( container );
 
-                //links and controls are faked for the purposes of this demo; will be added forthwith
-
-                var info = document.createElement( 'div' );  
+                var info = document.createElement( 'div' );
                 info.style.position = 'absolute';
                 info.style.bottom = '0px';
                 info.style.width = '100%';
@@ -67,15 +64,15 @@
                 info.innerHTML = '<span style="background-color:#b22c9a;">&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; </span>  &nbsp;=  <span style="font-family:sans-serif;">Normal growth trend</span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br/> <br/><span style="background-color:#F7931D;">&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; </span>&nbsp; =  <span style="font-family:sans-serif;">Fast growth trend</span>&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; <br/>  <br/>  <br/> ';
                 container.appendChild( info );
 
-                info = document.createElement( 'div' );
+                /*var info = document.createElement( 'div' );
                 info.style.position = 'absolute';
-                info.style.bottom = '20px';
+                info.style.bottom = '0px';
                 info.style.width = '100%';
                 info.style.left = '20px';
                 info.style.textAlign = 'left';
                 info.style.color ='#999';
-                info.innerHTML = '<a href="https://www.grammy.com" style="font-family:sans-serif; color:#0099cc;">www.grammy.com</a>&nbsp; &nbsp; &nbsp;<a href="https://www.grammy.com" style="font-family:sans-serif; color:#0099cc;"><img src="files/grammy.png" width="200" height="150" style ="border: solid 10px #0099cc;"></a>&nbsp; &nbsp; <span style="font-family:sans-serif; color:#F7931D;">&nbsp;<strong>% Growth:</strong>&nbsp;</span><span style="font-family:sans-serif;">1110.00</span>&nbsp; &nbsp; &nbsp;<span style="font-size:10px; font-family:sans-serif;">Snapshot 2/27/2019</span>';
-                container.appendChild( info );
+                info.innerHTML = '<a href="https://www.lotus.fm" style="font-family:sans-serif; color:#0099cc;">www.lotus.fm</a><br><br><br><br>';
+                container.appendChild( info );*/
 
 		    var controls = new THREE.OrbitControls( camera, renderer.domElement );
 			controls.minDistance = 0;
@@ -89,8 +86,8 @@
 		    var group;
 		    group = new THREE.Group();
         	group.position.y = 0;
-        	group.rotation.set( .3, -.25, 0);
         	scene.add( group );
+
 
 
         	function petal (x, y, z, x0, y0, z0, x1, y1, z1, petalheight, ctrlpt, color_code) {
@@ -389,7 +386,7 @@
 			    var base_yk = 0;
 			    var base_zk = Math.sin(theta0) * radius;
 
-			    if (k==37) {
+			    			    if (k==37) {
 			    	color_code=0xffca85;
 			    }
 
@@ -536,12 +533,16 @@
 			            ));          
 			}
 			group.add(new THREE.Line(geometry, material));
+
+
+
+
 			
 
 
 //animate and render
 
-			camera.position.z = 2.2;
+			camera.position.z = 5;
 
 
 			function animate() {
@@ -551,6 +552,20 @@
 				group.rotation.y += 0.001;
 			}
 			animate();
+
+			document.addEventListener('mousedown', onDocumentMouseDown, false);
+
+
+        	function onDocumentMouseDown(event)
+
+        	{
+			var mouseposition = event.clientX;
+			if (mouseposition > 1000) 
+			{
+				window.open("https://www.lotus.fm", "_self");
+			}
+        }
+
 
 		</script>
 	</body>
