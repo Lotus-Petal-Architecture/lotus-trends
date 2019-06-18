@@ -14,13 +14,28 @@
 		<script src="js/controls/OrbitControls.js"></script>
 		<script src="js/libs/stats.min.js"></script>
 		<script>
+			var camera, scene, raycaster, renderer, parentTransform, sphereInter;
+			var mouse = new THREE.Vector2();
+			var r = 100, dot = 0;
+			init();
+			animate();
+			function init() {
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
 
 		    var scene = new THREE.Scene();
 		    var camera = new THREE.PerspectiveCamera
 		    ( 40,( window.innerWidth)/(window.innerHeight), 0.1, 1000 );
-		    
-		    var renderer = new THREE.WebGLRenderer();
-		    renderer.setSize( window.innerWidth, window.innerHeight );
+
+		    var container = document.getElementById( 'container' );
+
+		    containerWidth = window.innerWidth;
+			containerHeight = window.innerHeight;
+
+			renderer = new THREE.WebGLRenderer( { antialias: true } );	
+			renderer.setPixelRatio( window.devicePixelRatio );
+			renderer.setSize( window.innerWidth, window.innerHeight );
 		    document.body.appendChild( renderer.domElement );
 
 		    var controls = new THREE.OrbitControls( camera, renderer.domElement );
@@ -701,63 +716,104 @@
 			            Math.sin(theta) * radius
 			            ));          
 			}
-			group.add(new THREE.Line(geometry, material));
-			*/
-
-
-//test code
+			group.add(new THREE.Line(geometry, material)); */
 			
-			// Notes::: create a test array here
-			// Notes::: call it from the MouseDown function
-			// Notes::: we are testing whether mouseposition performs well to open links with a large number of points
-			// Notes::: and memory demands at each level
+
+			function cube() {
+			var geometry = new THREE.BoxGeometry( 100,100,100 );
+			var material = new THREE.MeshStandardMaterial( { color: 0x0099cc } );
+			var cube = new THREE.Mesh( geometry, material );
+			return cube;
+			}
 
 
+
+
+			// --- raycaster code
+
+				scene.background = new THREE.Color( 0xf0f0f0 );
+				var geometry = new THREE.SphereBufferGeometry( 5 );
+				var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+				sphereInter = new THREE.Mesh( geometry, material );
+				sphereInter.visible = false;
+				scene.add( sphereInter );
+
+				parentTransform = new THREE.Object3D();
+				parentTransform.position.x = -100;
+				parentTransform.position.y = -100;
+				parentTransform.position.z = -100;
+
+				for ( var i = 0; i < 1; i ++ ) {
+					object = cube();
+					parentTransform.add( object );
+				}
+				scene.add( parentTransform );
+
+			raycaster = new THREE.Raycaster();
+			raycaster.linePrecision = 3;
+
+			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+			window.addEventListener( 'click', onMouseClick, false );
+			window.addEventListener( 'resize', onWindowResize, false );
+
+			function onWindowResize() {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+			function onDocumentMouseMove( event ) {
+				event.preventDefault();
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+			}
+
+			function onMouseClick( event ) {
+				event.preventDefault();
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+				//window.open("https://www.lotus.fm", "_self");
+			}
 
 //animate and render
 
 			camera.position.z = 5;
 
-
 			function animate() {
 				requestAnimationFrame( animate );
-				renderer.render( scene, camera );
+				render();
 				group.rotation.x += 0.00;
-				group.rotation.y += 0.00;
+				group.rotation.y += 0;
 			}
 			animate();
 
-			document.addEventListener('mousedown', onDocumentMouseDown, false);
-			//document.addEventListener('mouseover', showMousePosition, false);
+			//
+			/*function animate() {
+				requestAnimationFrame( animate );
+				render();
+			}*/
 
-			/*var veryLargeArray =[];
-			for (var i = 0; i < 20; i++) {
-			    veryLargeArray.push([i,0,0]);
-			    document.write(veryLargeArray[i] + " -- ");
-			    }
-			 
-
-        	function showMousePosition(event)
-
-        	{
-			var mouseX = event.clientX;
-			var mouseY = event.clientY;
-			document.write (mouseX, mouseY);
-			} */
-
-
-        	function onDocumentMouseDown(event)
-
-        	{
-			var mouseposition = event.clientX;
-			var mousepositionY = event.clientY;
-			document.write(mouseposition + ", " + mousepositionY);
-			/* if (veryLargeArray.includes(mouseposition,0,0))
-			{
-				window.open("https://www.lotus.fm", "_self");
-			} */
-        }
-
+			function render() {
+				dot += 0;
+				/*camera.position.x = r * Math.sin( THREE.Math.degToRad( dot) );
+				camera.position.y = r * Math.sin( THREE.Math.degToRad( dot ) );
+				camera.position.z = r * Math.cos( THREE.Math.degToRad( dot ) );
+				camera.lookAt( scene.position );
+				camera.updateMatrixWorld(); */
+				// find intersections
+				raycaster.setFromCamera( mouse, camera );
+				var intersects = raycaster.intersectObjects( parentTransform.children, true );
+				if ( intersects.length > 0 ) {
+					sphereInter.visible = true;
+					sphereInter.position.copy( intersects[ 0 ].point );
+					//window.open("https://www.lotus.fm", "_self");
+				} else {
+					sphereInter.visible = false;
+				}
+				renderer.render( scene, camera );
+			}
+}
 		</script>
+		<div id="container">
+		</div>
 	</body>
 </html>
