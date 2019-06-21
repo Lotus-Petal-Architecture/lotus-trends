@@ -14,7 +14,7 @@
 		<script src="js/controls/OrbitControls.js"></script>
 		<script src="js/libs/stats.min.js"></script>
 		<script>
-			var camera, scene, raycaster, renderer, parentTransform, sphereInter;
+			var camera, scene, raycaster, renderer, parentTransform, sphereInter;;
 			var mouse = new THREE.Vector2();
 			var r = 100, dot = 0;
 			init();
@@ -25,8 +25,10 @@
 
 
 		    var scene = new THREE.Scene();
+		    scene.background = new THREE.Color( 0xf0f0f0 );
+
 		    var camera = new THREE.PerspectiveCamera
-		    ( 40,( window.innerWidth)/(window.innerHeight), 0.1, 1000 );
+		    ( 40,( window.innerWidth)/(window.innerHeight), .1, 1000 );
 
 		    var container = document.getElementById( 'container' );
 
@@ -160,6 +162,7 @@
 			    divisor = 50;
 			    geometry = new THREE.Geometry(),
 			    material = new THREE.LineBasicMaterial({ color: color_code });
+
 			    var links = [null, "https://influence.lotus.fm/en/listings/701008-riot-af","https://influence.lotus.fm/en/listings/724530-home-body","https://influence.lotus.fm/en/listings/713610-joseph-ady","http://www.sleater-kinney.com/","http://www.thethermals.com/", "https://rosebloodband.bandcamp.com/",
 			    "https://www.jetechomusic.com/","http://www.smallmillion.com/", "https://soundcloud.com/thatfuckingivan",
 			    "http://www.ramborich.com", "https://missrayon.bandcamp.com/", "https://dreamwulf.bandcamp.com/", 
@@ -390,6 +393,11 @@
 			    links.splice(blanks[i],0,null); 
 				}
 
+				//sample arrays for testing purposes
+			    var some_bands = [1,7,19,22,25,35,58,102,93,300,315,499,720];
+			    var some_other_bands = [2,5,11,12,14,17,23,45,89,313,422,501,692];
+
+
 			for (var i = 0; i < segmentCount; i++) {
 				var k = 0;
 			    var theta = (i / segmentCount) * Math.PI * 2;
@@ -424,12 +432,48 @@
 			    //k values increment from right to left.
 
 			    if (blanks.includes(k)) {  
-			    	color_code=0xff41dc;
+			    	//color_code=0xff41dc;
 			    	new_color_code=color_code;
 			    }
 
 			    else if (blanks.includes(k+1)) {  
 			    	color_code=new_color_code;
+			    }
+
+			    else if (some_bands.includes(k)) {  
+			    	color_code=0xff41dc;
+			    	function curve(x, y, z, x0, y0, z0, petalheight, ctrlpt) {
+					var curve = new THREE.QuadraticBezierCurve3(
+					new THREE.Vector3( x, y, z ),
+					new THREE.Vector3( x, ctrlpt, z),
+					new THREE.Vector3( x0, y0, z0),
+					);
+					return curve;
+					}
+				
+				parentTransform = new THREE.Object3D();
+				group.add( parentTransform );
+ 					
+	 			var geometry = new THREE.TubeGeometry( curve(chartPoint[j].x,chartPoint[j].y,chartPoint[j].z, base_xk,0,base_zk, 
+	 				.5, 0), 64, .002, 8, false );
+				var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+				var object = new THREE.Mesh( geometry, material);
+				parentTransform.add( object );
+				var URL = links[k];
+				//document.write(URL); 
+
+				function onMouseClick( event ) {
+				event.preventDefault();
+				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+				raycaster.setFromCamera( mouse, camera );
+				var intersects = raycaster.intersectObjects( parentTransform.children, true );
+				if ( intersects.length > 0 ) {
+					sphereInter.visible = true;
+					sphereInter.position.copy( intersects[ 0 ].point );
+					window.open(URL, "_self");
+						} 
+					}
 			    }
 
 			    /*else if (k==26) {  
@@ -438,7 +482,29 @@
 
 			    else if (k==27) {  
 			    	color_code=0xffca85;
-			    }
+
+			    	function curve(x, y, z, x0, y0, z0, petalheight, ctrlpt) {
+					var curve = new THREE.QuadraticBezierCurve3(
+					new THREE.Vector3( x, y, z ),
+					new THREE.Vector3( x, ctrlpt, z),
+					new THREE.Vector3( x0, y0, z0),
+					);
+					return curve;
+					}
+				
+				parentTransform = new THREE.Object3D();
+				group.add( parentTransform );
+ 					
+	 			var geometry = new THREE.TubeGeometry( curve(chartPoint[j].x,chartPoint[j].y,chartPoint[j].z, base_xk,0,base_zk, 
+	 				.5, 0), 64, .002, 8, false );
+				var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+				var object = new THREE.Mesh( geometry, material);
+				parentTransform.add( object );
+
+					
+				    }
+
+
 
 			    /*
 			    else if (k==77) {  
@@ -719,26 +785,7 @@
 			group.add(new THREE.Line(geometry, material)); */
 			
 
-			function cube() {
-			var geometry = new THREE.BoxGeometry( 100,100,100 );
-			var material = new THREE.MeshStandardMaterial( { color: 0x0099cc } );
-			var cube = new THREE.Mesh( geometry, material );
-			return cube;
-			}
 
-			function curve() {
-				var curve = new THREE.QuadraticBezierCurve3(
-				new THREE.Vector3( 0, 0, 0 ),
-				new THREE.Vector3( 0, .5, 0),
-				new THREE.Vector3( .5, 1, 0 ),
-			);
-				return curve;
-			}
-
-			var geometry = new THREE.TubeGeometry( curve(), 64, .005, 8, false );
-			var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-			var mesh = new THREE.Mesh( geometry, material );
-			scene.add( mesh );
 
 
 
@@ -746,27 +793,20 @@
 
 
 			// --- raycaster code
+			
 
-				scene.background = new THREE.Color( 0xf0f0f0 );
-				var geometry = new THREE.SphereBufferGeometry( 5 );
+
+				var geometry = new THREE.SphereBufferGeometry( .01 );
 				var material = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
 				sphereInter = new THREE.Mesh( geometry, material );
 				sphereInter.visible = false;
 				scene.add( sphereInter );
 
-				parentTransform = new THREE.Object3D();
-				parentTransform.position.x = -100;
-				parentTransform.position.y = -100;
-				parentTransform.position.z = -100;
 
-				for ( var i = 0; i < 1; i ++ ) {
-					object = cube();
-					parentTransform.add( object );
-				}
-				group.add( parentTransform );
+
 
 			raycaster = new THREE.Raycaster();
-			raycaster.linePrecision = 3;
+			//raycaster.linePrecision = 3;
 
 			document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 			window.addEventListener( 'click', onMouseClick, false );
@@ -783,12 +823,6 @@
 				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
 			}
 
-			function onMouseClick( event ) {
-				event.preventDefault();
-				mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-				mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
-				//window.open("https://www.lotus.fm", "_self");
-			}
 
 //animate and render
 
@@ -798,18 +832,9 @@
 				requestAnimationFrame( animate );
 				render();
 				group.rotation.x += 0.00;
-				group.rotation.y += 0;
+				group.rotation.y += 0.00;
 			}
 			animate();
-
-			//
-			/*function animate() {
-				requestAnimationFrame( animate );
-				render();
-			}*/
-
-
-
 
 			function render() {
 				dot += 0;
@@ -824,12 +849,14 @@
 				if ( intersects.length > 0 ) {
 					sphereInter.visible = true;
 					sphereInter.position.copy( intersects[ 0 ].point );
-					//window.open("https://www.lotus.fm", "_self");
 				} else {
 					sphereInter.visible = false;
 				}
 				renderer.render( scene, camera );
 			}
+
+
+
 }
 		</script>
 		<div id="container">
