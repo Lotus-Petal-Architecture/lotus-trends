@@ -39,7 +39,7 @@ window.onload = function() {
 			mat = new THREE.MeshBasicMaterial(),
 			cube = new THREE.Mesh( geom, mat );
 		mat.color.setRGB( grayness, grayness, grayness );
-		mat.opacity = 1;
+		mat.opacity = 0;
 		cube.position.set( range * (0.5 - Math.random()), range * (0.5 - Math.random()), range * (0.5 - Math.random()) );
 		cube.rotation.set( Math.random(), Math.random(), Math.random() ).multiplyScalar( 2 * Math.PI );
 		cube.grayness = grayness;

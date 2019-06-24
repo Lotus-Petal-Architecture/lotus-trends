@@ -142,8 +142,8 @@
 				new THREE.Vector3( x0, y0, z0),
 				);
 
-				var geometry = new THREE.TubeGeometry( link_curve, 64, .002, 8, false );
-				var material = new THREE.MeshPhongMaterial( { opacity: 0} );
+				var geometry = new THREE.TubeGeometry( link_curve, 64, .001, 8, false );
+				var material = new THREE.MeshBasicMaterial( { color:0xffca8} );
 				var object = new THREE.Mesh( geometry, material);
 				material.transparent = true;
 				object.label = k;
@@ -550,7 +550,7 @@
 			
 
 
-			var geometry = new THREE.SphereBufferGeometry( .0025 );
+			var geometry = new THREE.SphereBufferGeometry( .005 );
 			var material = new THREE.MeshBasicMaterial( { color: 0x45A7C5 } );
 			sphereInter = new THREE.Mesh( geometry, material );
 			sphereInter.visible = false;
@@ -613,7 +613,7 @@
 				requestAnimationFrame( animate );
 				render();
 				group.rotation.x += 0.00;
-				group.rotation.y += 0.00;
+				group.rotation.y += 0.000;
 			}
 			animate();
 
