@@ -188,7 +188,7 @@
 			    "https://www.karmarivera.com/", "https://blackwaterholylight.bandcamp.com", "http://www.dirtyrevival.com/", "http://www.blitzentrapper.net/", "https://savila.bandcamp.com/", "http://pinkmartini.com/", "https://www.haley-heynderickx.com/", "https://thebody.bandcamp.com/", "https://alienboypdx.bandcamp.com/", "http://galeximusic.com/", "https://www.coloringelectriclike.com"]
 
 			    //this splice prevents two link values from occupying the same center point at the top of the petal chart
-			    var blanks = [];
+			    var blanks = [0];
 			    for (var i = 0; i < cPCount; i++) {
 				    var skip = ((i*divisor)+26);
 				    blanks.push(skip);
@@ -200,7 +200,7 @@
 					}*/
 
 				//sample arrays for testing purposes
-			    var some_bands = [0,1,2,3,4,7,19,22,25,26,27,29];
+			    var some_bands = [1,2,3,4,7,19,22,25,26,27,29];
 			    //var some_other_bands = [2,5,11,12,14,17,23,]
 			    var count = [];
 			    var k_values = []; //list of all k values with points assigned to them
@@ -244,9 +244,9 @@
 
 						    //document.write(k + " " + links[k] + ", ");
 
-							    //represents k values so that there is only one value (not two) shown at the top of each petal chart. 
-							    //k values increment from right to left.
-							if (blanks.includes(k)) {
+							//color coding can be used with transparent TubeGeometry to represent multiple link categories
+
+							/*if (blanks.includes(k)) {
 
 							    	color_code=0xff41dc;
 
@@ -257,11 +257,11 @@
 
 							    }
 
-							/*else if (some_bands.includes(k)) {  
+							else if (some_bands.includes(k)) {  
 							    color_code=0xffca85;
-							    }*/
+							    }
 
-							else color_code=0x0099cc;
+							else color_code=0x0099cc; */
 			    
 
 			    cP (chartPoint[j].x,chartPoint[j].y,chartPoint[j].z,
@@ -290,7 +290,7 @@
 
 								var i=0;
 
-								while (i < 50) {
+								while (i < cPCount) {
 
 									if ((blanks.includes(i)) && (some_bands.includes(i)))
 
@@ -576,7 +576,7 @@
 				else {
 					sphereInter.visible = false;
 					}
-						}
+				}
 	
 
 			function onMouseClick( event ) {
@@ -591,7 +591,7 @@
 					//obj.material.color.setRGB( 255,0,0);
 					//document.write (obj.id + " " + obj.label);
 					var URL = links[obj.label];
-					window.open(URL, "_self");
+					window.open(URL, "_blank");
 					}
 				}
 
