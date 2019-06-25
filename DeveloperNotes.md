@@ -25,3 +25,11 @@ https://hackernoon.com/work-with-javascript-arrays-like-a-boss-97207a042e42
 https://www.w3schools.com/jsref/jsref_find.asp
 
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes
+
+Mesh
+
+https://threejs.org/docs/#api/en/materials/MeshBasicMaterial
+
+Three.js Picking
+
+https://threejsfundamentals.org/threejs/lessons/threejs-picking.html
