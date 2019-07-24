@@ -38,7 +38,6 @@ var r = 100,
   scene.add(group)
 
   var links = [
-    null,
     'https://influence.lotus.fm/en/listings/701008-riot-af',
     'https://influence.lotus.fm/en/listings/724530-home-body',
     'https://influence.lotus.fm/en/listings/713610-joseph-ady',
@@ -64,6 +63,7 @@ var r = 100,
     'https://savila.bandcamp.com/',
     'http://pinkmartini.com/',
     'https://www.haley-heynderickx.com/',
+     null,
     'https://thebody.bandcamp.com/',
     'https://alienboypdx.bandcamp.com/',
     'http://galeximusic.com/',
@@ -97,8 +97,14 @@ var r = 100,
     'https://alienboypdx.bandcamp.com/',
     'http://galeximusic.com/',
     'https://www.coloringelectriclike.com',
-
   ]
+
+
+// sample arrays for testing purposes
+
+  var some_bands = [0, 1, 2, 3, 4, 7, 19, 22, 23, 24, 25, 26, 27, 28, 29, 42,43,62,34,48,49,50,51,52,53,54,55]
+  var count = []
+  var k_values = [] //list of all k values with points assigned to them
 
 
 // -------------------------------------------- //
@@ -271,16 +277,9 @@ function init () {
   //this splice prevents two link values from occupying the same center point at the top of the petal chart
   var blanks = [0]
   for (var i = 0; i < cPCount; i++) {
-    var skip = i * divisor + 26
+    var skip = i * divisor + 25
     blanks.push(skip)
   }
-  //document.write(blanks);
-
-  //sample arrays for testing purposes
-  var some_bands = [1, 2, 3, 4, 7, 19, 22, 25, 26, 27, 29, 42,43,62,34,54,55]
-  var count = []
-  var k_values = [] //list of all k values with points assigned to them
-  k_values.push([0, null, null, null, null, null, null, null, null])
 
   for (var i = 0; i < cPCount; i++) {
     var k = 0
@@ -318,31 +317,11 @@ function init () {
 
       for (var j = 1; j <= divisor; j++) {
         k = i + j
+        k=k-1
         var theta0 = (k / cPCount) * Math.PI * 2
         var base_xk = Math.cos(theta0) * radius
         var base_yk = 0
         var base_zk = Math.sin(theta0) * radius
-
-        //document.write(k + " " + links[k] + ", ");
-
-        //color coding can be used with transparent TubeGeometry to represent multiple link categories
-
-        /*if (blanks.includes(k)) {
-
-							    	color_code=0xff41dc;
-
-							    }
-
-							else if (blanks.includes(k+1)) {  
-							    	color_code=0xff41dc;
-
-							    }
-
-							else if (some_bands.includes(k)) {  
-							    color_code=0xffca85;
-							    }
-
-							else color_code=0x0099cc; */
 
         cP(
           chartPoint[j].x,
@@ -367,6 +346,8 @@ function init () {
           petalheight,
           ctrlpt
         ])
+
+
       }
     }
 
@@ -381,25 +362,13 @@ function init () {
   var i = 0
 
   while (i < cPCount) {
-    if (blanks.includes(i) && some_bands.includes(i)) {
-      i++
-      invisibleSpaghetti(
-        k_values[i - 1][0],
-        k_values[i][1],
-        k_values[i][2],
-        k_values[i][3],
-        k_values[i][4],
-        k_values[i][5],
-        k_values[i][6],
-        k_values[i][7],
-        k_values[i][8]
-      )
+
+    if (blanks.includes(i)) {
     }
 
-    if (some_bands.includes(i)) {
-      i++
+    else if (some_bands.includes(i)) {
       invisibleSpaghetti(
-        k_values[i - 1][0],
+        k_values[i][0],
         k_values[i][1],
         k_values[i][2],
         k_values[i][3],
@@ -409,7 +378,6 @@ function init () {
         k_values[i][7],
         k_values[i][8]
       )
-      i = i - 1
     }
 
     i++
@@ -417,223 +385,223 @@ function init () {
 
   /*count.forEach(myFunction);
 
-						    function myFunction(item) {
-  								document.write(item +", "); 
-								}*/
+                function myFunction(item) {
+                  document.write(item +", "); 
+                }*/
 
   group.add(new THREE.Line(geometry, material))
 
   //middle petals
   /*var segmentCount = 14,
-			    radius = .85,
-			    depth = .1,
-			    color_code = 0x0289b6,
-			    geometry = new THREE.Geometry(),
-			    material = new THREE.LineBasicMaterial({ color: color_code });
+          radius = .85,
+          depth = .1,
+          color_code = 0x0289b6,
+          geometry = new THREE.Geometry(),
+          material = new THREE.LineBasicMaterial({ color: color_code });
 
-			for (var i = 0; i <= segmentCount; i++) {
-			    var theta = (i / segmentCount) * Math.PI * 2;
-			    var iota = ((i +.5 )/ segmentCount) * Math.PI * 2;
-			    var kappa = ((i +1 )/ segmentCount) * Math.PI * 2;
-			    petal (Math.cos(theta) * radius,0,Math.sin(theta) * radius,
-			    	   Math.cos(iota) * (radius - depth),0,Math.sin(iota) * (radius - depth),
-			    	   Math.cos(kappa) * radius,0,Math.sin(kappa) * radius, .6, .55, color_code
-			            );       
-			}
-			group.add(new THREE.Line(geometry, material));
+      for (var i = 0; i <= segmentCount; i++) {
+          var theta = (i / segmentCount) * Math.PI * 2;
+          var iota = ((i +.5 )/ segmentCount) * Math.PI * 2;
+          var kappa = ((i +1 )/ segmentCount) * Math.PI * 2;
+          petal (Math.cos(theta) * radius,0,Math.sin(theta) * radius,
+               Math.cos(iota) * (radius - depth),0,Math.sin(iota) * (radius - depth),
+               Math.cos(kappa) * radius,0,Math.sin(kappa) * radius, .6, .55, color_code
+                  );       
+      }
+      group.add(new THREE.Line(geometry, material));
 
 
 
 //draws chart lines - middle petals
 
 
-        	var segmentCount = 700,
-			    radius = .85,
-			    depth = .1,
-			    color_code =   0x0289b6,
-			    divisor = 50;
-			    geometry = new THREE.Geometry(),
-			    material = new THREE.LineBasicMaterial({ color: color_code });
+          var segmentCount = 700,
+          radius = .85,
+          depth = .1,
+          color_code =   0x0289b6,
+          divisor = 50;
+          geometry = new THREE.Geometry(),
+          material = new THREE.LineBasicMaterial({ color: color_code });
 
-			for (var i = 0; i < segmentCount; i++) {
-				var k = 801;
-			    var theta = (i / segmentCount) * Math.PI * 2;
-			    var iota = ((i +.5 )/ segmentCount) * Math.PI * 2;
-			    var kappa = ((i +1 )/ segmentCount) * Math.PI * 2;
-			    var iota0 = ((i + (divisor/2))/ segmentCount) * Math.PI * 2;
-			    var kappa0 = ((i + divisor)/ segmentCount) * Math.PI * 2;
-			    var modulus = i % divisor;
+      for (var i = 0; i < segmentCount; i++) {
+        var k = 801;
+          var theta = (i / segmentCount) * Math.PI * 2;
+          var iota = ((i +.5 )/ segmentCount) * Math.PI * 2;
+          var kappa = ((i +1 )/ segmentCount) * Math.PI * 2;
+          var iota0 = ((i + (divisor/2))/ segmentCount) * Math.PI * 2;
+          var kappa0 = ((i + divisor)/ segmentCount) * Math.PI * 2;
+          var modulus = i % divisor;
 
-			    var base_x = Math.cos(theta) * radius;
-			    var base_y = 0;
-			    var base_z = Math.sin(theta) * radius;
-
-
-			    if (modulus == 0)
-
-			    {
-
-			    var chartPoint = cParc (Math.cos(theta) * radius,0,Math.sin(theta) * radius,
-			    Math.cos(iota0) * (radius - depth),0,Math.sin(iota0) * (radius - depth),
-			    Math.cos(kappa0) * radius,0,Math.sin(kappa0) * radius, .6, .55, 0x00769d
-			            );
-
-			    for (var j = 1; j <= divisor; j++) 
-			    {
-			    k=i + j;
-			    var theta0 = (k / segmentCount) * Math.PI * 2;
-			    var base_xk = Math.cos(theta0) * radius;
-			    var base_yk = 0;
-			    var base_zk = Math.sin(theta0) * radius;
-
-			    			    if (k==37) {
-			    	color_code=0xffca85;
-			    }
-
-			    else if (k==69) {
-			    	color_code=0xff41dc;
-			    }
+          var base_x = Math.cos(theta) * radius;
+          var base_y = 0;
+          var base_z = Math.sin(theta) * radius;
 
 
-			    else if (k==125) {
-			    	color_code=0xff41dc;
-			    }
+          if (modulus == 0)
 
-			    else if (k==129) {
-			    	color_code=0xff41dc;
-			    }
+          {
 
-			    else if (k==136) {
-			    	color_code=0xff41dc;
-			    }
+          var chartPoint = cParc (Math.cos(theta) * radius,0,Math.sin(theta) * radius,
+          Math.cos(iota0) * (radius - depth),0,Math.sin(iota0) * (radius - depth),
+          Math.cos(kappa0) * radius,0,Math.sin(kappa0) * radius, .6, .55, 0x00769d
+                  );
 
-			    else if (k==152) {
-			    	color_code=0xffca85;
-			    }
+          for (var j = 1; j <= divisor; j++) 
+          {
+          k=i + j;
+          var theta0 = (k / segmentCount) * Math.PI * 2;
+          var base_xk = Math.cos(theta0) * radius;
+          var base_yk = 0;
+          var base_zk = Math.sin(theta0) * radius;
 
-			    else if (k==165) {
-			    	color_code=0xffca85;
-			    }
+                    if (k==37) {
+            color_code=0xffca85;
+          }
 
-			    else color_code=0x0099cc;
+          else if (k==69) {
+            color_code=0xff41dc;
+          }
 
 
-			    cP (chartPoint[j].x,chartPoint[j].y,chartPoint[j].z,
-			    base_xk,0,base_zk, .5, 0, color_code);
-			    //document.write(k + ",");
-				}
-			}
+          else if (k==125) {
+            color_code=0xff41dc;
+          }
 
-			    geometry.vertices.push(
-			        new THREE.Vector3(
-			            Math.cos(theta) * radius,
-			            0,
-			            Math.sin(theta) * radius
-			            ));          
-			}
-			group.add(new THREE.Line(geometry, material));
+          else if (k==129) {
+            color_code=0xff41dc;
+          }
+
+          else if (k==136) {
+            color_code=0xff41dc;
+          }
+
+          else if (k==152) {
+            color_code=0xffca85;
+          }
+
+          else if (k==165) {
+            color_code=0xffca85;
+          }
+
+          else color_code=0x0099cc;
+
+
+          cP (chartPoint[j].x,chartPoint[j].y,chartPoint[j].z,
+          base_xk,0,base_zk, .5, 0, color_code);
+          //document.write(k + ",");
+        }
+      }
+
+          geometry.vertices.push(
+              new THREE.Vector3(
+                  Math.cos(theta) * radius,
+                  0,
+                  Math.sin(theta) * radius
+                  ));          
+      }
+      group.add(new THREE.Line(geometry, material));
 
 
 
 //center petals
-			var segmentCount = 12,
-			    radius = .65,
-			    depth = .1,
-			    color_code =  0x00769d,
-			    geometry = new THREE.Geometry(),
-			    material = new THREE.LineBasicMaterial({ color: color_code});
+      var segmentCount = 12,
+          radius = .65,
+          depth = .1,
+          color_code =  0x00769d,
+          geometry = new THREE.Geometry(),
+          material = new THREE.LineBasicMaterial({ color: color_code});
 
-			for (var i = 0; i <= segmentCount; i++) {
-			    var theta = (i / segmentCount) * Math.PI * 2;
-			    var iota = ((i +.5 )/ segmentCount) * Math.PI * 2;
-			    var kappa = ((i +1 )/ segmentCount) * Math.PI * 2;
-			    petal (Math.cos(theta) * radius,0,Math.sin(theta) * radius,
-			    	   Math.cos(iota) * (radius - depth),0,Math.sin(iota) * (radius - depth),
-			    	   Math.cos(kappa) * radius,0,Math.sin(kappa) * radius, .7, .65, color_code
-			            );          
-			}
-			group.add(new THREE.Line(geometry, material));
+      for (var i = 0; i <= segmentCount; i++) {
+          var theta = (i / segmentCount) * Math.PI * 2;
+          var iota = ((i +.5 )/ segmentCount) * Math.PI * 2;
+          var kappa = ((i +1 )/ segmentCount) * Math.PI * 2;
+          petal (Math.cos(theta) * radius,0,Math.sin(theta) * radius,
+               Math.cos(iota) * (radius - depth),0,Math.sin(iota) * (radius - depth),
+               Math.cos(kappa) * radius,0,Math.sin(kappa) * radius, .7, .65, color_code
+                  );          
+      }
+      group.add(new THREE.Line(geometry, material));
 
 
 
 //draws chart lines - center petals
 
 
-        	var segmentCount = 600,
-			    radius = .65,
-			    depth = .1,
-			    color_code =   0x0289b6,
-			    divisor = 50;
-			    geometry = new THREE.Geometry(),
-			    material = new THREE.LineBasicMaterial({ color: color_code });
+          var segmentCount = 600,
+          radius = .65,
+          depth = .1,
+          color_code =   0x0289b6,
+          divisor = 50;
+          geometry = new THREE.Geometry(),
+          material = new THREE.LineBasicMaterial({ color: color_code });
 
-			for (var i = 0; i < segmentCount; i++) {
-				var k = 801;
-			    var theta = (i / segmentCount) * Math.PI * 2;
-			    var iota = ((i +.5 )/ segmentCount) * Math.PI * 2;
-			    var kappa = ((i +1 )/ segmentCount) * Math.PI * 2;
-			    var iota0 = ((i + (divisor/2))/ segmentCount) * Math.PI * 2;
-			    var kappa0 = ((i + divisor)/ segmentCount) * Math.PI * 2;
-			    var modulus = i % divisor;
+      for (var i = 0; i < segmentCount; i++) {
+        var k = 801;
+          var theta = (i / segmentCount) * Math.PI * 2;
+          var iota = ((i +.5 )/ segmentCount) * Math.PI * 2;
+          var kappa = ((i +1 )/ segmentCount) * Math.PI * 2;
+          var iota0 = ((i + (divisor/2))/ segmentCount) * Math.PI * 2;
+          var kappa0 = ((i + divisor)/ segmentCount) * Math.PI * 2;
+          var modulus = i % divisor;
 
-			    var base_x = Math.cos(theta) * radius;
-			    var base_y = 0;
-			    var base_z = Math.sin(theta) * radius;
-
-
-			    if (modulus == 0)
-
-			    {
-
-			    var chartPoint = cParc (Math.cos(theta) * radius,0,Math.sin(theta) * radius,
-			    Math.cos(iota0) * (radius - depth),0,Math.sin(iota0) * (radius - depth),
-			    Math.cos(kappa0) * radius,0,Math.sin(kappa0) * radius, .7, .65, 0x00769d
-			            );
-
-			    for (var j = 1; j <= divisor; j++) 
-			    {
-			    k=i + j;
-			    var theta0 = (k / segmentCount) * Math.PI * 2;
-			    var base_xk = Math.cos(theta0) * radius;
-			    var base_yk = 0;
-			    var base_zk = Math.sin(theta0) * radius;
-
-			    			    if (k==323) {
-			    	color_code=0xff41dc;
-			    }
+          var base_x = Math.cos(theta) * radius;
+          var base_y = 0;
+          var base_z = Math.sin(theta) * radius;
 
 
-			    else if (k==329) {
-			    	color_code=0xff41dc;
-			    }
+          if (modulus == 0)
 
-			    else if (k==325) {
-			    	color_code=0xffca85;
-			    }
+          {
 
-			    else if (k==326) {
-			    	color_code=0xffca85;
-			    }
+          var chartPoint = cParc (Math.cos(theta) * radius,0,Math.sin(theta) * radius,
+          Math.cos(iota0) * (radius - depth),0,Math.sin(iota0) * (radius - depth),
+          Math.cos(kappa0) * radius,0,Math.sin(kappa0) * radius, .7, .65, 0x00769d
+                  );
+
+          for (var j = 1; j <= divisor; j++) 
+          {
+          k=i + j;
+          var theta0 = (k / segmentCount) * Math.PI * 2;
+          var base_xk = Math.cos(theta0) * radius;
+          var base_yk = 0;
+          var base_zk = Math.sin(theta0) * radius;
+
+                    if (k==323) {
+            color_code=0xff41dc;
+          }
+
+
+          else if (k==329) {
+            color_code=0xff41dc;
+          }
+
+          else if (k==325) {
+            color_code=0xffca85;
+          }
+
+          else if (k==326) {
+            color_code=0xffca85;
+          }
 
 
 
-			    else color_code=0x0099cc;
+          else color_code=0x0099cc;
 
 
-			    cP (chartPoint[j].x,chartPoint[j].y,chartPoint[j].z,
-			    base_xk,0,base_zk, .5, 0, color_code);
-			    //document.write(k + ",");
-				}
-			}
+          cP (chartPoint[j].x,chartPoint[j].y,chartPoint[j].z,
+          base_xk,0,base_zk, .5, 0, color_code);
+          //document.write(k + ",");
+        }
+      }
 
-			    geometry.vertices.push(
-			        new THREE.Vector3(
-			            Math.cos(theta) * radius,
-			            0,
-			            Math.sin(theta) * radius
-			            ));          
-			}
-			group.add(new THREE.Line(geometry, material)); */
+          geometry.vertices.push(
+              new THREE.Vector3(
+                  Math.cos(theta) * radius,
+                  0,
+                  Math.sin(theta) * radius
+                  ));          
+      }
+      group.add(new THREE.Line(geometry, material)); */
 
   // --- raycaster code
 
