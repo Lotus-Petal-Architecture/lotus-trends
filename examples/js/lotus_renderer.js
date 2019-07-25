@@ -103,7 +103,6 @@ var r = 100,
 
 
   var some_bands = [0, 1, 2, 3, 4, 7, 19, 22, 23, 24, 25, 26, 27, 28, 29, 42,43,62,34,48,49,50,51,52,53,54,55,63]
-  var count = []
   var k_values = [] //list of all k values with points assigned to them
 
 
