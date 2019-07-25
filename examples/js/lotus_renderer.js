@@ -4,7 +4,6 @@ var r = 100,
   dot = 0
 
   var scene = new THREE.Scene()
-  //scene.background = new THREE.Color( 0xf0f0f0 );
 
   var camera = new THREE.PerspectiveCamera(
     40,
@@ -68,7 +67,7 @@ var r = 100,
     'https://alienboypdx.bandcamp.com/',
     'http://galeximusic.com/',
     'https://www.coloringelectriclike.com',
-        'https://influence.lotus.fm/en/listings/701008-riot-af',
+    'https://influence.lotus.fm/en/listings/701008-riot-af',
     'https://influence.lotus.fm/en/listings/724530-home-body',
     'https://influence.lotus.fm/en/listings/713610-joseph-ady',
     'http://www.sleater-kinney.com/',
@@ -102,7 +101,8 @@ var r = 100,
 
 // sample arrays for testing purposes
 
-  var some_bands = [0, 1, 2, 3, 4, 7, 19, 22, 23, 24, 25, 26, 27, 28, 29, 42,43,62,34,48,49,50,51,52,53,54,55]
+
+  var some_bands = [0, 1, 2, 3, 4, 7, 19, 22, 23, 24, 25, 26, 27, 28, 29, 42,43,62,34,48,49,50,51,52,53,54,55,63]
   var count = []
   var k_values = [] //list of all k values with points assigned to them
 
@@ -117,7 +117,7 @@ function init () {
 
 
   //Petal Constructor - draws outline of petal
-  function petal (
+  function drawPetal (
     x,
     y,
     z,
@@ -159,7 +159,7 @@ function init () {
 
 
   //Chart Position Arc - returns points for top of chart lines
-  function cParc (
+  function chartTop (
     x,
     y,
     z,
@@ -203,7 +203,7 @@ function init () {
 
 
   //Chart Position - draws chart lines within petal arc
-  function cP (x, y, z, x0, y0, z0, petalheight, ctrlpt, color_code) {
+  function chartPosition (x, y, z, x0, y0, z0, petalheight, ctrlpt, color_code) {
     var cPcurve = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(x, y, z),
       new THREE.Vector3(x, ctrlpt, z),
@@ -234,20 +234,16 @@ function init () {
     parentTransform.add(object)
   }
 
-
   //Outer Petals - draws outer ring of petals
-  var segmentCount = 16,
-    radius = 1,
-    depth = 0.1,
-    color_code = 0x0099cc,
-    geometry = new THREE.Geometry(),
+  function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, divisor){
+  var geometry = new THREE.Geometry(),
     material = new THREE.LineBasicMaterial({ color: color_code })
 
   for (var i = 0; i <= segmentCount; i++) {
     var theta = (i / segmentCount) * Math.PI * 2
     var iota = ((i + 0.5) / segmentCount) * Math.PI * 2
     var kappa = ((i + 1) / segmentCount) * Math.PI * 2
-    petal(
+    drawPetal(
       Math.cos(theta) * radius,
       0,
       Math.sin(theta) * radius,
@@ -266,28 +262,23 @@ function init () {
 
 
   //Draws Chart Lines - outer petals
-  var cPCount = 800,
-    radius = 1,
-    depth = 0.1,
-    color_code = 0xffca8,
-    divisor = 50
-  ;(geometry = new THREE.Geometry()),
-    (material = new THREE.LineBasicMaterial({ color: color_code }))
+  var geometry = new THREE.Geometry(),
+    material = new THREE.LineBasicMaterial({ color: color_code })
 
-  //this splice prevents two link values from occupying the same center point at the top of the petal chart
-  var blanks = [0]
-  for (var i = 0; i < cPCount; i++) {
-    var skip = i * divisor + 25
+  //this prevents two values from occupying overlapping chart lines at the center of the petal chart
+  var blanks = []
+  for (var i = 1; i < chartLines; i++) {
+    var skip = (i-1) * divisor + 25
     blanks.push(skip)
   }
 
-  for (var i = 0; i < cPCount; i++) {
+  for (var i = 0; i < chartLines; i++) {
     var k = 0
-    var theta = (i / cPCount) * Math.PI * 2
-    var iota = ((i + 0.5) / cPCount) * Math.PI * 2
-    var kappa = ((i + 1) / cPCount) * Math.PI * 2
-    var iota0 = ((i + divisor / 2) / cPCount) * Math.PI * 2
-    var kappa0 = ((i + divisor) / cPCount) * Math.PI * 2
+    var theta = (i / chartLines) * Math.PI * 2
+    var iota = ((i + 0.5) / chartLines) * Math.PI * 2
+    var kappa = ((i + 1) / chartLines) * Math.PI * 2
+    var iota0 = ((i + divisor / 2) / chartLines) * Math.PI * 2
+    var kappa0 = ((i + divisor) / chartLines) * Math.PI * 2
     var modulus = i % divisor
 
     var base_x = Math.cos(theta) * radius
@@ -298,9 +289,10 @@ function init () {
     var arcpt = 0.45 //ctrl pt for petal arc (outline)
 
     if (modulus == 0) {
-      //this resets chart line variables for each new petal drawn
 
-      var chartPoint = cParc(
+//this resets chart line variables for each new petal drawn
+
+      var chartPoint = chartTop(
         Math.cos(theta) * radius,
         0,
         Math.sin(theta) * radius,
@@ -318,12 +310,12 @@ function init () {
       for (var j = 1; j <= divisor; j++) {
         k = i + j
         k=k-1
-        var theta0 = (k / cPCount) * Math.PI * 2
+        var theta0 = (k / chartLines) * Math.PI * 2
         var base_xk = Math.cos(theta0) * radius
         var base_yk = 0
         var base_zk = Math.sin(theta0) * radius
 
-        cP(
+        chartPosition(
           chartPoint[j].x,
           chartPoint[j].y,
           chartPoint[j].z,
@@ -346,8 +338,6 @@ function init () {
           petalheight,
           ctrlpt
         ])
-
-
       }
     }
 
@@ -361,7 +351,7 @@ function init () {
 
   var i = 0
 
-  while (i < cPCount) {
+  while (i < chartLines) {
 
     if (blanks.includes(i)) {
     }
@@ -379,231 +369,24 @@ function init () {
         k_values[i][8]
       )
     }
-
     i++
   }
 
-  /*count.forEach(myFunction);
+group.add(new THREE.Line(geometry, material))
+}
 
-                function myFunction(item) {
-                  document.write(item +", "); 
-                }*/
-
-  group.add(new THREE.Line(geometry, material))
-
-  //middle petals
-  /*var segmentCount = 14,
-          radius = .85,
-          depth = .1,
-          color_code = 0x0289b6,
-          geometry = new THREE.Geometry(),
-          material = new THREE.LineBasicMaterial({ color: color_code });
-
-      for (var i = 0; i <= segmentCount; i++) {
-          var theta = (i / segmentCount) * Math.PI * 2;
-          var iota = ((i +.5 )/ segmentCount) * Math.PI * 2;
-          var kappa = ((i +1 )/ segmentCount) * Math.PI * 2;
-          petal (Math.cos(theta) * radius,0,Math.sin(theta) * radius,
-               Math.cos(iota) * (radius - depth),0,Math.sin(iota) * (radius - depth),
-               Math.cos(kappa) * radius,0,Math.sin(kappa) * radius, .6, .55, color_code
-                  );       
-      }
-      group.add(new THREE.Line(geometry, material));
+  // -------------------------------- // 
 
 
+drawPetalRing (16, 1, .1,  0x0099cc, 800, 50)  //outer petals
 
-//draws chart lines - middle petals
+drawPetalRing (14, .85, .1, 0x0289b6, 700, 50)  //middle petals
 
-
-          var segmentCount = 700,
-          radius = .85,
-          depth = .1,
-          color_code =   0x0289b6,
-          divisor = 50;
-          geometry = new THREE.Geometry(),
-          material = new THREE.LineBasicMaterial({ color: color_code });
-
-      for (var i = 0; i < segmentCount; i++) {
-        var k = 801;
-          var theta = (i / segmentCount) * Math.PI * 2;
-          var iota = ((i +.5 )/ segmentCount) * Math.PI * 2;
-          var kappa = ((i +1 )/ segmentCount) * Math.PI * 2;
-          var iota0 = ((i + (divisor/2))/ segmentCount) * Math.PI * 2;
-          var kappa0 = ((i + divisor)/ segmentCount) * Math.PI * 2;
-          var modulus = i % divisor;
-
-          var base_x = Math.cos(theta) * radius;
-          var base_y = 0;
-          var base_z = Math.sin(theta) * radius;
-
-
-          if (modulus == 0)
-
-          {
-
-          var chartPoint = cParc (Math.cos(theta) * radius,0,Math.sin(theta) * radius,
-          Math.cos(iota0) * (radius - depth),0,Math.sin(iota0) * (radius - depth),
-          Math.cos(kappa0) * radius,0,Math.sin(kappa0) * radius, .6, .55, 0x00769d
-                  );
-
-          for (var j = 1; j <= divisor; j++) 
-          {
-          k=i + j;
-          var theta0 = (k / segmentCount) * Math.PI * 2;
-          var base_xk = Math.cos(theta0) * radius;
-          var base_yk = 0;
-          var base_zk = Math.sin(theta0) * radius;
-
-                    if (k==37) {
-            color_code=0xffca85;
-          }
-
-          else if (k==69) {
-            color_code=0xff41dc;
-          }
-
-
-          else if (k==125) {
-            color_code=0xff41dc;
-          }
-
-          else if (k==129) {
-            color_code=0xff41dc;
-          }
-
-          else if (k==136) {
-            color_code=0xff41dc;
-          }
-
-          else if (k==152) {
-            color_code=0xffca85;
-          }
-
-          else if (k==165) {
-            color_code=0xffca85;
-          }
-
-          else color_code=0x0099cc;
-
-
-          cP (chartPoint[j].x,chartPoint[j].y,chartPoint[j].z,
-          base_xk,0,base_zk, .5, 0, color_code);
-          //document.write(k + ",");
-        }
-      }
-
-          geometry.vertices.push(
-              new THREE.Vector3(
-                  Math.cos(theta) * radius,
-                  0,
-                  Math.sin(theta) * radius
-                  ));          
-      }
-      group.add(new THREE.Line(geometry, material));
-
-
-
-//center petals
-      var segmentCount = 12,
-          radius = .65,
-          depth = .1,
-          color_code =  0x00769d,
-          geometry = new THREE.Geometry(),
-          material = new THREE.LineBasicMaterial({ color: color_code});
-
-      for (var i = 0; i <= segmentCount; i++) {
-          var theta = (i / segmentCount) * Math.PI * 2;
-          var iota = ((i +.5 )/ segmentCount) * Math.PI * 2;
-          var kappa = ((i +1 )/ segmentCount) * Math.PI * 2;
-          petal (Math.cos(theta) * radius,0,Math.sin(theta) * radius,
-               Math.cos(iota) * (radius - depth),0,Math.sin(iota) * (radius - depth),
-               Math.cos(kappa) * radius,0,Math.sin(kappa) * radius, .7, .65, color_code
-                  );          
-      }
-      group.add(new THREE.Line(geometry, material));
-
-
-
-//draws chart lines - center petals
-
-
-          var segmentCount = 600,
-          radius = .65,
-          depth = .1,
-          color_code =   0x0289b6,
-          divisor = 50;
-          geometry = new THREE.Geometry(),
-          material = new THREE.LineBasicMaterial({ color: color_code });
-
-      for (var i = 0; i < segmentCount; i++) {
-        var k = 801;
-          var theta = (i / segmentCount) * Math.PI * 2;
-          var iota = ((i +.5 )/ segmentCount) * Math.PI * 2;
-          var kappa = ((i +1 )/ segmentCount) * Math.PI * 2;
-          var iota0 = ((i + (divisor/2))/ segmentCount) * Math.PI * 2;
-          var kappa0 = ((i + divisor)/ segmentCount) * Math.PI * 2;
-          var modulus = i % divisor;
-
-          var base_x = Math.cos(theta) * radius;
-          var base_y = 0;
-          var base_z = Math.sin(theta) * radius;
-
-
-          if (modulus == 0)
-
-          {
-
-          var chartPoint = cParc (Math.cos(theta) * radius,0,Math.sin(theta) * radius,
-          Math.cos(iota0) * (radius - depth),0,Math.sin(iota0) * (radius - depth),
-          Math.cos(kappa0) * radius,0,Math.sin(kappa0) * radius, .7, .65, 0x00769d
-                  );
-
-          for (var j = 1; j <= divisor; j++) 
-          {
-          k=i + j;
-          var theta0 = (k / segmentCount) * Math.PI * 2;
-          var base_xk = Math.cos(theta0) * radius;
-          var base_yk = 0;
-          var base_zk = Math.sin(theta0) * radius;
-
-                    if (k==323) {
-            color_code=0xff41dc;
-          }
-
-
-          else if (k==329) {
-            color_code=0xff41dc;
-          }
-
-          else if (k==325) {
-            color_code=0xffca85;
-          }
-
-          else if (k==326) {
-            color_code=0xffca85;
-          }
-
-
-
-          else color_code=0x0099cc;
-
-
-          cP (chartPoint[j].x,chartPoint[j].y,chartPoint[j].z,
-          base_xk,0,base_zk, .5, 0, color_code);
-          //document.write(k + ",");
-        }
-      }
-
-          geometry.vertices.push(
-              new THREE.Vector3(
-                  Math.cos(theta) * radius,
-                  0,
-                  Math.sin(theta) * radius
-                  ));          
-      }
-      group.add(new THREE.Line(geometry, material)); */
+drawPetalRing (12, .65, .1, 0x00769d, 600, 50) //center petals
+      
 
   // --- raycaster code
+
 
   var geometry = new THREE.SphereBufferGeometry(0.01)
   var material = new THREE.MeshBasicMaterial({ color: 0x45a7c5 })
