@@ -2,7 +2,7 @@
 $url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest';
 $parameters = [
   'start' => '1',
-  'limit' => '784',
+  'limit' => '2058',
   'convert' => 'USD'
 ];
 
