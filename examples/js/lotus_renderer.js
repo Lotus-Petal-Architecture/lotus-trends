@@ -44,8 +44,8 @@ var r = 100,
 
   var link_order = [] // list of all link values in the module, with k values assigned to each index position
   var k_values = [] // list of all k values generated for corresponding module chart lines
-  var active_links = [803,796,1144,1215] //index values of active links
-  var middle_ring = [] //list of all link values in the middle ring, with k values assigned to each index position
+  var active_links = [12, 143, 890, 1561, 1875] //index values of active links
+  var active_links2 = [13, 145, 788, 1574, 1873] //index values of active links
   var coin_names = [] //list of coin names. uses the same index ranking as link_order
   var coin_prices = []
   var coin_change_24h = []
@@ -69,11 +69,18 @@ function init () {
   document.body.appendChild(container)
 
 
-function assignLinks () //this assigns k values to the ranked link ids, so that the highest values occur at the highest points in the module
+function assignLinks () 
+
+//this assigns k values to the ranked link ids, so that the highest values occur at the highest chart points for each concentric ring.
+//the innermost ring contains the highest overall values, with the highest values of the middle ring being lower than the lowest value
+//on the inner ring. likewise for the highest values on the outer ring. This visualization is meant to flag a great number of values
+//with very similar rankings, and allow the user to filter and sort between them. ex. A list of book sales where 153 titles occupy the
+//same sales rank, and another 482 titles occupy the sales position after that. 
+
   {
   var interval = 50;
 
-  for (var i = 0; i < 12; i++) {
+  for (var i = 0; i < 12; i++) { //link ids for the innermost petal ring
     k = (i * interval )+ 25;
     link_order.push([k]);
   }
@@ -90,10 +97,10 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
   var link_order_length = link_order.length;
   var stop= link_order_length + 14
 
-  for (var i = 0; i < 14; i++) {
+  for (var i = 0; i < 14; i++) {  //link ids for the middle petal ring
     k = (i * interval )+ 25;
+    k = k + 600;
     link_order.push([k]);
-    middle_ring.push([k]);
   }
   for (var h = 0; h < 24; h++) {
     for (var j = link_order_length; j < stop; j++) {
@@ -101,17 +108,16 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
       k1 = k - 2 - h;
       k2 = k - (-1) + h;
       link_order.push(k1);
-      middle_ring.push(k1);
       link_order.push(k2);
-      middle_ring.push(k2);
     }
   }
 
   var link_order_length = link_order.length;
   var stop= link_order_length + 16
 
-  for (var i = 0; i < 16; i++) {
+  for (var i = 0; i < 16; i++) {  //link ids for the outer petal ring
     k = (i * interval )+ 25;
+     k = k + 1300;
     link_order.push([k]);
   }
   for (var h = 0; h < 24; h++) {
@@ -126,10 +132,6 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
 
 
 }
-
-assignLinks();
-var link_order_length = link_order.length;
-console.log(link_order_length);
 
 function getData() //processes JSON data and returns arrays for 5 main variables
   {
@@ -172,8 +174,8 @@ xmlhttp.send();
 getData();
 
 
-  console.log(link_order)
-  console.log(coin_names)
+//console.log(link_order)
+//console.log(coin_names)
 
 
 /*
@@ -288,7 +290,7 @@ function drawPetal (
 
 
 //Invisible Spaghetti - add TubeGeometry objects that sheath chart lines representing active geometric links.
-function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, chartLines) {
+function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_code) {
     var link_curve = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(x, y, z),
       new THREE.Vector3(x, ctrlpt, z),
@@ -296,18 +298,17 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, chartL
     )
 
     var geometry = new THREE.TubeGeometry(link_curve, 64, 0.002, 8, false)
-    var material = new THREE.MeshBasicMaterial({ color: 0xe45e9d })
+    var material = new THREE.MeshBasicMaterial({ color: color_code })
     var object = new THREE.Mesh(geometry, material)
     material.transparent = true
     object.label = k
-    object.ring = chartLines
     parentTransform.add(object)
   }
 
 //Draw Petals - draws ring of lotus petals
 function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, divisor){
   var geometry = new THREE.Geometry(),
-    material = new THREE.LineBasicMaterial({ color: color_code })
+  material = new THREE.LineBasicMaterial({ color: color_code })
 
   for (var i = 0; i <= segmentCount; i++) {
     var theta = (i / segmentCount) * Math.PI * 2
@@ -377,6 +378,16 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
         var base_xk = Math.cos(theta0) * radius
         var base_yk = 0
         var base_zk = Math.sin(theta0) * radius
+        if (chartLines==600) {  //this ensures that each k value is unique within the lotus flower
+          k=k;
+          }
+        if (chartLines==700) {
+          k=k+600;
+          }
+        if (chartLines==800) {
+          k=k+1300;
+          }
+        
 
         chartPosition(
           chartPoint[j].x,
@@ -390,7 +401,7 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
           color_code
         )
 
-        k_values.push([
+        k_values.push([    //k values each define a unique curve in 3D space. They are not associated with a specific petal ring.
           k,
           chartPoint[j].x,
           chartPoint[j].y,
@@ -399,7 +410,7 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
           base_yk,
           base_zk,
           petalheight,
-          ctrlpt
+          ctrlpt,
         ])
       }
     }
@@ -414,14 +425,28 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
 
   group.add(new THREE.Line(geometry, material));
 
-if (chartLines == 700) {
+}
 
-for (i = 588; i < 1274; i++) {
+
+  // -------------------------------- // 
+
+
+
+drawPetalRing (12, .65, .1, 0x00769d, 600, 50) //center petals
+
+drawPetalRing (14, .85, .1, 0x0289b6, 700, 50)  //middle petals
+
+drawPetalRing (16, 1, .1,  0x0099cc, 800, 50)  //outer petals
+
+
+function addLinks() {  //adds links for selected values
+
+for (i = 0; i < link_order_length; i++) {
 
     if (active_links.includes(i)) {
 
-      var k = middle_ring[i-588];
-      console.log(k)
+      var k = link_order[i];
+      var color_code = 0xe45e9d;
 
       invisibleSpaghetti(
         k,
@@ -433,28 +458,38 @@ for (i = 588; i < 1274; i++) {
         k_values[k][6],
         k_values[k][7],
         k_values[k][8],
-        chartLines
+        color_code
       )
     }
+
+    if (active_links2.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0xffca85;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code
+      )
+    }
+
+
   }
 }
 
-group.add(new THREE.Line(geometry, material));
+assignLinks();
 
+var link_order_length = link_order.length; //counts total number of values indexed
 
-}
-
-
-
-  // -------------------------------- // 
-
-
-
-//drawPetalRing (12, .65, .1, 0x00769d, 600, 50) //center petals
-
-drawPetalRing (14, .85, .1, 0x0289b6, 700, 50)  //middle petals
-
-//drawPetalRing (16, 1, .1,  0x0099cc, 800, 50, 1300)  //outer petals
+addLinks();
 
 
 
@@ -497,14 +532,9 @@ drawPetalRing (14, .85, .1, 0x0289b6, 700, 50)  //middle petals
       var intersection = intersects[i],
       obj = intersection.object
       k = obj.label
-      r = obj.ring
-      if (r==700){
-      l = middle_ring.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
-      var URL = "https://coinmarketcap.com/currencies/" + coin_names[l + 588]
+      l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
+      var URL = "https://coinmarketcap.com/currencies/" + coin_names[l]
       window.open(URL, '_blank')
-      }
-      console.log(k)
-      console.log(obj.ring)
     }
   }
 
