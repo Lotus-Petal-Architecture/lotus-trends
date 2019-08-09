@@ -304,7 +304,7 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, chartL
     parentTransform.add(object)
   }
 
-//Outer Petals - draws outer ring of petals
+//Draw Petals - draws ring of lotus petals
 function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, divisor){
   var geometry = new THREE.Geometry(),
     material = new THREE.LineBasicMaterial({ color: color_code })
@@ -412,6 +412,9 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
   parentTransform = new THREE.Object3D()
   group.add(parentTransform)
 
+  group.add(new THREE.Line(geometry, material));
+
+if (chartLines == 700) {
 
 for (i = 588; i < 1274; i++) {
 
@@ -434,11 +437,10 @@ for (i = 588; i < 1274; i++) {
       )
     }
   }
+}
 
-if (chartLines == 700)   
-  {
 group.add(new THREE.Line(geometry, material));
-  }  
+
 
 }
 
@@ -448,9 +450,9 @@ group.add(new THREE.Line(geometry, material));
 
 
 
-//drawPetalRing (12, .65, .1, 0x00769d, 600, 50, 0) //center petals
+//drawPetalRing (12, .65, .1, 0x00769d, 600, 50) //center petals
 
-drawPetalRing (14, .85, .1, 0x0289b6, 700, 50, 600)  //middle petals
+drawPetalRing (14, .85, .1, 0x0289b6, 700, 50)  //middle petals
 
 //drawPetalRing (16, 1, .1,  0x0099cc, 800, 50, 1300)  //outer petals
 
