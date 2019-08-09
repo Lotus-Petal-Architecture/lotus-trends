@@ -44,7 +44,8 @@ var r = 100,
 
   var link_order = [] // list of all link values in the module, with k values assigned to each index position
   var k_values = [] // list of all k values generated for corresponding module chart lines
-  var active_links = [595, 654, 655, 656, 657, 677, 678, 679, 780, 781, 782, 783] //index values of active links
+  var active_links = [803,796,1144,1215] //index values of active links
+  var middle_ring = [] //list of all link values in the middle ring, with k values assigned to each index position
   var coin_names = [] //list of coin names. uses the same index ranking as link_order
   var coin_prices = []
   var coin_change_24h = []
@@ -92,6 +93,7 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
   for (var i = 0; i < 14; i++) {
     k = (i * interval )+ 25;
     link_order.push([k]);
+    middle_ring.push([k]);
   }
   for (var h = 0; h < 24; h++) {
     for (var j = link_order_length; j < stop; j++) {
@@ -99,7 +101,9 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
       k1 = k - 2 - h;
       k2 = k - (-1) + h;
       link_order.push(k1);
+      middle_ring.push(k1);
       link_order.push(k2);
+      middle_ring.push(k2);
     }
   }
 
@@ -169,7 +173,6 @@ getData();
 
 
   console.log(link_order)
-  console.log(link_order[10])
   console.log(coin_names)
 
 
@@ -285,7 +288,7 @@ function drawPetal (
 
 
 //Invisible Spaghetti - add TubeGeometry objects that sheath chart lines representing active geometric links.
-function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt) {
+function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, chartLines) {
     var link_curve = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(x, y, z),
       new THREE.Vector3(x, ctrlpt, z),
@@ -297,6 +300,7 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt) {
     var object = new THREE.Mesh(geometry, material)
     material.transparent = true
     object.label = k
+    object.ring = chartLines
     parentTransform.add(object)
   }
 
@@ -408,42 +412,12 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
   parentTransform = new THREE.Object3D()
   group.add(parentTransform)
 
-/*var stop = start + chartLines;
-console.log(chartLines);
-console.log(stop);
 
-for (i = 0; i < 587; i++) {
+for (i = 588; i < 1274; i++) {
 
     if (active_links.includes(i)) {
 
-      var k = link_order[i];
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8]
-      )
-    }
-  }
- 
-if (chartLines == 600)   
-  {
-group.add(new THREE.Line(geometry, material));
-return;
-  }
-*/
-
-for (i = 588; i < 1273; i++) {
-
-    if (active_links.includes(i)) {
-
-      var k = link_order[i];
+      var k = middle_ring[i-588];
       console.log(k)
 
       invisibleSpaghetti(
@@ -455,7 +429,8 @@ for (i = 588; i < 1273; i++) {
         k_values[k][5],
         k_values[k][6],
         k_values[k][7],
-        k_values[k][8]
+        k_values[k][8],
+        chartLines
       )
     }
   }
@@ -520,9 +495,14 @@ drawPetalRing (14, .85, .1, 0x0289b6, 700, 50, 600)  //middle petals
       var intersection = intersects[i],
       obj = intersection.object
       k = obj.label
-      l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
-      var URL = "https://coinmarketcap.com/currencies/" + coin_names[l]
+      r = obj.ring
+      if (r==700){
+      l = middle_ring.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
+      var URL = "https://coinmarketcap.com/currencies/" + coin_names[l + 588]
       window.open(URL, '_blank')
+      }
+      console.log(k)
+      console.log(obj.ring)
     }
   }
 
