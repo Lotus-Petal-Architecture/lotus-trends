@@ -44,8 +44,8 @@ var r = 100,
 
   var link_order = [] // list of all link values in the module, with k values assigned to each index position
   var k_values = [] // list of all k values generated for corresponding module chart lines
-  var active_links = [12, 143, 890, 1561, 1875] //index values of active links
-  var active_links2 = [13, 145, 788, 1574, 1873] //index values of active links
+  var active_links = [] //index values of active links
+  var active_links2 = [] //index values of active links
   var coin_names = [] //list of coin names. uses the same index ranking as link_order
   var coin_prices = []
   var coin_change_24h = []
@@ -54,6 +54,7 @@ var r = 100,
   var volume = []
   var market_cap = []
   var cap_rank = []
+  var xmlhttp = new XMLHttpRequest()
 
 
 
@@ -69,13 +70,8 @@ function init () {
   document.body.appendChild(container)
 
 
-function assignLinks () 
+function assignLinks () //this assigns k values to the ranked link ids, so that the highest values occur at the highest chart points for each concentric ring.
 
-//this assigns k values to the ranked link ids, so that the highest values occur at the highest chart points for each concentric ring.
-//the innermost ring contains the highest overall values, with the highest values of the middle ring being lower than the lowest value
-//on the inner ring. likewise for the highest values on the outer ring. This visualization is meant to flag a great number of values
-//with very similar rankings, and allow the user to filter and sort between them. ex. A list of book sales where 153 titles occupy the
-//same sales rank, and another 482 titles occupy the sales position after that. 
 
   {
   var interval = 50;
@@ -133,45 +129,7 @@ function assignLinks ()
 
 }
 
-function getData() //processes JSON data and returns arrays for 5 main variables
-  {
-  var xmlhttp = new XMLHttpRequest();
-
-  xmlhttp.onreadystatechange = function() {
-  if (this.readyState == 4 && this.status == 200) {
-    //console.log(this.responseText);
-    myObj = JSON.parse(this.responseText);
-    //myObj = this.responseText;
-
-if(myObj.data.length > 0) {
-  for (var i = 0; i < myObj.data.length; i++) {
-    var coin = myObj.data[i];
-    //console.log(entry);
-    var coin_name = coin.name;
-    coin_name = coin_name.replace(/\s/g, "-");
-    //var coin_priceusd = coin.quote.USD.price;
-    //var percent_change_24h = percent_change_24h;
-    //document.write(i+' - '+coin_name+' : $'+coin_priceusd+'<br />');
-    //coin_name = String(coin_name);
-    coin_names.push(coin_name);
-    //coin_names[coin_names.length]=coin_name;
-    market_cap[market_cap.length] = coin.quote.USD.market_cap;
-    coin_prices[coin_prices.length] = coin.quote.USD.price;
-    coin_change_24h[coin_change_24h.length] = coin.quote.USD.percent_change_24h;
-    coin_change_1h[coin_change_1h.length] = coin.quote.USD.percent_change_1h;
-    coin_change_1w[coin_change_1w.length] = coin.quote.USD.percent_change_7d;
-    volume[volume.length] = coin.quote.USD.volume_24h;
-    }
-}
-
-  }
-};
-xmlhttp.open("GET", "../cryptocap.php", true);
-xmlhttp.send();  
-
-}
-
-getData();
+assignLinks();
 
 
 //console.log(link_order)
@@ -439,7 +397,84 @@ drawPetalRing (14, .85, .1, 0x0289b6, 700, 50)  //middle petals
 drawPetalRing (16, 1, .1,  0x0099cc, 800, 50)  //outer petals
 
 
+function getData() //processes JSON data and returns arrays for 5 main variables
+  {
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.addEventListener("load", getActiveLinks);
+  xmlhttp.addEventListener("load", addLinks);
+
+  xmlhttp.open("GET", "../cryptocap.php", true);
+  xmlhttp.send(); 
+
+  xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    //console.log(this.responseText);
+    myObj = JSON.parse(this.responseText);
+    //myObj = this.responseText;
+
+if(myObj.data.length > 0) {
+  for (var i = 0; i < myObj.data.length; i++) {
+    var coin = myObj.data[i];
+    //console.log(entry);
+    var coin_name = coin.name;
+    coin_name = coin_name.replace(/\s/g, "-");
+    //var coin_priceusd = coin.quote.USD.price;
+    //var percent_change_24h = percent_change_24h;
+    //document.write(i+' - '+coin_name+' : $'+coin_priceusd+'<br />');
+    //coin_name = String(coin_name);
+    coin_names.push([coin_name]);
+    //coin_names[coin_names.length]=coin_name;
+    market_cap[market_cap.length] = coin.quote.USD.market_cap;
+    coin_prices[coin_prices.length] = coin.quote.USD.price;
+    coin_change_24h[coin_change_24h.length] = coin.quote.USD.percent_change_24h;
+    coin_change_1h[coin_change_1h.length] = coin.quote.USD.percent_change_1h;
+    coin_change_1w[coin_change_1w.length] = coin.quote.USD.percent_change_7d;
+    volume[volume.length] = coin.quote.USD.volume_24h;
+    }
+  }
+  }
+  } 
+}
+
+getData();
+
+
+function getActiveLinks()  //sorts for a given set of values from the data obtained above
+{
+    /*function trendPlus(percent) { //returns all values up by 25% or more
+      return percent >= 25;
+      }  
+
+    PlusCoins = coin_change_24h.filter(trendPlus);
+
+    for (var i=0; i < PlusCoins.length) {
+
+      valuePlusCoins[i]
+
+    }*/
+
+    var f = coin_change_24h.entries();
+
+    for (x of f) {
+      var coin =x;
+      var coin_value = coin[1];
+
+      if (coin_value > 20) {
+        coin_index = coin[0]
+        active_links.push(coin_index);
+      }
+
+      else if (coin_value > 10) {
+      coin_index = coin[0]
+      active_links2.push(coin_index);
+      }
+    }
+}
+
+
 function addLinks() {  //adds links for selected values
+
+  link_order_length = link_order.length
 
 for (i = 0; i < link_order_length; i++) {
 
@@ -485,11 +520,6 @@ for (i = 0; i < link_order_length; i++) {
   }
 }
 
-assignLinks();
-
-var link_order_length = link_order.length; //counts total number of values indexed
-
-addLinks();
 
 
 
