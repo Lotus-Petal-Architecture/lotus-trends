@@ -46,6 +46,7 @@ var r = 100,
   var k_values = [] // list of all k values generated for corresponding module chart lines
   var active_links = [] //index values of active links
   var active_links2 = [] //index values of active links
+  var active_array = [] // placeholder for array values being filtered
   var coin_names = [] //list of coin names. uses the same index ranking as link_order
   var coin_prices = []
   var coin_change_24h = []
@@ -55,6 +56,7 @@ var r = 100,
   var market_cap = []
   var cap_rank = []
   var xmlhttp = new XMLHttpRequest()
+
 
 
 
@@ -441,26 +443,39 @@ getData();
 
 function getActiveLinks()  //sorts for a given set of values from the data obtained above
 {
-    /*function trendPlus(percent) { //returns all values up by 25% or more
-      return percent >= 25;
-      }  
 
-    PlusCoins = coin_change_24h.filter(trendPlus);
+    console.log(coin_change_time)
+    console.log(volume_adj)
 
-    for (var i=0; i < PlusCoins.length) {
+    if (coin_change_time == "1h") 
+      {
+        var active_array = coin_change_1h;
+      }
 
-      valuePlusCoins[i]
+    if (coin_change_time == "24h") 
+      {
+        var active_array = coin_change_24h;
+      }
 
-    }*/
+    if (coin_change_time == "1w") 
+      {
+        var active_array = coin_change_1w;
+      }
 
-    var f = coin_change_24h.entries();
+    var f = active_array.entries();
 
     for (x of f) {
       var coin =x;
       var coin_value = coin[1];
+      var coin_index = coin[0];
 
-      if (coin_value > 20) {
-        coin_index = coin[0]
+      if (volume[coin_index] < volume_adj) 
+      {
+        coin = null;
+      }
+
+      else if (coin_value > 20) {
+        
         active_links.push(coin_index);
       }
 
@@ -564,6 +579,8 @@ for (i = 0; i < link_order_length; i++) {
       k = obj.label
       l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
       var URL = "https://coinmarketcap.com/currencies/" + coin_names[l]
+      console.log(coin_names[l])
+      console.log(coin_change_1h[l])
       window.open(URL, '_blank')
     }
   }
