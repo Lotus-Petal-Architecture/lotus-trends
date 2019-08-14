@@ -33,3 +33,7 @@ https://threejs.org/docs/#api/en/materials/MeshBasicMaterial
 Three.js Picking
 
 https://threejsfundamentals.org/threejs/lessons/threejs-picking.html
+
+Three.js Text
+
+https://threejs.org/docs/#manual/en/introduction/Creating-text

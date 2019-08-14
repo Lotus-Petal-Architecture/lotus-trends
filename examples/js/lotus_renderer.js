@@ -444,9 +444,6 @@ getData();
 function getActiveLinks()  //sorts for a given set of values from the data obtained above
 {
 
-    console.log(coin_change_time)
-    console.log(volume_adj)
-
     if (coin_change_time == "1h") 
       {
         var active_array = coin_change_1h;
@@ -479,7 +476,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
         active_links.push(coin_index);
       }
 
-      else if (coin_value > 10) {
+      else if (coin_value > 5) {
       coin_index = coin[0]
       active_links2.push(coin_index);
       }
