@@ -47,7 +47,9 @@ var r = 100,
   var active_links = [] //index values of active links
   var active_links2 = [] //index values of active links
   var active_array = [] // placeholder for array values being filtered
-  var coin_names = [] //list of coin names. uses the same index ranking as link_order
+  var coin_names = [] //list of youtube videos. uses the same index ranking as link_order
+  var video_titles = []
+  var video_thmbs = []
   var coin_prices = []
   var coin_change_24h = []
   var coin_change_1h = []
@@ -405,35 +407,28 @@ function getData() //processes JSON data and returns arrays for 5 main variables
   xmlhttp.addEventListener("load", getActiveLinks);
   xmlhttp.addEventListener("load", addLinks);
 
-  xmlhttp.open("GET", "../cryptocap.php", true);
+  xmlhttp.open("GET", "../youtube_search.php", true);
+  xmlhttp.responseType = 'json';
   xmlhttp.send(); 
 
   xmlhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
-    //console.log(this.responseText);
-    myObj = JSON.parse(this.responseText);
-    //myObj = this.responseText;
-
-if(myObj.data.length > 0) {
-  for (var i = 0; i < myObj.data.length; i++) {
-    var coin = myObj.data[i];
-    //console.log(entry);
-    var coin_name = coin.name;
-    coin_name = coin_name.replace(/\s/g, "-");
-    //var coin_priceusd = coin.quote.USD.price;
-    //var percent_change_24h = percent_change_24h;
-    //document.write(i+' - '+coin_name+' : $'+coin_priceusd+'<br />');
-    //coin_name = String(coin_name);
-    coin_names.push([coin_name]);
-    //coin_names[coin_names.length]=coin_name;
-    market_cap[market_cap.length] = coin.quote.USD.market_cap;
-    coin_prices[coin_prices.length] = coin.quote.USD.price;
-    coin_change_24h[coin_change_24h.length] = coin.quote.USD.percent_change_24h;
-    coin_change_1h[coin_change_1h.length] = coin.quote.USD.percent_change_1h;
-    coin_change_1w[coin_change_1w.length] = coin.quote.USD.percent_change_7d;
-    volume[volume.length] = coin.quote.USD.volume_24h;
-    }
-  }
+    console.log(this.response);
+    //myObj = JSON.parse(this.response);
+    //myObj = this.response;
+    var entries = this.response;
+    if(entries.length > 0) {
+    for (var i = 0; i < entries.length; i++) {
+  	var coin = entries[i];
+        //console.log(entry);
+        //var playerUrl = entry.id.$t;
+        //var vid = playerUrl.split(':').pop();
+        var coin_name = coin.id.videoId;
+	coin_names.push([i,coin_name]);
+        video_thmbs[video_thmbs.length] = coin.snippet.thumbnails.default.url;
+        video_titles[video_titles.length] = coin.snippet.title;
+     }
+     }
   }
   } 
 }
@@ -444,6 +439,9 @@ getData();
 function getActiveLinks()  //sorts for a given set of values from the data obtained above
 {
 
+    console.log(coin_names);
+
+/*	
     if (coin_change_time == "1h") 
       {
         var active_array = coin_change_1h;
@@ -458,14 +456,14 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
       {
         var active_array = coin_change_1w;
       }
-
-    var f = active_array.entries();
+*/
+    var f = coin_names; 
 
     for (x of f) {
-      var coin =x;
+      var coin = x;
       var coin_value = coin[1];
       var coin_index = coin[0];
-
+/*
       if (volume[coin_index] < volume_adj) 
       {
         coin = null;
@@ -476,10 +474,12 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
         active_links.push(coin_index);
       }
 
-      else if (coin_value > 5) {
+      else if (coin_value > 10) {
       coin_index = coin[0]
       active_links2.push(coin_index);
       }
+*/
+      active_links.push(coin_index);
     }
 }
 
@@ -575,9 +575,11 @@ for (i = 0; i < link_order_length; i++) {
       obj = intersection.object
       k = obj.label
       l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
-      var URL = "https://coinmarketcap.com/currencies/" + coin_names[l]
+      //var URL = "https://coinmarketcap.com/currencies/" + coin_names[l]
+      var URL = "https://www.youtube.com/watch?v=" + coin_names[l][1]
       console.log(coin_names[l])
-      console.log(coin_change_1h[l])
+      console.log(URL);
+      //console.log(coin_change_1h[l])
       window.open(URL, '_blank')
     }
   }
