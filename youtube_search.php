@@ -7,6 +7,7 @@ $apikey = 'AIzaSyCFsIIN3n5zitDi0FOkTYxrQRkh08J2xoE';
 
 $url = 'https://www.googleapis.com/youtube/v3/search?part=snippet';
 $url .= '&location=45.515459,-122.679346&locationRadius=50mi';
+$url .= '&publishedAfter=2019-01-01T00:00:00Z';
 $url .= '&type=video&q=music&duration=any&order=viewCount&maxResults=50';
 $url .= '&paid-content=false&format=5&fields=nextPageToken,items(id,snippet)';
 $url .= '&relevanceLanguage=en&safeSearch=none&videoEmbeddable=true';
