@@ -1,14 +1,15 @@
 <?php
-$apikey = 'AIzaSyCFsIIN3n5zitDi0FOkTYxrQRkh08J2xoE'; 
-// $apikey = 'AIzaSyABLkiT7dTxc34S4XLktTkHhT7BHaaQNrQ'; 
+// $apikey = 'AIzaSyCSh_E1LSG00mNIcev8ammwnXpEtKYfnZ4';
+
+$apikey = 'AIzaSyABLkiT7dTxc34S4XLktTkHhT7BHaaQNrQ'; 
 // $apikey = 'AIzaSyDgoJX7iFY18B94ezuAsgneZB3-nUPz-xc';
 // $apikey = 'AIzaSyAZ2BlKOSLtdWvWcOZKQrN2P9YfqZeE4OE';
 // $apikey = 'AIzaSyCSh_E1LSG00mNIcev8ammwnXpEtKYfnZ4';
 
 $url = 'https://www.googleapis.com/youtube/v3/search?part=snippet';
-$url .= '&location=45.515459,-122.679346&locationRadius=50mi';
-$url .= '&publishedAfter=2019-01-01T00:00:00Z';
-$url .= '&type=video&q=music&duration=any&order=viewCount&maxResults=50';
+//$url .= '&location=45.515459,-122.679346&locationRadius=50mi';
+$url .= '&type=video&q=indie+music';
+$url .= '&duration=any&order=viewCount&maxResults=50';
 $url .= '&paid-content=false&format=5&fields=nextPageToken,items(id,snippet)';
 $url .= '&relevanceLanguage=en&safeSearch=none&videoEmbeddable=true';
 $url .= '&key='.$apikey;
@@ -79,7 +80,7 @@ $json_results = array();
 $json_results[] = json_decode($results,true);
 $items = $json_results[0]["items"];
 
-for( $i=0; $i<=3;$i++) {
+for( $i=0; $i<=5;$i++) {
 //	print_r('foo'.$json_results[$i]["nextPageToken"]);
 if($json_results[$i]["nextPageToken"]) {
     $urlnext = $url."&pageToken=".$json_results[$i]["nextPageToken"];

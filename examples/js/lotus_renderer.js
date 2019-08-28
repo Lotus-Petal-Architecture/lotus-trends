@@ -580,7 +580,8 @@ for (i = 0; i < link_order_length; i++) {
       console.log(coin_names[l])
       console.log(URL);
       //console.log(coin_change_1h[l])
-      window.open(URL, '_blank')
+    //  window.open(URL, '_blank')
+       player.cueVideoById(coin_names[l][1]);
     }
   }
 
