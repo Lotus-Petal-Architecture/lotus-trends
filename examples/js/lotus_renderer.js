@@ -26,6 +26,8 @@ var r = 100,
   controls.minDistance = 0
   controls.maxDistance = 100
   controls.maxPolarAngle = Math.PI / 2
+  controls.addEventListener( 'change', () => renderer.render( scene, camera ) );
+
 
   var light = new THREE.PointLight(0xffffff)
   light.position.set(-100, 200, 100)
@@ -377,10 +379,15 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
       }
     }
 
+
+ 
+
     geometry.vertices.push(
       new THREE.Vector3(Math.cos(theta) * radius, 0, Math.sin(theta) * radius)
     )
   }
+
+
 
   parentTransform = new THREE.Object3D()
   group.add(parentTransform)
@@ -389,6 +396,15 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
 
 }
 
+
+
+/*var groupElements = [];
+var groupElements= group.children;
+console.log(groupElements);
+group.uncache(groupElements);
+*/
+
+  
 
   // -------------------------------- // 
 
@@ -549,7 +565,7 @@ for (i = 0; i < link_order_length; i++) {
   document.addEventListener('mousemove', onDocumentMouseMove, false)
   window.addEventListener('click', onMouseClick, false)
   window.addEventListener('resize', onWindowResize, false)
-
+  
   function onDocumentMouseMove (event) {
     event.preventDefault()
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1
@@ -597,11 +613,11 @@ for (i = 0; i < link_order_length; i++) {
 
   function animate () {
     requestAnimationFrame(animate)
-    render()
     group.rotation.x += 0.0
     group.rotation.y += 0.0
   }
   animate()
+  render()
 
   function render () {
     dot += 0
