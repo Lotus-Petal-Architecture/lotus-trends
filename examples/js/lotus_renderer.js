@@ -26,7 +26,7 @@ var r = 100,
   controls.minDistance = 0
   controls.maxDistance = 100
   controls.maxPolarAngle = Math.PI / 2
-  controls.addEventListener( 'change', () => renderer.render( scene, camera ) );
+  //controls.addEventListener( 'change', () => renderer.render( scene, camera ) );
 
 
   var light = new THREE.PointLight(0xffffff)
@@ -82,12 +82,12 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
   {
   var interval = 50;
 
-  for (var i = 0; i < 12; i++) { //link ids for the innermost petal ring
+  for (var i = 0; i < 6; i++) { //link ids for the innermost petal ring
     k = (i * interval )+ 25;
     link_order.push([k]);
   }
   for (var h = 0; h < 24; h++) {
-    for (var j = 0; j < 12; j++) {
+    for (var j = 0; j < 6; j++) {
       k = link_order[j];
       k1 = k - 2 - h;
       k2 = k - (-1) + h;
@@ -342,14 +342,14 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
         var base_xk = Math.cos(theta0) * radius
         var base_yk = 0
         var base_zk = Math.sin(theta0) * radius
-        if (chartLines==600) {  //this ensures that each k value is unique within the lotus flower
+        if (chartLines==50) {  //this ensures that each k value is unique within the lotus flower
           k=k;
           }
-        if (chartLines==700) {
-          k=k+600;
+        if (chartLines==100) {
+          k=k+50;
           }
-        if (chartLines==800) {
-          k=k+1300;
+        if (chartLines==200) {
+          k=k+1500;
           }
         
 
@@ -410,11 +410,11 @@ group.uncache(groupElements);
 
 
 
-drawPetalRing (12, .65, .1, 0x00769d, 600, 50) //center petals
+drawPetalRing (6, .65, .1, 0x00769d, 300, 50) //center petals
 
-drawPetalRing (14, .85, .1, 0x0289b6, 700, 50)  //middle petals
+//drawPetalRing (10, .85, .1, 0x0289b6, 100, 10)  //middle petals
 
-drawPetalRing (16, 1, .1,  0x0099cc, 800, 50)  //outer petals
+//drawPetalRing (20, 1, .1,  0x0099cc, 200, 10)  //outer petals
 
 
 function getData() //processes JSON data and returns arrays for 5 main variables
@@ -613,11 +613,12 @@ for (i = 0; i < link_order_length; i++) {
 
   function animate () {
     requestAnimationFrame(animate)
-    group.rotation.x += 0.0
-    group.rotation.y += 0.0
+    renderer.render(scene, camera)
+    group.rotation.x += 0.000
+    group.rotation.y += 0.00
   }
   animate()
-  render()
+  //render()
 
   function render () {
     dot += 0

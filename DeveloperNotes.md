@@ -37,3 +37,8 @@ https://threejsfundamentals.org/threejs/lessons/threejs-picking.html
 Three.js Text
 
 https://threejs.org/docs/#manual/en/introduction/Creating-text
+
+Make Prettier / Delint
+
+Lizs-iMac:lotusfm athena666$ prettier-standard lotus_renderer.js
+
