@@ -3,16 +3,16 @@ var mouse = new THREE.Vector2()
 var r = 100,
   dot = 0
 
-  var scene = new THREE.Scene()
+var scene = new THREE.Scene()
 
-  var camera = new THREE.PerspectiveCamera(
+var camera = new THREE.PerspectiveCamera(
     40,
     window.innerWidth / window.innerHeight,
     0.1,
     1000
   )
 
-  var container = document.getElementById('container')
+var container = document.getElementById('container')
 
   containerWidth = window.innerWidth
   containerHeight = window.innerHeight
@@ -22,21 +22,23 @@ var r = 100,
   renderer.setSize(window.innerWidth, window.innerHeight)
   document.body.appendChild(renderer.domElement)
 
-  var controls = new THREE.OrbitControls(camera, renderer.domElement)
+var controls = new THREE.OrbitControls(camera, renderer.domElement)
   controls.minDistance = 0
   controls.maxDistance = 100
   controls.maxPolarAngle = Math.PI / 2
 
-  var light = new THREE.PointLight(0xffffff)
+var light = new THREE.PointLight(0xffffff)
   light.position.set(-100, 200, 100)
   scene.add(light)
 
-  var group
+var play = true;
+
+var group
   group = new THREE.Group()
   group.position.y = 0
   scene.add(group)
 
-  var links = [
+var links = [
     'https://influence.lotus.fm/en/listings/701008-riot-af',
     'https://influence.lotus.fm/en/listings/724530-home-body',
     'https://influence.lotus.fm/en/listings/713610-joseph-ady',
@@ -226,10 +228,9 @@ function init () {
       new THREE.Vector3(x0, y0, z0)
     )
 
-    var geometry = new THREE.TubeGeometry(link_curve, 64, 0.001, 8, false)
-    var material = new THREE.MeshBasicMaterial({ color: 0xe45e9d })
+    var geometry = new THREE.TubeGeometry(link_curve, 64, 0.005, 8, false)
+    var material = new THREE.MeshBasicMaterial({color: 0xe45e9d })
     var object = new THREE.Mesh(geometry, material)
-    material.transparent = true
     object.label = k
     parentTransform.add(object)
   }
@@ -415,9 +416,7 @@ drawPetalRing (4, .45, .1, 0x00769d, 200, 50) //center petals
   }
 
   function onMouseClick (event) {
-    render()
-    group.rotation.x += 0.0
-    group.rotation.y += 0.0
+    //play = !play;
     event.preventDefault()
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
@@ -442,11 +441,22 @@ drawPetalRing (4, .45, .1, 0x00769d, 200, 50) //center petals
   camera.position.z = 5
 
   function animate () {
+
+    if (play) {
+
     requestAnimationFrame(animate)
     render()
     group.rotation.x += 0.0
-    group.rotation.y += 0.001
+    group.rotation.y += 0.0002
+    }
+
+    else {
+
+    requestAnimationFrame(animate)
+    render()
+    }
   }
+
   animate()
 
   function render () {
