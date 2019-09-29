@@ -6,11 +6,12 @@ var r = 100,
 var scene = new THREE.Scene()
 
 var camera = new THREE.PerspectiveCamera(
-    40,
+    15,
     window.innerWidth / window.innerHeight,
-    0.1,
+    .1,
     1000
   )
+
 
 var container = document.getElementById('container')
 
@@ -181,11 +182,11 @@ function init () {
       new THREE.Vector3(x0, y0 + petalheight, z0)
     )
 
-    var points1 = curve.getSpacedPoints(25)
+    var points1 = curve.getSpacedPoints(10)
     var geometry = new THREE.BufferGeometry().setFromPoints(points1)
     var material = new THREE.LineBasicMaterial({ color: color_code })
     var curveObject = new THREE.Line(geometry, material)
-    group.add(curveObject)
+    //group.add(curveObject)
 
     var curve2 = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(x0, y0 + petalheight, z0),
@@ -193,11 +194,11 @@ function init () {
       new THREE.Vector3(x1, y1, z1)
     )
 
-    var points2 = curve2.getSpacedPoints(25)
+    var points2 = curve2.getSpacedPoints(10)
     var geometry = new THREE.BufferGeometry().setFromPoints(points2)
     var material = new THREE.LineBasicMaterial({ color: color_code })
     var curveObject = new THREE.Line(geometry, material)
-    group.add(curveObject)
+    //group.add(curveObject)
 
     var points = points1.concat(points2)
     return points
@@ -212,7 +213,7 @@ function init () {
       new THREE.Vector3(x0, y0, z0)
     )
 
-    var points = cPcurve.getPoints(50)
+    var points = cPcurve.getPoints(20)
     var geometry = new THREE.BufferGeometry().setFromPoints(points)
     var material = new THREE.LineBasicMaterial({ color: color_code })
     var curveObject = new THREE.Line(geometry, material)
@@ -228,7 +229,7 @@ function init () {
       new THREE.Vector3(x0, y0, z0)
     )
 
-    var geometry = new THREE.TubeGeometry(link_curve, 64, 0.005, 8, false)
+    var geometry = new THREE.TubeGeometry(link_curve, 64, 0.004, 8, false)
     var material = new THREE.MeshBasicMaterial({color: 0xe45e9d })
     var object = new THREE.Mesh(geometry, material)
     object.label = k
@@ -379,11 +380,13 @@ group.add(new THREE.Line(geometry, material))
   // -------------------------------- // 
 
 
-//drawPetalRing (16, 1, .1,  0x0099cc, 800, 50)  //outer petals
+//drawPetalRing (16, 1, .1,  0x0099cc, 320, 20)  //outer petals
 
-drawPetalRing (5, .65, .1, 0x0289b6, 250, 50)  //middle petals
+drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 
-drawPetalRing (4, .45, .1, 0x00769d, 200, 50) //center petals
+drawPetalRing (8, .65, .1, 0x00769d, 160, 20) //center petals
+
+group.position.set( 0, -.24, .75 );
       
 
   // --- raycaster code
@@ -426,7 +429,7 @@ drawPetalRing (4, .45, .1, 0x00769d, 200, 50) //center petals
       var intersection = intersects[i],
       obj = intersection.object
       var URL = links[obj.label]
-      window.open(URL, '_blank')
+      window.open(URL, 'iframe_a')
     }
   }
 
@@ -438,7 +441,7 @@ drawPetalRing (4, .45, .1, 0x00769d, 200, 50) //center petals
 
   //animate and render
 
-  camera.position.z = 5
+  camera.position.z = 3.75
 
   function animate () {
 
@@ -446,8 +449,8 @@ drawPetalRing (4, .45, .1, 0x00769d, 200, 50) //center petals
 
     requestAnimationFrame(animate)
     render()
-    group.rotation.x += 0.0
-    group.rotation.y += 0.0002
+    group.rotation.x += 0.0000
+    group.rotation.y += 0.0001
     }
 
     else {
