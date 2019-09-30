@@ -3,16 +3,17 @@ var mouse = new THREE.Vector2()
 var r = 100,
   dot = 0
 
-  var scene = new THREE.Scene()
+var scene = new THREE.Scene()
 
-  var camera = new THREE.PerspectiveCamera(
+var camera = new THREE.PerspectiveCamera(
     15,
     window.innerWidth / window.innerHeight,
-    0.1,
+    .1,
     1000
   )
 
-  var container = document.getElementById('container')
+
+var container = document.getElementById('container')
 
   containerWidth = window.innerWidth
   containerHeight = window.innerHeight
@@ -22,51 +23,91 @@ var r = 100,
   renderer.setSize(window.innerWidth, window.innerHeight)
   document.body.appendChild(renderer.domElement)
 
-  var controls = new THREE.OrbitControls(camera, renderer.domElement)
+var controls = new THREE.OrbitControls(camera, renderer.domElement)
   controls.minDistance = 0
   controls.maxDistance = 100
   controls.maxPolarAngle = Math.PI / 2
-  //controls.addEventListener( 'change', () => renderer.render( scene, camera ) );
 
-
-  var light = new THREE.PointLight(0xffffff)
+var light = new THREE.PointLight(0xffffff)
   light.position.set(-100, 200, 100)
   scene.add(light)
 
-  var play = true;
+var play = true;
 
-  var group
+var group
   group = new THREE.Group()
   group.position.y = 0
   scene.add(group)
 
-  var link_order_length = 0
+var links = [
+    'https://influence.lotus.fm/en/listings/701008-riot-af',
+    'https://influence.lotus.fm/en/listings/724530-home-body',
+    'https://influence.lotus.fm/en/listings/713610-joseph-ady',
+    'http://www.sleater-kinney.com/',
+    'http://www.thethermals.com/',
+    'https://rosebloodband.bandcamp.com/',
+    'https://www.jetechomusic.com/',
+    'http://www.smallmillion.com/',
+    'https://soundcloud.com/thatfuckingivan',
+    'http://www.ramborich.com',
+    'https://missrayon.bandcamp.com/',
+    'https://dreamwulf.bandcamp.com/',
+    'https://deaftelepathy.bandcamp.com',
+    'https://velcronightmare.bandcamp.com/',
+    'http://www.decemberists.com/',
+    'http://www.scottpemberton.com/',
+    'https://soundcloud.com/yerathrall/loverload-i-dont-care-demo',
+    'https://www.reverbnation.com/geneethorpjr',
+    'https://www.karmarivera.com/',
+    'https://blackwaterholylight.bandcamp.com',
+    'http://www.dirtyrevival.com/',
+    'http://www.blitzentrapper.net/',
+    'https://savila.bandcamp.com/',
+    'http://pinkmartini.com/',
+    'https://www.haley-heynderickx.com/',
+     null,
+    'https://thebody.bandcamp.com/',
+    'https://alienboypdx.bandcamp.com/',
+    'http://galeximusic.com/',
+    'https://www.coloringelectriclike.com',
+    'https://influence.lotus.fm/en/listings/701008-riot-af',
+    'https://influence.lotus.fm/en/listings/724530-home-body',
+    'https://influence.lotus.fm/en/listings/713610-joseph-ady',
+    'http://www.sleater-kinney.com/',
+    'http://www.thethermals.com/',
+    'https://rosebloodband.bandcamp.com/',
+    'https://www.jetechomusic.com/',
+    'http://www.smallmillion.com/',
+    'https://soundcloud.com/thatfuckingivan',
+    'http://www.ramborich.com',
+    'https://missrayon.bandcamp.com/',
+    'https://dreamwulf.bandcamp.com/',
+    'https://deaftelepathy.bandcamp.com',
+    'https://velcronightmare.bandcamp.com/',
+    'http://www.decemberists.com/',
+    'http://www.scottpemberton.com/',
+    'https://soundcloud.com/yerathrall/loverload-i-dont-care-demo',
+    'https://www.reverbnation.com/geneethorpjr',
+    'https://www.karmarivera.com/',
+    'https://blackwaterholylight.bandcamp.com',
+    'http://www.dirtyrevival.com/',
+    'http://www.blitzentrapper.net/',
+    'https://savila.bandcamp.com/',
+    'http://pinkmartini.com/',
+    'https://www.haley-heynderickx.com/',
+    'https://thebody.bandcamp.com/',
+    'https://alienboypdx.bandcamp.com/',
+    'http://galeximusic.com/',
+    'https://www.coloringelectriclike.com',
+  ]
 
 
 // sample arrays for testing purposes
 
 
-  var link_order = [] // list of all link values in the module, with k values assigned to each index position
-  var k_values = [] // list of all k values generated for corresponding module chart lines
-  var active_links = [] //index values of active links
-  var active_links2 = [] //index values of active links
-  var active_array = [] // placeholder for array values being filtered
-  var coin_names = [] //list of youtube videos. uses the same index ranking as link_order
-  var video_titles = []
-  var video_thmbs = []
-  var coin_prices = []
-  var coin_change_24h = []
-  var coin_change_1h = []
-  var coin_change_1w = []
-  var volume = []
-  var market_cap = []
-  var cap_rank = []
-  var xmlhttp = new XMLHttpRequest()
-
-
-
-
-  
+  var some_bands = [0, 1, 2, 3, 4, 7, 19, 22, 23, 24, 25, 26, 27, 28, 29, 42,43,62,34,48,49,50,51,52,53,54,55,63]
+  var count = []
+  var k_values = [] //list of all k values with points assigned to them
 
 
 // -------------------------------------------- //
@@ -78,83 +119,8 @@ function init () {
   document.body.appendChild(container)
 
 
-function assignLinks () //this assigns k values to the ranked link ids, so that the highest values occur at the highest chart points for each concentric ring.
-
-
-  {
-  var interval = 20;
-
-  for (var i = 0; i < 8; i++) { //link ids for the innermost petal ring
-    k = (i * interval )+ 10;
-    link_order.push([k]);
-  }
-  for (var h = 0; h < 10; h++) {
-    for (var j = 0; j < 5; j++) {
-      k = link_order[j];
-      k1 = k - 2 - h;
-      k2 = k - (-1) + h;
-      link_order.push(k1);
-      link_order.push(k2);
-    }
-  }
-
-  var link_order_length = link_order.length;
-  var stop= link_order_length + 12
-
-  for (var i = 0; i < 12; i++) {  //link ids for the middle petal ring
-    k = (i * interval )+ 10;
-    k = k + 160;
-    link_order.push([k]);
-  }
-  for (var h = 0; h < 10; h++) {
-    for (var j = link_order_length; j < stop; j++) {
-      k = link_order[j];
-      k1 = k - 2 - h;
-      k2 = k - (-1) + h;
-      link_order.push(k1);
-      link_order.push(k2);
-    }
-  }
-
-  /*var link_order_length = link_order.length;
-  var stop= link_order_length + 16
-
-  for (var i = 0; i < 16; i++) {  //link ids for the outer petal ring
-    k = (i * interval )+ 25;
-     k = k + 1300;
-    link_order.push([k]);
-  }
-  for (var h = 0; h < 24; h++) {
-    for (var j = link_order_length; j < stop; j++) {
-      k = link_order[j];
-      k1 = k - 2 - h;
-      k2 = k - (-1) + h;
-      link_order.push(k1);
-      link_order.push(k2);
-    }
-  }*/
-
-
-}
-
-assignLinks();
-
-
-//console.log(link_order)
-//console.log(coin_names)
-
-
-/*
-//This function can be used to sort arrays -- if the data is not already pre-sorted.
-function sortLinks() {
-  cap_rank = market_cap.sort(function(a, b){return a-b});
-}
-
-sortLinks();*/
-
-
-//Petal Constructor - draws outline of petal
-function drawPetal (
+  //Petal Constructor - draws outline of petal
+  function drawPetal (
     x,
     y,
     z,
@@ -166,7 +132,7 @@ function drawPetal (
     z1,
     petalheight,
     ctrlpt,
-    color_code,
+    color_code
   ) {
     var curve = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(x, y, z),
@@ -195,51 +161,6 @@ function drawPetal (
   }
 
 
-  //Chart Position Arc - returns points for top of chart lines
-  function chartTop (
-    x,
-    y,
-    z,
-    x0,
-    y0,
-    z0,
-    x1,
-    y1,
-    z1,
-    petalheight,
-    ctrlpt,
-    color_code
-  ) {
-    var curve = new THREE.QuadraticBezierCurve3(
-      new THREE.Vector3(x, y, z),
-      new THREE.Vector3(x, ctrlpt, z),
-      new THREE.Vector3(x0, y0 + petalheight, z0)
-    )
-
-    var points1 = curve.getSpacedPoints(25)
-    var geometry = new THREE.BufferGeometry().setFromPoints(points1)
-    var material = new THREE.LineBasicMaterial({ color: color_code })
-    var curveObject = new THREE.Line(geometry, material)
-    group.add(curveObject)
-
-    var curve2 = new THREE.QuadraticBezierCurve3(
-      new THREE.Vector3(x0, y0 + petalheight, z0),
-      new THREE.Vector3(x1, ctrlpt, z1),
-      new THREE.Vector3(x1, y1, z1)
-    )
-
-    var points2 = curve2.getSpacedPoints(25)
-    var geometry = new THREE.BufferGeometry().setFromPoints(points2)
-    var material = new THREE.LineBasicMaterial({ color: color_code })
-    var curveObject = new THREE.Line(geometry, material)
-    group.add(curveObject)
-
-    var points = points1.concat(points2)
-    return points
-  }
-
-
-  
   //Chart Position Arc - returns points for top of chart lines
   function chartTop (
     x,
@@ -300,8 +221,8 @@ function drawPetal (
   }
 
 
-//Invisible Spaghetti - add TubeGeometry objects that sheath chart lines representing active geometric links.
-function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_code) {
+  //Invisible Spaghetti - add TubeGeometry objects that sheath chart lines representing active geometric links.
+  function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt) {
     var link_curve = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(x, y, z),
       new THREE.Vector3(x, ctrlpt, z),
@@ -309,17 +230,16 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_
     )
 
     var geometry = new THREE.TubeGeometry(link_curve, 64, 0.004, 8, false)
-    var material = new THREE.MeshBasicMaterial({ color: color_code })
+    var material = new THREE.MeshBasicMaterial({color: 0xe45e9d })
     var object = new THREE.Mesh(geometry, material)
-    material.transparent = true
     object.label = k
     parentTransform.add(object)
   }
 
-//Draw Petals - draws ring of lotus petals
-function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, divisor){
+  //Outer Petals - draws outer ring of petals
+  function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, divisor){
   var geometry = new THREE.Geometry(),
-  material = new THREE.LineBasicMaterial({ color: color_code })
+    material = new THREE.LineBasicMaterial({ color: color_code })
 
   for (var i = 0; i <= segmentCount; i++) {
     var theta = (i / segmentCount) * Math.PI * 2
@@ -343,9 +263,16 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
   group.add(new THREE.Line(geometry, material))
 
 
-  //Draws Chart Lines 
+  //Draws Chart Lines - outer petals
   var geometry = new THREE.Geometry(),
     material = new THREE.LineBasicMaterial({ color: color_code })
+
+  //this prevents two values from occupying overlapping chart lines at the center of the petal chart
+  var blanks = []
+  for (var i = 1; i < chartLines; i++) {
+    var skip = (i-1) * divisor + 25
+    blanks.push(skip)
+  }
 
   for (var i = 0; i < chartLines; i++) {
     var k = 0
@@ -389,16 +316,6 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
         var base_xk = Math.cos(theta0) * radius
         var base_yk = 0
         var base_zk = Math.sin(theta0) * radius
-        if (chartLines==160) {  //this ensures that each k value is unique within the lotus flower
-          k=k;
-          }
-        if (chartLines==240) {
-          k=k+160;
-          }
-        //if (chartLines==800) {
-          //k=k+1300;
-          //}
-        
 
         chartPosition(
           chartPoint[j].x,
@@ -412,7 +329,7 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
           color_code
         )
 
-        k_values.push([    //k values each define a unique curve in 3D space. They are not associated with a specific petal ring.
+        k_values.push([
           k,
           chartPoint[j].x,
           chartPoint[j].y,
@@ -421,40 +338,46 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
           base_yk,
           base_zk,
           petalheight,
-          ctrlpt,
+          ctrlpt
         ])
       }
     }
-
-
- 
 
     geometry.vertices.push(
       new THREE.Vector3(Math.cos(theta) * radius, 0, Math.sin(theta) * radius)
     )
   }
 
-
-
   parentTransform = new THREE.Object3D()
   group.add(parentTransform)
 
-  group.add(new THREE.Line(geometry, material));
+  var i = 0
 
+  while (i < chartLines) {
+
+    if (blanks.includes(i)) {
+    }
+
+    else if (some_bands.includes(i)) {
+      invisibleSpaghetti(
+        k_values[i][0],
+        k_values[i][1],
+        k_values[i][2],
+        k_values[i][3],
+        k_values[i][4],
+        k_values[i][5],
+        k_values[i][6],
+        k_values[i][7],
+        k_values[i][8]
+      )
+    }
+    i++
+  }
+
+group.add(new THREE.Line(geometry, material))
 }
 
-
-
-/*var groupElements = [];
-var groupElements= group.children;
-console.log(groupElements);
-group.uncache(groupElements);
-*/
-
-  
-
-// -------------------------------- // 
-
+  // -------------------------------- // 
 
 
 //drawPetalRing (16, 1, .1,  0x0099cc, 320, 20)  //outer petals
@@ -464,141 +387,7 @@ drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 drawPetalRing (8, .65, .1, 0x00769d, 160, 20) //center petals
 
 group.position.set( 0, -.24, .75 );
-
-
-function getData() //processes JSON data and returns arrays for 5 main variables
-  {
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.addEventListener("load", getActiveLinks);
-  xmlhttp.addEventListener("load", addLinks);
-
-  xmlhttp.open("GET", "../youtube_search.php", true);
-  xmlhttp.responseType = 'json';
-  xmlhttp.send(); 
-
-  xmlhttp.onreadystatechange = function() {
-  if (this.readyState == 4 && this.status == 200) {
-    console.log(this.response);
-    //myObj = JSON.parse(this.response);
-    //myObj = this.response;
-    var entries = this.response;
-    if(entries.length > 0) {
-    for (var i = 0; i < entries.length; i++) {
-  	var coin = entries[i];
-        //console.log(entry);
-        //var playerUrl = entry.id.$t;
-        //var vid = playerUrl.split(':').pop();
-        var coin_name = coin.id.videoId;
-	coin_names.push([i,coin_name]);
-        video_thmbs[video_thmbs.length] = coin.snippet.thumbnails.default.url;
-        video_titles[video_titles.length] = coin.snippet.title;
-     }
-     }
-  }
-  } 
-}
-
-getData();
-
-
-function getActiveLinks()  //sorts for a given set of values from the data obtained above
-{
-
-    console.log(coin_names);
-
-/*	
-    if (coin_change_time == "1h") 
-      {
-        var active_array = coin_change_1h;
-      }
-
-    if (coin_change_time == "24h") 
-      {
-        var active_array = coin_change_24h;
-      }
-
-    if (coin_change_time == "1w") 
-      {
-        var active_array = coin_change_1w;
-      }
-*/
-    var f = coin_names; 
-
-    for (x of f) {
-      var coin = x;
-      var coin_value = coin[1];
-      var coin_index = coin[0];
-/*
-      if (volume[coin_index] < volume_adj) 
-      {
-        coin = null;
-      }
-
-      else if (coin_value > 20) {
-        
-        active_links.push(coin_index);
-      }
-
-      else if (coin_value > 10) {
-      coin_index = coin[0]
-      active_links2.push(coin_index);
-      }
-*/
-      active_links.push(coin_index);
-    }
-}
-
-
-function addLinks() {  //adds links for selected values
-
-  link_order_length = link_order.length
-
-for (i = 0; i < link_order_length; i++) {
-
-    if (active_links.includes(i)) {
-
-      var k = link_order[i];
-      var color_code = 0xe45e9d;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code
-      )
-    }
-
-    if (active_links2.includes(i)) {
-
-      var k = link_order[i];
-      var color_code = 0xffca85;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code
-      )
-    }
-
-
-  }
-}
-
-
-
+      
 
   // --- raycaster code
 
@@ -614,7 +403,7 @@ for (i = 0; i < link_order_length; i++) {
   document.addEventListener('mousemove', onDocumentMouseMove, false)
   window.addEventListener('click', onMouseClick, false)
   window.addEventListener('resize', onWindowResize, false)
-  
+
   function onDocumentMouseMove (event) {
     event.preventDefault()
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1
@@ -630,6 +419,7 @@ for (i = 0; i < link_order_length; i++) {
   }
 
   function onMouseClick (event) {
+    //play = !play;
     event.preventDefault()
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
@@ -638,15 +428,8 @@ for (i = 0; i < link_order_length; i++) {
     for (var i = 0; i < intersects.length; i++) {
       var intersection = intersects[i],
       obj = intersection.object
-      k = obj.label
-      l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
-      //var URL = "https://coinmarketcap.com/currencies/" + coin_names[l]
-      var URL = "https://www.youtube.com/watch?v=" + coin_names[l][1]
-      console.log(coin_names[l])
-      console.log(URL);
-      //console.log(coin_change_1h[l])
-    //  window.open(URL, '_blank')
-       player.cueVideoById(coin_names[l][1]);
+      var URL = links[obj.label]
+      window.open(URL, 'iframe_a')
     }
   }
 
@@ -687,7 +470,13 @@ for (i = 0; i < link_order_length; i++) {
 
 //  ---- reference code ----- //  
 
-
+var blah = {
+  'myFunction': function () 
+  {
+  }
+}
+blah['myFunction']()
+blah.myFunction()
 
 //document.write(k + " " + links[k] + ", ");
 
