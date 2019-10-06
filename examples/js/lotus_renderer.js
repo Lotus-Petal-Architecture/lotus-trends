@@ -641,12 +641,12 @@ for (i = 0; i < link_order_length; i++) {
       k = obj.label
       l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
       //var URL = "https://coinmarketcap.com/currencies/" + coin_names[l]
-      var URL = "https://www.youtube.com/watch?v=" + coin_names[l][1]
+      var URL = "https://www.youtube.com/embed/" + coin_names[l][1]
       console.log(coin_names[l])
       console.log(URL);
       //console.log(coin_change_1h[l])
-    //  window.open(URL, '_blank')
-       player.cueVideoById(coin_names[l][1]);
+      window.open(URL, 'iframe_a')
+      //player.cueVideoById(coin_names[l][1]);
     }
   }
 

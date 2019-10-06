@@ -42,3 +42,9 @@ Make Prettier / Delint
 
 Lizs-iMac:lotusfm athena666$ prettier-standard lotus_renderer.js
 
+"Unfree" and Nontrivial Javascript
+
+https://www.gnu.org/philosophy/javascript-trap.en.html
+
+https://www.gnu.org/licenses/javascript-labels.html
+

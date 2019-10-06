@@ -1,18 +1,27 @@
 <?php
-// $apikey = 'AIzaSyCSh_E1LSG00mNIcev8ammwnXpEtKYfnZ4';
 
-$apikey = 'AIzaSyDgoJX7iFY18B94ezuAsgneZB3-nUPz-xc';
-// $apikey = 'AIzaSyABLkiT7dTxc34S4XLktTkHhT7BHaaQNrQ';
-// $apikey = 'AIzaSyDgoJX7iFY18B94ezuAsgneZB3-nUPz-xc';
-// $apikey = 'AIzaSyAZ2BlKOSLtdWvWcOZKQrN2P9YfqZeE4OE';
-// $apikey = 'AIzaSyCSh_E1LSG00mNIcev8ammwnXpEtKYfnZ4';
+$apikey = 'AIzaSyDCAot4lETPRwRlYRwGWUVfrDMagOyOqGU';
 
+// $apikey = 'AIzaSyDvNg5enf6G6R88pALlXRbsLUOzTv92tN4';
+//$apikey = 'AIzaSyDFd_rOk2q-kC_deCS7ROs7eSTRsETLgDo';
+//$apikey = 'AIzaSyBu-EdogFJe60KxbM14MaAQwc8dfN2c9Cw';
+//$apikey = 'AIzaSyDfoZgGnbD6JeoBF_6PVxn8R5kmJjd9S1M';
+
+/*
 $url = 'https://www.googleapis.com/youtube/v3/search?part=snippet';
 //$url .= '&location=45.515459,-122.679346&locationRadius=50mi';
 $url .= '&type=video&q=indie+music';
 $url .= '&duration=any&order=viewCount&maxResults=50';
 $url .= '&paid-content=false&format=5&fields=nextPageToken,items(id,snippet)';
 $url .= '&relevanceLanguage=en&safeSearch=none&videoEmbeddable=true';
+ */
+
+$url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet';
+$url .= '&playlistId=PLqfg5W4pjsRa4_IsK9iQUD0g9JcQY2fdM';
+//$url .= 'part=snippet&playlistId=PLEuUPYukC_M5osNiNN4y62zGvkjDkL9ep';
+$url .= '&order=viewCount&maxResults=50';
+
+
 $url .= '&key='.$apikey;
 
 $headers = [
@@ -40,13 +49,15 @@ curl_setopt($ch, CURLOPT_HEADER, 0);
     $nextPage = $data["nextPageToken"];
 
     foreach($data["items"] as $item) {
-    	$vid_ids .= $item["id"]["videoId"].',';
+        //$vid_ids .= $item["id"]["videoId"].',';
+    $vid_ids .= $item["snippet"]["resourceId"]["videoId"].',';
     }
+
 
     $vid_ids = rtrim($vid_ids, ',');
 
     $url2 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=".$vid_ids;
-    $url2 .= "&key=".$a;
+    $url2 .= "&key=".$apikey;
 
 
 
@@ -67,9 +78,9 @@ curl_setopt($ch, CURLOPT_HEADER, 0);
     $value2 = json_decode(json_encode($data2), true);
 
     foreach($data2["items"] as $key => $item) { 
-	 //   print_r($data["items"][$key]);
-	
-	$data["items"][$key]["statistics"] = $item["statistics"]; 
+     //   print_r($data["items"][$key]);
+    
+    $data["items"][$key]["statistics"] = $item["statistics"]; 
     }
 
     return json_encode($data);
@@ -81,8 +92,8 @@ $json_results = array();
 $json_results[] = json_decode($results,true);
 $items = $json_results[0]["items"];
 
-for( $i=0; $i<=5;$i++) {
-//	print_r('foo'.$json_results[$i]["nextPageToken"]);
+for( $i=0; $i<=1;$i++) {
+//  print_r('foo'.$json_results[$i]["nextPageToken"]);
 if($json_results[$i]["nextPageToken"]) {
     $urlnext = $url."&pageToken=".$json_results[$i]["nextPageToken"];
     $results2 = getAPI($urlnext,$apikey);
