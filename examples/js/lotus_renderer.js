@@ -51,13 +51,13 @@ var r = 100,
   var active_links = [] //index values of active links
   var active_links2 = [] //index values of active links
   var active_array = [] // placeholder for array values being filtered
-  var coin_names = [] //list of youtube videos. uses the same index ranking as link_order
+  var song_names = [] //list of youtube videos. uses the same index ranking as link_order
   var video_titles = []
   var video_thmbs = []
-  var coin_prices = []
-  var coin_change_24h = []
-  var coin_change_1h = []
-  var coin_change_1w = []
+  var song_prices = []
+  var song_change_24h = []
+  var song_change_1h = []
+  var song_change_1w = []
   var volume = []
   var market_cap = []
   var cap_rank = []
@@ -141,7 +141,7 @@ assignLinks();
 
 
 //console.log(link_order)
-//console.log(coin_names)
+//console.log(song_names)
 
 
 /*
@@ -456,12 +456,11 @@ group.uncache(groupElements);
 // -------------------------------- // 
 
 
-
-//drawPetalRing (16, 1, .1,  0x0099cc, 320, 20)  //outer petals
+drawPetalRing (8, .65, .1, 0x00769d, 160, 20) //center petals
 
 drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 
-drawPetalRing (8, .65, .1, 0x00769d, 160, 20) //center petals
+//drawPetalRing (16, 1, .1,  0x0099cc, 320, 20)  //outer petals
 
 group.position.set( 0, -.24, .75 );
 
@@ -482,16 +481,17 @@ function getData() //processes JSON data and returns arrays for 5 main variables
     //myObj = JSON.parse(this.response);
     //myObj = this.response;
     var entries = this.response;
+    console.log(entries.length);
     if(entries.length > 0) {
     for (var i = 0; i < entries.length; i++) {
-  	var coin = entries[i];
-        //console.log(entry);
+    var song = entries[i];
         //var playerUrl = entry.id.$t;
         //var vid = playerUrl.split(':').pop();
-        var coin_name = coin.id.videoId;
-	coin_names.push([i,coin_name]);
-        video_thmbs[video_thmbs.length] = coin.snippet.thumbnails.default.url;
-        video_titles[video_titles.length] = coin.snippet.title;
+        //var song_name = song.id.videoId;
+  song_name = song.snippet.resourceId.videoId;
+  song_names.push([i,song_name]);
+        video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
+        video_titles[video_titles.length] = song.snippet.title;
      }
      }
   }
@@ -504,47 +504,47 @@ getData();
 function getActiveLinks()  //sorts for a given set of values from the data obtained above
 {
 
-    console.log(coin_names);
+    console.log(song_names);
 
-/*	
-    if (coin_change_time == "1h") 
+/*  
+    if (song_change_time == "1h") 
       {
-        var active_array = coin_change_1h;
+        var active_array = song_change_1h;
       }
 
-    if (coin_change_time == "24h") 
+    if (song_change_time == "24h") 
       {
-        var active_array = coin_change_24h;
+        var active_array = song_change_24h;
       }
 
-    if (coin_change_time == "1w") 
+    if (song_change_time == "1w") 
       {
-        var active_array = coin_change_1w;
+        var active_array = song_change_1w;
       }
 */
-    var f = coin_names; 
+    var f = song_names; 
 
     for (x of f) {
-      var coin = x;
-      var coin_value = coin[1];
-      var coin_index = coin[0];
+      var song = x;
+      var song_value = song[1];
+      var song_index = song[0];
 /*
-      if (volume[coin_index] < volume_adj) 
+      if (volume[song_index] < volume_adj) 
       {
-        coin = null;
+        song = null;
       }
 
-      else if (coin_value > 20) {
+      else if (song_value > 20) {
         
-        active_links.push(coin_index);
+        active_links.push(song_index);
       }
 
-      else if (coin_value > 10) {
-      coin_index = coin[0]
-      active_links2.push(coin_index);
+      else if (song_value > 10) {
+      song_index = song[0]
+      active_links2.push(song_index);
       }
 */
-      active_links.push(coin_index);
+      active_links.push(song_index);
     }
 }
 
@@ -640,13 +640,12 @@ for (i = 0; i < link_order_length; i++) {
       obj = intersection.object
       k = obj.label
       l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
-      //var URL = "https://coinmarketcap.com/currencies/" + coin_names[l]
-      var URL = "https://www.youtube.com/embed/" + coin_names[l][1]
-      console.log(coin_names[l])
+      var URL = "https://www.youtube.com/embed/" + song_names[l][1] + "?autoplay=1&mute=0"
+      console.log(song_names[l])
       console.log(URL);
-      //console.log(coin_change_1h[l])
+      //console.log(song_change_1h[l])
       window.open(URL, 'iframe_a')
-      //player.cueVideoById(coin_names[l][1]);
+       //player.cueVideoById(song_names[l][1]);
     }
   }
 

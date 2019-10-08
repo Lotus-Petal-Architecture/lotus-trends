@@ -6,7 +6,7 @@ var r = 100,
   var scene = new THREE.Scene()
 
   var camera = new THREE.PerspectiveCamera(
-    40,
+    15,
     window.innerWidth / window.innerHeight,
     0.1,
     1000
@@ -26,12 +26,14 @@ var r = 100,
   controls.minDistance = 0
   controls.maxDistance = 100
   controls.maxPolarAngle = Math.PI / 2
-  controls.addEventListener( 'change', () => renderer.render( scene, camera ) );
+  //controls.addEventListener( 'change', () => renderer.render( scene, camera ) );
 
 
   var light = new THREE.PointLight(0xffffff)
   light.position.set(-100, 200, 100)
   scene.add(light)
+
+  var play = true;
 
   var group
   group = new THREE.Group()
@@ -80,14 +82,14 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
 
 
   {
-  var interval = 50;
+  var interval = 20;
 
-  for (var i = 0; i < 12; i++) { //link ids for the innermost petal ring
-    k = (i * interval )+ 25;
+  for (var i = 0; i < 8; i++) { //link ids for the innermost petal ring
+    k = (i * interval )+ 10;
     link_order.push([k]);
   }
-  for (var h = 0; h < 24; h++) {
-    for (var j = 0; j < 12; j++) {
+  for (var h = 0; h < 10; h++) {
+    for (var j = 0; j < 5; j++) {
       k = link_order[j];
       k1 = k - 2 - h;
       k2 = k - (-1) + h;
@@ -97,14 +99,14 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
   }
 
   var link_order_length = link_order.length;
-  var stop= link_order_length + 14
+  var stop= link_order_length + 12
 
-  for (var i = 0; i < 14; i++) {  //link ids for the middle petal ring
-    k = (i * interval )+ 25;
-    k = k + 600;
+  for (var i = 0; i < 12; i++) {  //link ids for the middle petal ring
+    k = (i * interval )+ 10;
+    k = k + 160;
     link_order.push([k]);
   }
-  for (var h = 0; h < 24; h++) {
+  for (var h = 0; h < 10; h++) {
     for (var j = link_order_length; j < stop; j++) {
       k = link_order[j];
       k1 = k - 2 - h;
@@ -114,7 +116,7 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
     }
   }
 
-  var link_order_length = link_order.length;
+  /*var link_order_length = link_order.length;
   var stop= link_order_length + 16
 
   for (var i = 0; i < 16; i++) {  //link ids for the outer petal ring
@@ -130,7 +132,7 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
       link_order.push(k1);
       link_order.push(k2);
     }
-  }
+  }*/
 
 
 }
@@ -237,6 +239,51 @@ function drawPetal (
   }
 
 
+  
+  //Chart Position Arc - returns points for top of chart lines
+  function chartTop (
+    x,
+    y,
+    z,
+    x0,
+    y0,
+    z0,
+    x1,
+    y1,
+    z1,
+    petalheight,
+    ctrlpt,
+    color_code
+  ) {
+    var curve = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(x, y, z),
+      new THREE.Vector3(x, ctrlpt, z),
+      new THREE.Vector3(x0, y0 + petalheight, z0)
+    )
+
+    var points1 = curve.getSpacedPoints(10)
+    var geometry = new THREE.BufferGeometry().setFromPoints(points1)
+    var material = new THREE.LineBasicMaterial({ color: color_code })
+    var curveObject = new THREE.Line(geometry, material)
+    //group.add(curveObject)
+
+    var curve2 = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(x0, y0 + petalheight, z0),
+      new THREE.Vector3(x1, ctrlpt, z1),
+      new THREE.Vector3(x1, y1, z1)
+    )
+
+    var points2 = curve2.getSpacedPoints(10)
+    var geometry = new THREE.BufferGeometry().setFromPoints(points2)
+    var material = new THREE.LineBasicMaterial({ color: color_code })
+    var curveObject = new THREE.Line(geometry, material)
+    //group.add(curveObject)
+
+    var points = points1.concat(points2)
+    return points
+  }
+
+
   //Chart Position - draws chart lines within petal arc
   function chartPosition (x, y, z, x0, y0, z0, petalheight, ctrlpt, color_code) {
     var cPcurve = new THREE.QuadraticBezierCurve3(
@@ -245,7 +292,7 @@ function drawPetal (
       new THREE.Vector3(x0, y0, z0)
     )
 
-    var points = cPcurve.getPoints(50)
+    var points = cPcurve.getPoints(20)
     var geometry = new THREE.BufferGeometry().setFromPoints(points)
     var material = new THREE.LineBasicMaterial({ color: color_code })
     var curveObject = new THREE.Line(geometry, material)
@@ -261,7 +308,7 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_
       new THREE.Vector3(x0, y0, z0)
     )
 
-    var geometry = new THREE.TubeGeometry(link_curve, 64, 0.002, 8, false)
+    var geometry = new THREE.TubeGeometry(link_curve, 64, 0.004, 8, false)
     var material = new THREE.MeshBasicMaterial({ color: color_code })
     var object = new THREE.Mesh(geometry, material)
     material.transparent = true
@@ -342,15 +389,15 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
         var base_xk = Math.cos(theta0) * radius
         var base_yk = 0
         var base_zk = Math.sin(theta0) * radius
-        if (chartLines==600) {  //this ensures that each k value is unique within the lotus flower
+        if (chartLines==160) {  //this ensures that each k value is unique within the lotus flower
           k=k;
           }
-        if (chartLines==700) {
-          k=k+600;
+        if (chartLines==240) {
+          k=k+160;
           }
-        if (chartLines==800) {
-          k=k+1300;
-          }
+        //if (chartLines==800) {
+          //k=k+1300;
+          //}
         
 
         chartPosition(
@@ -406,15 +453,17 @@ group.uncache(groupElements);
 
   
 
-  // -------------------------------- // 
+// -------------------------------- // 
 
 
 
-drawPetalRing (12, .65, .1, 0x00769d, 600, 50) //center petals
+//drawPetalRing (16, 1, .1,  0x0099cc, 320, 20)  //outer petals
 
-drawPetalRing (14, .85, .1, 0x0289b6, 700, 50)  //middle petals
+drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 
-drawPetalRing (16, 1, .1,  0x0099cc, 800, 50)  //outer petals
+drawPetalRing (8, .65, .1, 0x00769d, 160, 20) //center petals
+
+group.position.set( 0, -.24, .75 );
 
 
 function getData() //processes JSON data and returns arrays for 5 main variables
@@ -435,12 +484,13 @@ function getData() //processes JSON data and returns arrays for 5 main variables
     var entries = this.response;
     if(entries.length > 0) {
     for (var i = 0; i < entries.length; i++) {
-  	var coin = entries[i];
-        //console.log(entry);
+    var coin = entries[i];
+        console.log(coin);
         //var playerUrl = entry.id.$t;
         //var vid = playerUrl.split(':').pop();
-        var coin_name = coin.id.videoId;
-	coin_names.push([i,coin_name]);
+        //var coin_name = coin.id.videoId;
+  coin_name = coin.snippet.resourceId.videoId;
+  coin_names.push([i,coin_name]);
         video_thmbs[video_thmbs.length] = coin.snippet.thumbnails.default.url;
         video_titles[video_titles.length] = coin.snippet.title;
      }
@@ -457,7 +507,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
 
     console.log(coin_names);
 
-/*	
+/*  
     if (coin_change_time == "1h") 
       {
         var active_array = coin_change_1h;
@@ -592,7 +642,7 @@ for (i = 0; i < link_order_length; i++) {
       k = obj.label
       l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
       //var URL = "https://coinmarketcap.com/currencies/" + coin_names[l]
-      var URL = "https://www.youtube.com/watch?v=" + coin_names[l][1]
+      //var URL = "https://www.youtube.com/watch?v=" + coin_names[l][1]
       console.log(coin_names[l])
       console.log(URL);
       //console.log(coin_change_1h[l])
@@ -609,15 +659,26 @@ for (i = 0; i < link_order_length; i++) {
 
   //animate and render
 
-  camera.position.z = 5
+  camera.position.z = 3.75
 
   function animate () {
+
+    if (play) {
+
     requestAnimationFrame(animate)
-    group.rotation.x += 0.0
-    group.rotation.y += 0.0
+    render()
+    group.rotation.x += 0.0000
+    group.rotation.y += 0.0001
+    }
+
+    else {
+
+    requestAnimationFrame(animate)
+    render()
+    }
   }
+
   animate()
-  render()
 
   function render () {
     dot += 0
