@@ -481,7 +481,7 @@ function getData() //processes JSON data and returns arrays for 5 main variables
     //myObj = JSON.parse(this.response);
     //myObj = this.response;
     var entries = this.response;
-    console.log(entries.length);
+    //console.log(entries.length);
     if(entries.length > 0) {
     for (var i = 0; i < entries.length; i++) {
     var song = entries[i];
