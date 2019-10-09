@@ -7,7 +7,7 @@ $apikey = 'AIzaSyDCAot4lETPRwRlYRwGWUVfrDMagOyOqGU';
 //$apikey = 'AIzaSyBu-EdogFJe60KxbM14MaAQwc8dfN2c9Cw';
 //$apikey = 'AIzaSyDfoZgGnbD6JeoBF_6PVxn8R5kmJjd9S1M';
 
-// Youtube v3 playlist query url
+// YouTube v3 playlist query url
 $url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet';
 $url .= '&playlistId=PLqfg5W4pjsRa4_IsK9iQUD0g9JcQY2fdM';
 $url .= '&order=viewCount&maxResults=50';
