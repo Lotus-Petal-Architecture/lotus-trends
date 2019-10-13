@@ -140,7 +140,7 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
 assignLinks();
 
 
-//console.log(link_order)
+console.log(link_order)
 //console.log(song_names)
 
 
@@ -489,7 +489,7 @@ function getData() //processes JSON data and returns arrays for 5 main variables
         //var vid = playerUrl.split(':').pop();
         //var song_name = song.id.videoId;
   song_name = song.snippet.resourceId.videoId;
-  song_names.push([i,song_name]);
+  song_names.push([song_name]);
         video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
         video_titles[video_titles.length] = song.snippet.title;
      }
@@ -522,12 +522,11 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
         var active_array = song_change_1w;
       }
 */
-    var f = song_names; 
+    var f = song_names.entries(); 
 
     for (x of f) {
-      var song = x;
-      var song_value = song[1];
-      var song_index = song[0];
+      var song_value = x[1];
+      var song_index = x[0];
 /*
       if (volume[song_index] < volume_adj) 
       {
@@ -546,6 +545,8 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
 */
       active_links.push(song_index);
     }
+    console.log(active_links);
+
 }
 
 
@@ -640,7 +641,7 @@ for (i = 0; i < link_order_length; i++) {
       obj = intersection.object
       k = obj.label
       l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
-      var URL = "https://www.youtube.com/embed/" + song_names[l][1] + "?autoplay=1&mute=0"
+      var URL = "https://www.youtube.com/embed/" + song_names[l] + "?autoplay=1&mute=0"
       console.log(song_names[l])
       console.log(URL);
       //console.log(song_change_1h[l])
