@@ -61,6 +61,7 @@ var r = 100,
   var volume = []
   var market_cap = []
   var cap_rank = []
+  var curves = [];
   var xmlhttp = new XMLHttpRequest()
 
 
@@ -296,6 +297,7 @@ function drawPetal (
     var geometry = new THREE.BufferGeometry().setFromPoints(points)
     var material = new THREE.LineBasicMaterial({ color: color_code })
     var curveObject = new THREE.Line(geometry, material)
+    curves.push(curveObject);
     group.add(curveObject)
   }
 
@@ -412,6 +414,7 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
           color_code
         )
 
+
         k_values.push([    //k values each define a unique curve in 3D space. They are not associated with a specific petal ring.
           k,
           chartPoint[j].x,
@@ -433,7 +436,6 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
       new THREE.Vector3(Math.cos(theta) * radius, 0, Math.sin(theta) * radius)
     )
   }
-
 
 
   parentTransform = new THREE.Object3D()
@@ -464,6 +466,12 @@ drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 
 group.position.set( 0, -.24, .75 );
 
+/*
+console.log(curves);
+var outlier = curves[287];
+outlier.material.color.setHex( 0xFF0000 );
+*/
+
 
 function getData() //processes JSON data and returns arrays for 5 main variables
   {
@@ -489,9 +497,12 @@ function getData() //processes JSON data and returns arrays for 5 main variables
         //var vid = playerUrl.split(':').pop();
         //var song_name = song.id.videoId;
   song_name = song.snippet.resourceId.videoId;
+  //popularity = song.statistics.viewCount;
   song_names.push([song_name]);
         video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
         video_titles[video_titles.length] = song.snippet.title;
+  console.log(song.snippet.title);
+  //console.log(popularity);
      }
      }
   }
@@ -629,6 +640,7 @@ for (i = 0; i < link_order_length; i++) {
       sphereInter.visible = false
     }
   }
+
 
   function onMouseClick (event) {
     event.preventDefault()
