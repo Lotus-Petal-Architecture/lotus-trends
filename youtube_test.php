@@ -9,8 +9,8 @@ $apikey = 'AIzaSyDCAot4lETPRwRlYRwGWUVfrDMagOyOqGU';
 
 
 // YouTube v3 PlaylistItems query url
-$url = 'https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2Cstatistics';
-$url .= '&id=E7fzUGR8ZH4%2CpnfryoGog0A%2CCqp-hL-I90A%2COqeKV2UYq1Q%2CksTFj6L0mao%2CpB08AUiTP3w%2CpO3_ZG7wJPc%2CsSCb-a2McRI%2CyyayVIXwg74%2CxRFTYRXS3aw';
+$url = 'https://www.googleapis.com/youtube/v3/videos?part=id%2Cstatistics';
+$url .= '&id=pnfryoGog0A%2CCqp-hL-I90A%2COqeKV2UYq1Q%2CksTFj6L0mao%2CpB08AUiTP3w%2CpO3_ZG7wJPc%2CsSCb-a2McRI%2CyyayVIXwg74%2CxRFTYRXS3aw%2CE7fzUGR8ZH4';
 //$url .= '&order=viewCount&maxResults=50';
 $url .= '&key='.$apikey;
 
@@ -54,6 +54,12 @@ for( $i=0; $i<=2;$i++) {
     }
 }
 
-$json_return = json_encode($items);  // encode PHP array as JSON
-print_r($json_return);
+//array_multisort($items[0]);
+
+echo "test <br><br>";
+
+print_r($items[0]);
+
+//$json_return = json_encode($items);  // encode PHP array as JSON
+//print_r($json_return);
 ?>

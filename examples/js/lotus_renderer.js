@@ -496,13 +496,13 @@ function getData() //processes JSON data and returns arrays for 5 main variables
         //var playerUrl = entry.id.$t;
         //var vid = playerUrl.split(':').pop();
         //var song_name = song.id.videoId;
-  song_name = song.snippet.resourceId.videoId;
-  //popularity = song.statistics.viewCount;
+  var song_name = song.id;
+  var popularity = song.statistics.viewCount;
   song_names.push([song_name]);
         video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
         video_titles[video_titles.length] = song.snippet.title;
   console.log(song.snippet.title);
-  //console.log(popularity);
+  console.log(popularity);
      }
      }
   }

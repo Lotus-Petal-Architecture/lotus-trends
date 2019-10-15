@@ -8,10 +8,10 @@ $apikey = 'AIzaSyDCAot4lETPRwRlYRwGWUVfrDMagOyOqGU';
 //$apikey = 'AIzaSyDfoZgGnbD6JeoBF_6PVxn8R5kmJjd9S1M';
 
 
-// YouTube v3 PlaylistItems query url
-$url = 'https://www.googleapis.com/youtube/v3/videos?part=id%2Csnippet%2Cstatistics';
-$url .= '&id=E7fzUGR8ZH4%2CpnfryoGog0A%2CCqp-hL-I90A%2COqeKV2UYq1Q%2CksTFj6L0mao%2CpB08AUiTP3w%2CpO3_ZG7wJPc%2CsSCb-a2McRI%2CyyayVIXwg74%2CxRFTYRXS3aw';
-//$url .= '&order=viewCount&maxResults=50';
+// YouTube v3 playlist query url
+$url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=id';
+$url .= '&playlistId=PLqfg5W4pjsRa4_IsK9iQUD0g9JcQY2fdM';
+$url .= '&order=viewCount&maxResults=50';
 $url .= '&key='.$apikey;
 
 $headers = [
@@ -41,19 +41,11 @@ $json_results[] = json_decode($results,true); // decode API JSON to PHP array
 $items = array();
 $items = $json_results[0]["items"];  // save playlist items to items array
 
-// Loop through nextPage queries for 50 items
-for( $i=0; $i<=2;$i++) {
-    if($json_results[$i]["nextPageToken"]) {
-        $urlnext = $url."&pageToken=".$json_results[$i]["nextPageToken"]; // create URL with nextpageToken
-        $results2 = getAPI($urlnext,$apikey); // get nextPage results
-        $json_results[] = json_decode($results2,true);
-        $j = $i + 1;  // counter for nextPage results array index
-   
-        $items =  array_merge($items,$json_results[$j]["items"]); // append nextPage items to items array
+//$json_return = json_encode($items);  // encode PHP array as JSON
+//print_r($json_results[0]);
 
-    }
-}
+echo "<br><br>";
 
-$json_return = json_encode($items);  // encode PHP array as JSON
-print_r($json_return);
+print_r($items[0]);
+
 ?>
