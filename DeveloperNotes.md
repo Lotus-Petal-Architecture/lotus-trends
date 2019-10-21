@@ -48,3 +48,6 @@ https://www.gnu.org/philosophy/javascript-trap.en.html
 
 https://www.gnu.org/licenses/javascript-labels.html
 
+YouTube references
+
+https://developers.google.com/youtube/v3/docs/playlistItems?authuser=4

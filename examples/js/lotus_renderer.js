@@ -479,13 +479,13 @@ function getData() //processes JSON data and returns arrays for 5 main variables
   xmlhttp.addEventListener("load", getActiveLinks);
   xmlhttp.addEventListener("load", addLinks);
 
-  xmlhttp.open("GET", "../youtube_search.php", true);
+  xmlhttp.open("GET", "../youtube_list.php", true);
   xmlhttp.responseType = 'json';
   xmlhttp.send(); 
 
   xmlhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
-    console.log(this.response);
+    console.log('FOO'+this.response);
     //myObj = JSON.parse(this.response);
     //myObj = this.response;
     var entries = this.response;
@@ -496,7 +496,7 @@ function getData() //processes JSON data and returns arrays for 5 main variables
         //var playerUrl = entry.id.$t;
         //var vid = playerUrl.split(':').pop();
         //var song_name = song.id.videoId;
-  var song_name = song.id;
+  var song_name = song.snippet.resourceId.videoId;
   var popularity = song.statistics.viewCount;
   song_names.push([song_name]);
         video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
@@ -653,7 +653,7 @@ for (i = 0; i < link_order_length; i++) {
       obj = intersection.object
       k = obj.label
       l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
-      var URL = "https://www.youtube.com/embed/" + song_names[l] + "?autoplay=1&mute=0"
+      var URL = "https://www.youtube.com/embed/" + song_names[l] + "?autoplay=1&mute=1"
       console.log(song_names[l])
       console.log(URL);
       //console.log(song_change_1h[l])
