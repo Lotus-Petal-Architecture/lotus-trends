@@ -28,7 +28,7 @@ function getAPI($u) {
 
 // YouTube v3 API playlistItems call
 $url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet';
-$url .= '&playlistId=PLqfg5W4pjsRa4_IsK9iQUD0g9JcQY2fdM';
+$url .= '&playlistId=PLEuUPYukC_M4WeZutOSk12nwgNHMXl8LK';
 $url .= '&order=viewCount&maxResults=50';
 $url .= '&key='.$apikey;
 
@@ -39,9 +39,15 @@ $items = array();
 $items = $json_results[0]["items"];  // save playlist items to items array
 //print_r($items);
 
-foreach($items as $item) {  
-         $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds   
+$genre = "punk";
+
+foreach($items as $item) {
+         $item["snippet"] ["resourceId"]["kind"] = $genre;
+         $kind .= $item["snippet"] ["resourceId"]["kind"] .',';
+         $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
 }
+
+//echo ($kind);
 
 $vid_ids = rtrim($vid_ids, ','); // remove final comma
 //echo($vid_ids);
@@ -57,6 +63,8 @@ $json_results2[] = json_decode($results2,true);
 
 foreach($json_results2[0]["items"] as $key => $item) {
     $items[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
+    $items[$key]["snippet"]["resourceId"]["kind"] = 'punk';
+    $items[$key]["snippet"]["resourceId"]["kind"] = $item["snippet"] ["resourceId"]["kind"];
 }
 
 $nextPage = $json_results[0]["nextPageToken"]; 
