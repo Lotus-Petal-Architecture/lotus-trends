@@ -42,8 +42,8 @@ $items = $json_results[0]["items"];  // save playlist items to items array
 $genre = "punk";
 
 foreach($items as $item) {
-         $item["snippet"] ["resourceId"]["kind"] = $genre;
-         $kind .= $item["snippet"] ["resourceId"]["kind"] .',';
+         //$item["snippet"] ["resourceId"]["kind"] = $genre;
+         //$kind .= $item["snippet"] ["resourceId"]["kind"] .',';
          $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
 }
 
@@ -59,13 +59,15 @@ $url2 .= "&key=".$apikey;
 $results2 = getAPI($url2);
 $json_results2 = array();
 $json_results2[] = json_decode($results2,true);
-//print_r($json_results2);
+
+
 
 foreach($json_results2[0]["items"] as $key => $item) {
     $items[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
-    $items[$key]["snippet"]["resourceId"]["kind"] = 'punk';
-    $items[$key]["snippet"]["resourceId"]["kind"] = $item["snippet"] ["resourceId"]["kind"];
+    $items[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
 }
+
+//print_r($json_results2[0]["items"][0]["kind"]);
 
 $nextPage = $json_results[0]["nextPageToken"]; 
 

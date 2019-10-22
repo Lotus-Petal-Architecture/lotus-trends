@@ -503,6 +503,7 @@ function getData() //processes JSON data and returns arrays for 5 main variables
         video_titles[video_titles.length] = song.snippet.title;
   console.log(song.snippet.title);
   console.log(popularity);
+  console.log(song.kind);
      }
      }
   }
