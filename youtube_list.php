@@ -26,9 +26,16 @@ function getAPI($u) {
     return $response;
 }
 
-// YouTube v3 API playlistItems call
+
+$genre = "rockgenre";
+$playlistId = array();
+$playlistId = ['PLEuUPYukC_M5osNiNN4y62zGvkjDkL9ep','PLEuUPYukC_M4WeZutOSk12nwgNHMXl8LK']; 
+
+
+// YouTube v3 API playlistItems call - ROCK
+
 $url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet';
-$url .= '&playlistId=PLEuUPYukC_M4WeZutOSk12nwgNHMXl8LK';
+$url .= '&playlistId='.$playlistId[0];
 $url .= '&order=viewCount&maxResults=50';
 $url .= '&key='.$apikey;
 
@@ -37,17 +44,25 @@ $json_results = array();
 $json_results[] = json_decode($results,true); // decode API JSON to PHP array 
 $items = array();
 $items = $json_results[0]["items"];  // save playlist items to items array
-//print_r($items);
 
-$genre = "punk";
+
+
 
 foreach($items as $item) {
-         //$item["snippet"] ["resourceId"]["kind"] = $genre;
+         //$item["snippet"]["resourceId"]["kind"] = $genre;
          //$kind .= $item["snippet"] ["resourceId"]["kind"] .',';
          $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
 }
 
-//echo ($kind);
+foreach($json_results[0]["items"] as $key => $item) {
+    $items[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
+}
+
+//print_r($items[0]);
+
+//echo '<br><br>';
+
+
 
 $vid_ids = rtrim($vid_ids, ','); // remove final comma
 //echo($vid_ids);
@@ -61,13 +76,11 @@ $json_results2 = array();
 $json_results2[] = json_decode($results2,true);
 
 
-
 foreach($json_results2[0]["items"] as $key => $item) {
     $items[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
-    $items[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
 }
 
-//print_r($json_results2[0]["items"][0]["kind"]);
+//print_r($json_results2[0]["items"][0]);
 
 $nextPage = $json_results[0]["nextPageToken"]; 
 
@@ -99,6 +112,7 @@ for( $i=0; $i<=5;$i++) {
 
     foreach($json_results_next2[0]["items"] as $key => $item) {
             $items_next[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
+            $items_next[$key]["kind"] = $items[$key]["kind"]; // update "kind" value to reflect playlist genre
     }
     //print_r($json_results_next[$i]["items"]); 
     $items =  array_merge($items,$items_next);
@@ -106,12 +120,16 @@ for( $i=0; $i<=5;$i++) {
     }
 }
 
+    //$items =  array_merge($items,$pitems);
+
 
 usort($items, function($a, $b) { //Sort the array using a user defined function
     return $a["statistics"]["viewCount"] > $b["statistics"]["viewCount"] ? -1 : 1; //Compare the scores
 });
 
 $json_return = json_encode($items);  // encode PHP array as JSON
+
+//print_r($items);
 //print_r($json_results[0]);
 
 print_r($json_return);
