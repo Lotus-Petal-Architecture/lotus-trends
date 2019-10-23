@@ -32,7 +32,11 @@ $playlistId = array();
 $playlistId = ['PLEuUPYukC_M5osNiNN4y62zGvkjDkL9ep','PLEuUPYukC_M4WeZutOSk12nwgNHMXl8LK']; 
 
 
-// YouTube v3 API playlistItems call - ROCK
+// YouTube v3 API playlistItems call - 
+
+$items = array();
+
+//for( $i=0; $i<=1;$i++) {
 
 $url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet';
 $url .= '&playlistId='.$playlistId[0];
@@ -41,12 +45,43 @@ $url .= '&key='.$apikey;
 
 $results.= getAPI($url);
 $json_results = array();
-$json_results[] = json_decode($results,true); // decode API JSON to PHP array 
-$items = array();
-$items = $json_results[0]["items"];  // save playlist items to items array
+$json_results[] = json_decode($results,true); // decode API JSON to PHP array
+$items_b = array(); 
+$items_b = $json_results[0]["items"];  // save playlist items to items array
+
+foreach($json_results[0]["items"] as $key => $item) {
+    $items_b[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
+}
+
+$items = array_merge($items,$items_b);
+
+//print_r($items[0]);
+
+//
+
+// YouTube v3 API playlistItems call - 
 
 
+//for( $i=0; $i<=1;$i++) {  //"for" loops for playlist ids not yet working -- suspect it's an issue w/global variables
 
+/*$url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet';
+$url .= '&playlistId='.$playlistId[1];
+$url .= '&order=viewCount&maxResults=50';
+$url .= '&key='.$apikey;
+
+$results.= getAPI($url);
+$json_results = array();
+$json_results[] = json_decode($results,true); // decode API JSON to PHP array
+$items_c = array(); 
+$items_c = $json_results[0]["items"];  // save playlist items to items array
+
+foreach($json_results[0]["items"] as $key => $item) {
+    $items_c[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
+}
+
+$items = array_merge($items,$items_c);*/
+
+//}
 
 foreach($items as $item) {
          //$item["snippet"]["resourceId"]["kind"] = $genre;
@@ -54,9 +89,6 @@ foreach($items as $item) {
          $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
 }
 
-foreach($json_results[0]["items"] as $key => $item) {
-    $items[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
-}
 
 //print_r($items[0]);
 
