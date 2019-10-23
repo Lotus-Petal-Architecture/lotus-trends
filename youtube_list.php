@@ -62,7 +62,7 @@ $items = array_merge($items,$items_b);
 // YouTube v3 API playlistItems call - 
 
 
-//for( $i=0; $i<=1;$i++) {  //"for" loops for playlist ids not yet working -- suspect it's an issue w/global variables
+// Just copying the code for each playlist entry doesn't work either.
 
 /*$url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet';
 $url .= '&playlistId='.$playlistId[1];
