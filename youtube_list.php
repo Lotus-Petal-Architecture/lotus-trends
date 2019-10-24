@@ -352,10 +352,14 @@ $results2 = getAPI($url2);
 $json_results2 = array();
 $json_results2[] = json_decode($results2,true);
 
+//print_r($json_results2[0]);
 
 foreach($json_results2[0]["items"] as $key => $item) {
     $items[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
 }
+
+
+//print_r($items);
 
 //print_r($json_results2[0]["items"][0]);
 
@@ -391,13 +395,15 @@ for( $i=0; $i<=5;$i++) {
             $items_next[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
             $items_next[$key]["kind"] = $items[$key]["kind"]; // update "kind" value to reflect playlist genre
     }
+
+    //print_r($items_next);
+
     //print_r($json_results_next[$i]["items"]); 
     $items =  array_merge($items,$items_next);
     $nextPage = $json_results_next[$i]["nextPageToken"];
     }
 }
 
-    //$items =  array_merge($items,$pitems);
 
 
 usort($items, function($a, $b) { //Sort the array using a user defined function
@@ -406,7 +412,7 @@ usort($items, function($a, $b) { //Sort the array using a user defined function
 
 $json_return = json_encode($items);  // encode PHP array as JSON
 
-//print_r($items);
+
 //print_r($json_results[0]);
 
 print_r($json_return);
