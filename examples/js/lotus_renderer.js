@@ -89,8 +89,8 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
     k = (i * interval )+ 10;
     link_order.push([k]);
   }
-  for (var h = 0; h < 10; h++) {
-    for (var j = 0; j < 5; j++) {
+  for (var h = 0; h < 9; h++) {
+    for (var j = 0; j < 8; j++) {
       k = link_order[j];
       k1 = k - 2 - h;
       k2 = k - (-1) + h;
@@ -485,7 +485,7 @@ function getData() //processes JSON data and returns arrays for 5 main variables
 
   xmlhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
-    console.log('FOO'+this.response);
+    //console.log('FOO'+this.response);
     //myObj = JSON.parse(this.response);
     //myObj = this.response;
     var entries = this.response;
@@ -497,12 +497,12 @@ function getData() //processes JSON data and returns arrays for 5 main variables
         //var vid = playerUrl.split(':').pop();
         //var song_name = song.id.videoId;
   var song_name = song.snippet.resourceId.videoId;
-  var popularity = song.statistics.viewCount;
+  //var popularity = song.statistics.viewCount;
   song_names.push([song_name]);
         video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
         video_titles[video_titles.length] = song.snippet.title;
-  console.log(song.snippet.title);
-  console.log(popularity);
+  //console.log(song.snippet.title);
+  //console.log(popularity);
   console.log(song.kind);
      }
      }
@@ -557,16 +557,15 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
 */
       active_links.push(song_index);
     }
-    console.log(active_links);
+    //console.log(active_links);
 
 }
 
+//console.log(link_order);
 
 function addLinks() {  //adds links for selected values
 
-  link_order_length = link_order.length
-
-for (i = 0; i < link_order_length; i++) {
+for (i = 0; i < link_order.length; i++) {
 
     if (active_links.includes(i)) {
 
@@ -655,9 +654,8 @@ for (i = 0; i < link_order_length; i++) {
       k = obj.label
       l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
       var URL = "https://www.youtube.com/embed/" + song_names[l] + "?autoplay=1&mute=1"
-      console.log(song_names[l])
-      console.log(URL);
-      //console.log(song_change_1h[l])
+      //console.log(song_names[l])
+      //console.log(URL);
       window.open(URL, 'iframe_a')
        //player.cueVideoById(song_names[l][1]);
     }
