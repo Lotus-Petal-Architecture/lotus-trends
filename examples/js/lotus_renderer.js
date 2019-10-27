@@ -313,7 +313,9 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_
     var geometry = new THREE.TubeGeometry(link_curve, 64, 0.004, 8, false)
     var material = new THREE.MeshBasicMaterial({ color: color_code })
     var object = new THREE.Mesh(geometry, material)
+    //object.visible = true
     material.transparent = true
+    material.opacity = .5
     object.label = k
     parentTransform.add(object)
   }
@@ -466,11 +468,31 @@ drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 
 group.position.set( 0, -.24, .75 );
 
-/*
-console.log(curves);
-var outlier = curves[287];
-outlier.material.color.setHex( 0xFF0000 );
-*/
+
+/*console.log(curves);
+var object = curves[287];
+object.material.color.setHex( 0xFF0000 );
+//object.label = 287
+//parentTransform.add(object);
+
+var outlier2 = curves[286];
+outlier2.material.color.setHex( 0xFF0000 );
+//parentTransform.add(outlier2);*/
+
+/*var k = 30;
+        invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        0xe45e9d
+      )*/
+
 
 
 function getData() //processes JSON data and returns arrays for 5 main variables
@@ -498,7 +520,11 @@ function getData() //processes JSON data and returns arrays for 5 main variables
         //var song_name = song.id.videoId;
   var song_name = song.snippet.resourceId.videoId;
   var popularity = song.statistics.viewCount;
+  var genre = song.kind;
+  //if (genre == "rock")
+  //{
   song_names.push([song_name]);
+        //}
         //video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
         //video_titles[video_titles.length] = song.snippet.title;
   console.log(song.snippet.title);
@@ -518,6 +544,8 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
 
     console.log(song_names);
 
+    var active_array = song_names;
+
 /*  
     if (song_change_time == "1h") 
       {
@@ -534,7 +562,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
         var active_array = song_change_1w;
       }
 */
-    var f = song_names.entries(); 
+    var f = active_array.entries(); 
 
     for (x of f) {
       var song_value = x[1];
@@ -636,6 +664,19 @@ for (i = 0; i < link_order.length; i++) {
     if (intersects.length > 0) {
       sphereInter.visible = true
       sphereInter.position.copy(intersects[0].point)
+      /*var k = 30;
+        invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        0xe45e9d
+      )*/
     } else {
       sphereInter.visible = false
     }
