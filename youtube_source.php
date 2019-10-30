@@ -27,57 +27,112 @@ function getAPI($u) {
 }
 
 
-// YouTube v3 API playlistItems call 
+$genre = "rock";
+$playlistId = array();
+$playlistId = ['PLEuUPYukC_M5osNiNN4y62zGvkjDkL9ep','PLEuUPYukC_M4WeZutOSk12nwgNHMXl8LK']; 
+
+
+// YouTube v3 API playlistItems call - 
+
+$items = array();
 
 //for( $i=0; $i<=1;$i++) {
 
-//echo ($vid_ids);
+$url = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet';
+$url .= '&playlistId='.$playlistId[0];
+$url .= '&order=viewCount&maxResults=50';
+$url .= '&key='.$apikey;
 
-
-// YouYube v3 statistics call
-$url = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=OqeKV2UYq1Q,ksTFj6L0mao,E5H8DwJI0uA,qR9DjdMrpHg,zJXQSBWO5Qc,wcICuFnkxe4,pB08AUiTP3w,vZA_7FtttRY,cgr8e7da52o,MbxRu7fwR24,6r1-HTiwGiY,TpLhrLzSaFQ,HwgNMrs-i80,QJu611UdfxA,pO3_ZG7wJPc";    
-$url .= "&key=".$apikey;
-
-$results = getAPI($url);
+$results.= getAPI($url);
 $json_results = array();
 $json_results[] = json_decode($results,true); // decode API JSON to PHP array
 $items = array(); 
 $items = $json_results[0]["items"];  // save playlist items to items array
 
-// YouYube v3 statistics call
-$url1 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=OqeKV2UYq1Q,ksTFj6L0mao,E5H8DwJI0uA,qR9DjdMrpHg,zJXQSBWO5Qc,wcICuFnkxe4,pB08AUiTP3w,vZA_7FtttRY,cgr8e7da52o,MbxRu7fwR24,6r1-HTiwGiY,TpLhrLzSaFQ,HwgNMrs-i80,QJu611UdfxA,pO3_ZG7wJPc";    
-$url1 .= "&key=".$apikey;
+foreach($items as $item) {
+         $vid_ids .= '"'.$item["snippet"]["resourceId"]["videoId"].'",'; // get string of videoIds 
+}
 
-$results1 = getAPI($url1);
-$json_results1 = array();
-$json_results1[] = json_decode($results1,true); // decode API JSON to PHP array
-$items_a = array(); 
-$items_a = $json_results1[0]["items"];  // save playlist items to items array
+//$vid_ids = rtrim($vid_ids, ','); // remove final comma
 
 
-$items =  array_merge($items,$items_a);
+
 
 // YouYube v3 statistics call
-
-$url2 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=OqeKV2UYq1Q,ksTFj6L0mao,E5H8DwJI0uA,qR9DjdMrpHg,zJXQSBWO5Qc,wcICuFnkxe4,pB08AUiTP3w,vZA_7FtttRY,cgr8e7da52o,MbxRu7fwR24,6r1-HTiwGiY,TpLhrLzSaFQ,HwgNMrs-i80,QJu611UdfxA,pO3_ZG7wJPc";    
+$url2 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=".$vid_ids;    
 $url2 .= "&key=".$apikey;
 
 $results2 = getAPI($url2);
 $json_results2 = array();
-$json_results2[] = json_decode($results2,true); // decode API JSON to PHP array
-$items_b = array(); 
-$items_b = $json_results2[0]["items"];  // save playlist items to items array
+$json_results2[] = json_decode($results2,true);
 
+foreach($json_results2[0]["items"] as $key => $item) {
+    $items[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
+    $items[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
+}
 
-$items =  array_merge($items,$items_b);
+$nextPage = $json_results[0]["nextPageToken"]; 
+
+// Loop through nextPage queries for 50 items
+for( $i=0; $i<=5;$i++) {
+    if($nextPage != '') {
+        $urlnext = $url."&pageToken=".$nextPage; // create URL with nextpageToken
+        $results_next = getAPI($urlnext); // get nextPage results
+    $json_results_next[] = json_decode($results_next,true);
+    $items_next = array();
+    $items_next = $json_results_next[$i]["items"];
+
+    $j = $i + 1;  // counter for nextPage results array index
+
+    //$vid_ids = '';  
+    foreach($items_next as $item) {
+           $vid_ids .= '"'.$item["snippet"]["resourceId"]["videoId"].'",'; // get string of videoIds 
+    }
+
+    //$vid_ids = rtrim($vid_ids, ','); // remove final comma  
+
+    //echo "ROCK: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$vid_ids."<br><br>";
+
+    //print_r($vid_ids);
+
+    //echo '<br><br>';
+
+    $url2 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=".$vid_ids;
+    $url2 .= "&key=".$apikey;
+
+    $results_next2 = getAPI($url2);
+    $json_results_next2 = array();
+    $json_results_next2[] = json_decode($results_next2,true);
+
+    //print_r($json_results_next2[0]);
+
+    //echo '<br><br>';
+
+    //print_r($json_results_next2[0]["items"]);
+
+    foreach($json_results_next2[0]["items"] as $key => $item) {
+            $items_next[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
+            $items_next[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
+    }
+
+    //print_r($items_next);
+
+    $items =  array_merge($items,$items_next);
+    $nextPage = $json_results_next[$i]["nextPageToken"];
+    }
+}
+
+//end "Loop"
 
 // YouTube v3 API playlistItems call - 
 
-// YouTube v3 API playlistItems call - 
 
+$genre = "punk";
 
-$url3 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=8Ux6UnYOLvk,CyDHTJCIfHQ,AwkDVMr4Kso,0Jpqb5IYlEE,l5JhD4wKsrs,8BhdoriXe9Q,KLgWHoGLDx4,iv0ej8cJScM,kXFGQYGFeFU,LEKxlNbjgmE,KYhsehUH5b0,kYKcf7EWEfc,DElGhE2NhtQ,j0iohXlRXKA,_oQIIAdG8xM,Ys4YGRN8hgY,Duot03grNv8,2bHvzuupe4w,FxdnqfyvIkY,Y6BeTnjUqlo,cwHmeFidLbE,hPsdjlPVaJU,0deHAT_KOqE,YypAGqIBrX0,s_vgHgIKPQs,JOUmxw0DPsg,LesJtYAG8zM,pCgEUBf5y18,4qljGaHJbCs,FNFYq8O7DTY,cr5uFjA4TNI,VTd4JCIqL7U,OFOowKu7WjA,_ZydMszfZlQ,LJbtcit8Byg,Hu0wknFNTOk,rFP4gxn_uME,cQhGxSge7aA,5SeI6r8lI_U,WWWKRqzvxMg,LS7KFVYUQT4,uS1PyjaR8WM,LH7XPoWPz-4,hBF8YGF17rQ,0nt2Yn1M0oU";    
-$url3 .= "&key=".$apikey;
+$url3 = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet';
+$url3 .= '&playlistId='.$playlistId[1];
+$url3 .= '&order=viewCount&maxResults=50';
+$url3 .= '&key='.$apikey;
 
 $results3.= getAPI($url3);
 $json_results3 = array();
@@ -85,140 +140,21 @@ $json_results3[] = json_decode($results3,true); // decode API JSON to PHP array
 $items_c = array(); 
 $items_c = $json_results3[0]["items"];  // save playlist items to items array
 
-$items =  array_merge($items,$items_c);
-
-// YouTube v3 API playlistItems call - 
-
-$url4 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=VZu1Z0oeFzo,_S0esU0n6sY,pOYN1p4Rc6o,mfA9K1hj2eg,OLTeVRvPq04";    
-$url4 .= "&key=".$apikey;
-
-$results4.= getAPI($url4);
-$json_results4 = array();
-$json_results4[] = json_decode($results4,true); // decode API JSON to PHP array
-$items_d = array(); 
-$items_d = $json_results4[0]["items"];  // save playlist items to items array
-
-$items =  array_merge($items,$items_d);
-
-// YouTube v3 API playlistItems call - 
-
-
-$url5 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=VZu1Z0oeFzo,_S0esU0n6sY,pOYN1p4Rc6o,mfA9K1hj2eg,OLTeVRvPq04";    
-$url5 .= "&key=".$apikey;
-
-$results5.= getAPI($url5);
-$json_results5 = array();
-$json_results5[] = json_decode($results5,true); // decode API JSON to PHP array
-$items_e = array(); 
-$items_e = $json_results5[0]["items"];  // save playlist items to items array
-
-$items =  array_merge($items,$items_e);
-
-// YouTube v3 API playlistItems call - 
-
-
-$url6 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=8Ux6UnYOLvk,CyDHTJCIfHQ,AwkDVMr4Kso,0Jpqb5IYlEE,l5JhD4wKsrs,8BhdoriXe9Q,KLgWHoGLDx4,iv0ej8cJScM,kXFGQYGFeFU,LEKxlNbjgmE,KYhsehUH5b0,kYKcf7EWEfc,DElGhE2NhtQ,j0iohXlRXKA,_oQIIAdG8xM,Ys4YGRN8hgY,Duot03grNv8,2bHvzuupe4w,FxdnqfyvIkY,Y6BeTnjUqlo,cwHmeFidLbE,hPsdjlPVaJU,0deHAT_KOqE,YypAGqIBrX0,s_vgHgIKPQs,JOUmxw0DPsg,LesJtYAG8zM,pCgEUBf5y18,4qljGaHJbCs,FNFYq8O7DTY,cr5uFjA4TNI,VTd4JCIqL7U,OFOowKu7WjA,_ZydMszfZlQ,LJbtcit8Byg,Hu0wknFNTOk,rFP4gxn_uME,cQhGxSge7aA,5SeI6r8lI_U,WWWKRqzvxMg,LS7KFVYUQT4,uS1PyjaR8WM,LH7XPoWPz-4,hBF8YGF17rQ,0nt2Yn1M0oU";    
-$url6 .= "&key=".$apikey;
-
-$results6.= getAPI($url6);
-$json_results6 = array();
-$json_results6[] = json_decode($results6,true); // decode API JSON to PHP array
-$items_f = array(); 
-$items_f = $json_results6[0]["items"];  // save playlist items to items array
-
-$items =  array_merge($items,$items_f);
-
-// YouTube v3 API playlistItems call - 
-
-
-$url7 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=8Ux6UnYOLvk,CyDHTJCIfHQ,AwkDVMr4Kso,0Jpqb5IYlEE,l5JhD4wKsrs,8BhdoriXe9Q,KLgWHoGLDx4,iv0ej8cJScM,kXFGQYGFeFU,LEKxlNbjgmE,KYhsehUH5b0,kYKcf7EWEfc,DElGhE2NhtQ,j0iohXlRXKA,_oQIIAdG8xM,Ys4YGRN8hgY,Duot03grNv8,2bHvzuupe4w,FxdnqfyvIkY,Y6BeTnjUqlo,cwHmeFidLbE,hPsdjlPVaJU,0deHAT_KOqE,YypAGqIBrX0,s_vgHgIKPQs,JOUmxw0DPsg,LesJtYAG8zM,pCgEUBf5y18,4qljGaHJbCs,FNFYq8O7DTY,cr5uFjA4TNI,VTd4JCIqL7U,OFOowKu7WjA,_ZydMszfZlQ,LJbtcit8Byg,Hu0wknFNTOk,rFP4gxn_uME,cQhGxSge7aA,5SeI6r8lI_U,WWWKRqzvxMg,LS7KFVYUQT4,uS1PyjaR8WM,LH7XPoWPz-4,hBF8YGF17rQ,0nt2Yn1M0oU";    
-$url7 .= "&key=".$apikey;
-
-$results7.= getAPI($url7);
-$json_results7 = array();
-$json_results7[] = json_decode($results7,true); // decode API JSON to PHP array
-$items_g = array(); 
-$items_g = $json_results7[0]["items"];  // save playlist items to items array
-
-$items =  array_merge($items,$items_g);
-
-
-// YouTube v3 API playlistItems call - 
-
-
-$url8 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=8Ux6UnYOLvk,CyDHTJCIfHQ,AwkDVMr4Kso,0Jpqb5IYlEE,l5JhD4wKsrs,8BhdoriXe9Q,KLgWHoGLDx4,iv0ej8cJScM,kXFGQYGFeFU,LEKxlNbjgmE,KYhsehUH5b0,kYKcf7EWEfc,DElGhE2NhtQ,j0iohXlRXKA,_oQIIAdG8xM,Ys4YGRN8hgY,Duot03grNv8,2bHvzuupe4w,FxdnqfyvIkY,Y6BeTnjUqlo,cwHmeFidLbE,hPsdjlPVaJU,0deHAT_KOqE,YypAGqIBrX0,s_vgHgIKPQs,JOUmxw0DPsg,LesJtYAG8zM,pCgEUBf5y18,4qljGaHJbCs,FNFYq8O7DTY,cr5uFjA4TNI,VTd4JCIqL7U,OFOowKu7WjA,_ZydMszfZlQ,LJbtcit8Byg,Hu0wknFNTOk,rFP4gxn_uME,cQhGxSge7aA,5SeI6r8lI_U,WWWKRqzvxMg,LS7KFVYUQT4,uS1PyjaR8WM,LH7XPoWPz-4,hBF8YGF17rQ,0nt2Yn1M0oU";    
-$url8 .= "&key=".$apikey;
-
-$results8.= getAPI($url8);
-$json_results8 = array();
-$json_results8[] = json_decode($results8,true); // decode API JSON to PHP array
-$items_h = array(); 
-$items_h = $json_results8[0]["items"];  // save playlist items to items array
-
-$items =  array_merge($items,$items_h);
-
-// YouTube v3 API playlistItems call - 
-
-
-$url9 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=8Ux6UnYOLvk";    
-$url9 .= "&key=".$apikey;
-
-$results9.= getAPI($url9);
-$json_results9 = array();
-$json_results9[] = json_decode($results9,true); // decode API JSON to PHP array
-$items_i = array(); 
-$items_i = $json_results9[0]["items"];  // save playlist items to items array
-
-$items =  array_merge($items,$items_i);
-
-// YouTube v3 API playlistItems call - 
-
-
-$url10 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=8Ux6UnYOLvk";    
-$url10 .= "&key=".$apikey;
-
-$results10.= getAPI($url10);
-$json_results10 = array();
-$json_results10[] = json_decode($results10,true); // decode API JSON to PHP array
-$items_j = array(); 
-$items_j = $json_results10[0]["items"];  // save playlist items to items array
-
-$items =  array_merge($items,$items_j);
-
-// YouTube v3 API playlistItems call - 
-
-
-$url11 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=8Ux6UnYOLvk,CyDHTJCIfHQ,AwkDVMr4Kso,0Jpqb5IYlEE,l5JhD4wKsrs,8BhdoriXe9Q,KLgWHoGLDx4,iv0ej8cJScM,kXFGQYGFeFU,LEKxlNbjgmE,KYhsehUH5b0,kYKcf7EWEfc,DElGhE2NhtQ,j0iohXlRXKA,_oQIIAdG8xM,Ys4YGRN8hgY,Duot03grNv8,2bHvzuupe4w,FxdnqfyvIkY,Y6BeTnjUqlo,cwHmeFidLbE,hPsdjlPVaJU,0deHAT_KOqE,YypAGqIBrX0,s_vgHgIKPQs,JOUmxw0DPsg,LesJtYAG8zM,pCgEUBf5y18,4qljGaHJbCs,FNFYq8O7DTY,cr5uFjA4TNI,VTd4JCIqL7U,OFOowKu7WjA,_ZydMszfZlQ,LJbtcit8Byg,Hu0wknFNTOk,rFP4gxn_uME,cQhGxSge7aA,5SeI6r8lI_U,WWWKRqzvxMg,LS7KFVYUQT4,uS1PyjaR8WM,LH7XPoWPz-4,hBF8YGF17rQ,0nt2Yn1M0oU";    
-$url11 .= "&key=".$apikey;
-
-$results11.= getAPI($url11);
-$json_results11 = array();
-$json_results11[] = json_decode($results11,true); // decode API JSON to PHP array
-$items_k = array(); 
-$items_k = $json_results11[0]["items"];  // save playlist items to items array
-
-$items =  array_merge($items,$items_k);
-
-// YouTube v3 API playlistItems call - 
-
-
-$url12 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=8Ux6UnYOLvk,CyDHTJCIfHQ,AwkDVMr4Kso,0Jpqb5IYlEE,l5JhD4wKsrs,8BhdoriXe9Q,KLgWHoGLDx4,iv0ej8cJScM,kXFGQYGFeFU,LEKxlNbjgmE,KYhsehUH5b0,kYKcf7EWEfc,DElGhE2NhtQ,j0iohXlRXKA,_oQIIAdG8xM,Ys4YGRN8hgY,Duot03grNv8,2bHvzuupe4w,FxdnqfyvIkY,Y6BeTnjUqlo,cwHmeFidLbE,hPsdjlPVaJU,0deHAT_KOqE,YypAGqIBrX0,s_vgHgIKPQs,JOUmxw0DPsg,LesJtYAG8zM,pCgEUBf5y18,4qljGaHJbCs,FNFYq8O7DTY,cr5uFjA4TNI,VTd4JCIqL7U,OFOowKu7WjA,_ZydMszfZlQ,LJbtcit8Byg,Hu0wknFNTOk,rFP4gxn_uME,cQhGxSge7aA,5SeI6r8lI_U,WWWKRqzvxMg,LS7KFVYUQT4,uS1PyjaR8WM,LH7XPoWPz-4,hBF8YGF17rQ,0nt2Yn1M0oU";    
-$url12 .= "&key=".$apikey;
-
-$results12.= getAPI($url12);
-$json_results12 = array();
-$json_results12[] = json_decode($results12,true); // decode API JSON to PHP array
-$items_l = array(); 
-$items_l = $json_results12[0]["items"];  // save playlist items to items array
-
-$items =  array_merge($items,$items_l);
-/*
-$vid_ids = '';  
+$punk_ids = '';  
 foreach($items_c as $item) {
-         $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
+         $punk_ids .= '"'.$item["snippet"]["resourceId"]["videoId"].'",'; // get string of videoIds 
 }
 
-$vid_ids = rtrim($vid_ids, ','); // remove final comma  
+$punk_ids = rtrim($punk_ids, ','); // remove final comma  
+//echo "PUNK: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$punk_ids."<br><br>";
+
+
+$all .= $vid_ids.$punk_ids;
+
+$all = str_replace('","',',',$all);
+
+
+echo "ALL:".$all."<br><br>";
 
 //print_r($vid_ids);
 
@@ -615,7 +551,7 @@ $items = array_merge($items,$items_a);
 //print_r($items);
 
 //print_r($json_results2[0]["items"][0]);
-*/
+
 
 usort($items, function($a, $b) { //Sort the array using a user defined function
     return $a["statistics"]["viewCount"] > $b["statistics"]["viewCount"] ? -1 : 1; //Compare the scores
@@ -628,7 +564,7 @@ $json_return = json_encode($items);  // encode PHP array as JSON
 
 //print_r($json_results[0]);
 
-print_r($json_return);
+//print_r($json_return);
 
 
 

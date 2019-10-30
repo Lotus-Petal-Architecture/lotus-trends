@@ -54,15 +54,10 @@ var r = 100,
   var song_names = [] //list of youtube videos. uses the same index ranking as link_order
   var video_titles = []
   var video_thmbs = []
-  var song_prices = []
-  var song_change_24h = []
-  var song_change_1h = []
-  var song_change_1w = []
-  var volume = []
-  var market_cap = []
-  var cap_rank = []
   var curves = [];
   var xmlhttp = new XMLHttpRequest()
+
+  var rockgenre = ["OqeKV2UYq1Q","ksTFj6L0mao","E5H8DwJI0uA","qR9DjdMrpHg","zJXQSBWO5Qc","wcICuFnkxe4","pB08AUiTP3w","vZA_7FtttRY","cgr8e7da52o","MbxRu7fwR24","6r1-HTiwGiY","TpLhrLzSaFQ","HwgNMrs-i80","QJu611UdfxA","pO3_ZG7wJPc","sSCb-a2McRI","yyayVIXwg74","TkIloV7OMAk","xRFTYRXS3aw","1WaMgWUiYg0","wsF4TVHr42A","trZ244Ih_E4","iG8D1Kb7xgQ","EIpzPVAHpVg","WGnqoZx7_QY","n7zyfArxibk","UNUmSwWq-LU","Rh2YmGujtFI","PE1ges9nn6A","K_5lt23PRVs","DCI5XqT-AZs","QAhMakentwA","aUfu-lEflbQ","YbP-Aa3V6bA","t7Pv3eZEy4k","VZu1Z0oeFzo","_S0esU0n6sY","pOYN1p4Rc6o","mfA9K1hj2eg","OLTeVRvPq04","0_GeShK7aaY","U3iWpewLuyA","ull6hOYs5ZY","Palxbwco9pM","MP8Fd0mN50E","5AHz8HeDk3c","skvGTkW-qG4","-dJXBCBZwQg","aCgTgyBBswA","HcB7ZnkMnB8","DHXYSbs6Rb0","zClCsQnRj-c","yHNB4m1dfKE","4fr8k6O-Bko","w_otXEVPgOk","q-XpcMTnB-A","bU2WUSEC6PY","rQfs5UTzwFQ","8Ux6UnYOLvk","CyDHTJCIfHQ","AwkDVMr4Kso","0Jpqb5IYlEE","l5JhD4wKsrs","8BhdoriXe9Q","KLgWHoGLDx4","iv0ej8cJScM","kXFGQYGFeFU","LEKxlNbjgmE","KYhsehUH5b0","kYKcf7EWEfc","DElGhE2NhtQ","j0iohXlRXKA","_oQIIAdG8xM","Ys4YGRN8hgY","Duot03grNv8","2bHvzuupe4w","FxdnqfyvIkY","Y6BeTnjUqlo","cwHmeFidLbE"];
 
 
 
@@ -518,18 +513,12 @@ function getData() //processes JSON data and returns arrays for 5 main variables
         //var playerUrl = entry.id.$t;
         //var vid = playerUrl.split(':').pop();
         //var song_name = song.id.videoId;
-  var song_name = song.snippet.resourceId.videoId;
-  var popularity = song.statistics.viewCount;
-  var genre = song.kind;
-  //if (genre == "rock")
-  //{
+  var song_name = song.id;
+  //var popularity = song.statistics.viewCount;
+  //var genre = song.kind;
   song_names.push([song_name]);
-        //}
         //video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
         //video_titles[video_titles.length] = song.snippet.title;
-  console.log(song.snippet.title);
-  console.log(popularity);
-  console.log(song.kind);
      }
      }
   }
@@ -565,8 +554,19 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
     var f = active_array.entries(); 
 
     for (x of f) {
-      var song_value = x[1];
+      var song_value = x[1].toString();
       var song_index = x[0];
+
+      //console.log(song_value);
+      //var includes = rockgenre.includes(song_value);
+      //console.log(includes);
+      //console.log(song_value);
+
+      if (rockgenre.includes(song_value))
+      {
+        
+        active_links.push(song_index);
+      }
 /*
       if (volume[song_index] < volume_adj) 
       {
@@ -583,7 +583,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
       active_links2.push(song_index);
       }
 */
-      active_links.push(song_index);
+      //active_links.push(song_index);
     }
     //console.log(active_links);
 
@@ -694,7 +694,7 @@ for (i = 0; i < link_order.length; i++) {
       obj = intersection.object
       k = obj.label
       l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
-      var URL = "https://www.youtube.com/embed/" + song_names[l] + "?autoplay=1&mute=1"
+      var URL = "https://www.youtube.com/embed/" + song_names[l] + "?autoplay=1&mute=0"
       //console.log(song_names[l])
       //console.log(URL);
       window.open(URL, 'iframe_a')
