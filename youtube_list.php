@@ -35,7 +35,7 @@ function getAPI($u) {
 
 
 // YouYube v3 statistics call
-$url = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=OqeKV2UYq1Q,ksTFj6L0mao,E5H8DwJI0uA,qR9DjdMrpHg,zJXQSBWO5Qc,wcICuFnkxe4,pB08AUiTP3w,vZA_7FtttRY,cgr8e7da52o,MbxRu7fwR24,6r1-HTiwGiY,TpLhrLzSaFQ,HwgNMrs-i80,QJu611UdfxA,pO3_ZG7wJPc,sSCb-a2McRI,yyayVIXwg74,TkIloV7OMAk,xRFTYRXS3aw,1WaMgWUiYg0,wsF4TVHr42A,trZ244Ih_E4,iG8D1Kb7xgQ,EIpzPVAHpVg,WGnqoZx7_QY,n7zyfArxibk,UNUmSwWq-LU,Rh2YmGujtFI,PE1ges9nn6A,K_5lt23PRVs,DCI5XqT-AZs,QAhMakentwA,aUfu-lEflbQ,YbP-Aa3V6bA,t7Pv3eZEy4k,VZu1Z0oeFzo,_S0esU0n6sY,pOYN1p4Rc6o,mfA9K1hj2eg,OLTeVRvPq04,0_GeShK7aaY,U3iWpewLuyA,ull6hOYs5ZY,Palxbwco9pM,MP8Fd0mN50E,5AHz8HeDk3c,skvGTkW-qG4,-dJXBCBZwQg,aCgTgyBBswA,HcB7ZnkMnB8";    
+$url = "https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=OqeKV2UYq1Q,ksTFj6L0mao,E5H8DwJI0uA,qR9DjdMrpHg,zJXQSBWO5Qc,wcICuFnkxe4,pB08AUiTP3w,vZA_7FtttRY,cgr8e7da52o,MbxRu7fwR24,6r1-HTiwGiY,TpLhrLzSaFQ,HwgNMrs-i80,QJu611UdfxA,pO3_ZG7wJPc,sSCb-a2McRI,yyayVIXwg74,TkIloV7OMAk,xRFTYRXS3aw,1WaMgWUiYg0,wsF4TVHr42A,trZ244Ih_E4,iG8D1Kb7xgQ,EIpzPVAHpVg,WGnqoZx7_QY,n7zyfArxibk,UNUmSwWq-LU,Rh2YmGujtFI,PE1ges9nn6A,K_5lt23PRVs,DCI5XqT-AZs,QAhMakentwA,aUfu-lEflbQ,YbP-Aa3V6bA,t7Pv3eZEy4k,VZu1Z0oeFzo,_S0esU0n6sY,pOYN1p4Rc6o,mfA9K1hj2eg,OLTeVRvPq04,0_GeShK7aaY,U3iWpewLuyA,ull6hOYs5ZY,Palxbwco9pM,MP8Fd0mN50E,5AHz8HeDk3c,skvGTkW-qG4,-dJXBCBZwQg,aCgTgyBBswA,HcB7ZnkMnB8";    
 $url .= "&key=".$apikey;
 
 $results = getAPI($url);
@@ -45,7 +45,7 @@ $items = array();
 $items = $json_results[0]["items"];  // save playlist items to items array
 
 // YouYube v3 statistics call
-$url1 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=uIP0iIxHLY4,E9yTHSyZeKg,VkavEUCwm0M,rddu5TgrTmE,OqeKV2UYq1Q,ksTFj6L0mao,E5H8DwJI0uA,qR9DjdMrpHg,zJXQSBWO5Qc,wcICuFnkxe4,pB08AUiTP3w,vZA_7FtttRY,cgr8e7da52o,MbxRu7fwR24,6r1-HTiwGiY,TpLhrLzSaFQ,HwgNMrs-i80,QJu611UdfxA,pO3_ZG7wJPc,sSCb-a2McRI,yyayVIXwg74,TkIloV7OMAk,xRFTYRXS3aw,1WaMgWUiYg0,wsF4TVHr42A,trZ244Ih_E4,iG8D1Kb7xgQ,EIpzPVAHpVg,WGnqoZx7_QY,n7zyfArxibk,UNUmSwWq-LU,Rh2YmGujtFI,PE1ges9nn6A,K_5lt23PRVs,DCI5XqT-AZs,QAhMakentwA,aUfu-lEflbQ,YbP-Aa3V6bA,t7Pv3eZEy4k,VZu1Z0oeFzo,_S0esU0n6sY,pOYN1p4Rc6o,mfA9K1hj2eg,OLTeVRvPq04,0_GeShK7aaY,U3iWpewLuyA,ull6hOYs5ZY,Palxbwco9pM,MP8Fd0mN50E,5AHz8HeDk3c";    
+$url1 = "https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=uIP0iIxHLY4,E9yTHSyZeKg,VkavEUCwm0M,rddu5TgrTmE,OqeKV2UYq1Q,ksTFj6L0mao,E5H8DwJI0uA,qR9DjdMrpHg,zJXQSBWO5Qc,wcICuFnkxe4,pB08AUiTP3w,vZA_7FtttRY,cgr8e7da52o,MbxRu7fwR24,6r1-HTiwGiY,TpLhrLzSaFQ,HwgNMrs-i80,QJu611UdfxA,pO3_ZG7wJPc,sSCb-a2McRI,yyayVIXwg74,TkIloV7OMAk,xRFTYRXS3aw,1WaMgWUiYg0,wsF4TVHr42A,trZ244Ih_E4,iG8D1Kb7xgQ,EIpzPVAHpVg,WGnqoZx7_QY,n7zyfArxibk,UNUmSwWq-LU,Rh2YmGujtFI,PE1ges9nn6A,K_5lt23PRVs,DCI5XqT-AZs,QAhMakentwA,aUfu-lEflbQ,YbP-Aa3V6bA,t7Pv3eZEy4k,VZu1Z0oeFzo,_S0esU0n6sY,pOYN1p4Rc6o,mfA9K1hj2eg,OLTeVRvPq04,0_GeShK7aaY,U3iWpewLuyA,ull6hOYs5ZY,Palxbwco9pM,MP8Fd0mN50E,5AHz8HeDk3c";    
 $url1 .= "&key=".$apikey;
 
 $results1 = getAPI($url1);
@@ -59,7 +59,7 @@ $items =  array_merge($items,$items_a);
 
 // YouYube v3 statistics call
 
-$url2 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=skvGTkW-qG4,-dJXBCBZwQg,aCgTgyBBswA,HcB7ZnkMnB8,hPsdjlPVaJU,0deHAT_KOqE,YypAGqIBrX0,s_vgHgIKPQs,JOUmxw0DPsg,LesJtYAG8zM,pCgEUBf5y18,4qljGaHJbCs,FNFYq8O7DTY,cr5uFjA4TNI,VTd4JCIqL7U,OFOowKu7WjA,_ZydMszfZlQ,LJbtcit8Byg,Hu0wknFNTOk,rFP4gxn_uME,cQhGxSge7aA,5SeI6r8lI_U,WWWKRqzvxMg,LS7KFVYUQT4,uS1PyjaR8WM,LH7XPoWPz-4,hBF8YGF17rQ,0nt2Yn1M0oU,K0q6EYTGXXQ,8QcTCIsFJ2Q,";    
+$url2 = "https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=skvGTkW-qG4,-dJXBCBZwQg,aCgTgyBBswA,HcB7ZnkMnB8,hPsdjlPVaJU,0deHAT_KOqE,YypAGqIBrX0,s_vgHgIKPQs,JOUmxw0DPsg,LesJtYAG8zM,pCgEUBf5y18,4qljGaHJbCs,FNFYq8O7DTY,cr5uFjA4TNI,VTd4JCIqL7U,OFOowKu7WjA,_ZydMszfZlQ,LJbtcit8Byg,Hu0wknFNTOk,rFP4gxn_uME,cQhGxSge7aA,5SeI6r8lI_U,WWWKRqzvxMg,LS7KFVYUQT4,uS1PyjaR8WM,LH7XPoWPz-4,hBF8YGF17rQ,0nt2Yn1M0oU,K0q6EYTGXXQ,8QcTCIsFJ2Q,";    
 $url2 .= "&key=".$apikey;
 
 $results2 = getAPI($url2);
@@ -76,7 +76,7 @@ $items =  array_merge($items,$items_b);
 // YouTube v3 API playlistItems call - 
 
 
-$url3 = "https://www.googleapis.com/youtube/v3/videos?part=statistics&snippet&id=E7fzUGR8ZH4,pnfryoGog0A,Cqp-hL-I90A,YGv-OSvQwKY,IbE4ynQd_qQ,yQYu51hlkLk,w39qx5X_Owg,gK04XhlTLOM,XMUxca7gXv4,iLilpPtY2JU,X9BWRh92ifs,srwAMHbHVAE,yntvBrlZNeA,_P63qccOdzs,7hneF9Iu71g,Cg4c0RA2DJQ,uA4RNW3HkcQ,WJi9MXfl3zA,c-kLsqvD6q8,3MfJ9qMXBVQ,fPEoI43MMhs,3jWQzkoPFTg,c8H7Anvad6E,KqXN_5G_kuo,rVqIhE53D_w,9x6Mxs5DyxI,weW-VnINl-E,bS22uZHDr54,gahV15Oe9Xs,Bm1g5Yg0hUw,OCVgWq9B_HE,GiZHmwzNAqE,vtS54c9sP0U";    
+$url3 = "https://www.googleapis.com/youtube/v3/videos?part=statistics,snippet&id=E7fzUGR8ZH4,pnfryoGog0A,Cqp-hL-I90A,YGv-OSvQwKY,IbE4ynQd_qQ,yQYu51hlkLk,w39qx5X_Owg,gK04XhlTLOM,XMUxca7gXv4,iLilpPtY2JU,X9BWRh92ifs,srwAMHbHVAE,yntvBrlZNeA,_P63qccOdzs,7hneF9Iu71g,Cg4c0RA2DJQ,uA4RNW3HkcQ,WJi9MXfl3zA,c-kLsqvD6q8,3MfJ9qMXBVQ,fPEoI43MMhs,3jWQzkoPFTg,c8H7Anvad6E,KqXN_5G_kuo,rVqIhE53D_w,9x6Mxs5DyxI,weW-VnINl-E,bS22uZHDr54,gahV15Oe9Xs,Bm1g5Yg0hUw,OCVgWq9B_HE,GiZHmwzNAqE,vtS54c9sP0U";    
 $url3 .= "&key=".$apikey;
 
 $results3.= getAPI($url3);

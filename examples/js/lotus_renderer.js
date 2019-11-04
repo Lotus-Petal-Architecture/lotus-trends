@@ -305,7 +305,7 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_
     var object = new THREE.Mesh(geometry, material)
     //object.visible = true
     material.transparent = true
-    material.opacity = .5
+    material.opacity = .45
     object.label = k
     parentTransform.add(object)
   }
@@ -509,8 +509,11 @@ function getData() //processes JSON data and returns arrays for 5 main variables
         //var vid = playerUrl.split(':').pop();
         //var song_name = song.id.videoId;
   var song_name = song.id;
-  //var popularity = song.statistics.viewCount;
-  //var genre = song.kind;
+  var popularity = song.statistics.viewCount;
+  var song_title = song.snippet.title;
+  console.log(song_name);
+  console.log(popularity);
+  console.log(song_title);
   song_names.push([song_name]);
         //video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
         //video_titles[video_titles.length] = song.snippet.title;
@@ -619,7 +622,7 @@ for (i = 0; i < link_order.length; i++) {
     if (active_links2.includes(i)) {
 
       var k = link_order[i];
-      var color_code = 0xffca85;
+      var color_code = 0xe45e9d;
 
       invisibleSpaghetti(
         k,
@@ -638,7 +641,7 @@ for (i = 0; i < link_order.length; i++) {
     if (active_links3.includes(i)) {
 
       var k = link_order[i];
-      var color_code = 0xffffff;
+      var color_code = 0xe45e9d;
 
       invisibleSpaghetti(
         k,
@@ -659,6 +662,84 @@ for (i = 0; i < link_order.length; i++) {
   }
 }
 
+//console.log(link_order);
+
+function addrockLinks() {  //adds links for selected values
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (active_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0xe45e9d;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code
+      )
+    }
+  }
+}
+
+function addpunkLinks() {  //adds links for selected values
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (active_links2.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0x32cd32;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code
+      )
+    }
+  }
+}
+
+
+function addpopLinks() {  //adds links for selected values
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (active_links3.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0xffffff;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code
+      )
+    }
+  }
+}
+
 
 
 
@@ -676,6 +757,20 @@ for (i = 0; i < link_order.length; i++) {
   document.addEventListener('mousemove', onDocumentMouseMove, false)
   window.addEventListener('click', onMouseClick, false)
   window.addEventListener('resize', onWindowResize, false)
+
+            // EVENTS
+
+  document.getElementById( "rock" ).addEventListener( 'click', function () {
+          addrockLinks();
+        }, false );
+  
+  document.getElementById( "punk" ).addEventListener( 'click', function () {
+          addpunkLinks();
+        }, false );
+  
+  document.getElementById( "pop" ).addEventListener( 'click', function () {
+          addpopLinks();
+        }, false );
   
   function onDocumentMouseMove (event) {
     event.preventDefault()
@@ -723,6 +818,10 @@ for (i = 0; i < link_order.length; i++) {
        //player.cueVideoById(song_names[l][1]);
     }
   }
+
+
+
+
 
   function onWindowResize () {
     camera.aspect = window.innerWidth / window.innerHeight
