@@ -28,7 +28,6 @@ var r = 100,
   controls.maxPolarAngle = Math.PI / 2
   //controls.addEventListener( 'change', () => renderer.render( scene, camera ) );
 
-
   var light = new THREE.PointLight(0xffffff)
   light.position.set(-100, 200, 100)
   scene.add(light)
@@ -69,7 +68,6 @@ init()
 function init () {
   container = document.createElement('div')
   document.body.appendChild(container)
-
 
 function assignLinks () //this assigns k values to the ranked link ids, so that the highest values occur at the highest chart points for each concentric ring.
 

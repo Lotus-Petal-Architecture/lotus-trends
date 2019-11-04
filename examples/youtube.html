@@ -15,17 +15,26 @@
 	text-align: center;
 	z-index: 100;
 	font-weight: bold;
+	font-family: sans-serif;
 	display:block;
 }
 		</style>
+		<link rel='stylesheet' id='storefront-fonts-css'  href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,300italic,400italic,700,900&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
 	
 	</head>
 	<body>
-		<div id="info"></div>
+		<div id="info">
+			Welcome to the Lotus.fm 400! Click the chart lines to hear a song.<br/>
+			<strong>Genres: </strong>
+			<button id="color">rock</button>
+			<button id="font">punk</button>
+			<button id="weight">pop</button>
+			<br/>
+		</div>
 		<script src="../build/three.js"></script>
 		<script src="js/controls/OrbitControls.js"></script>
 		<script src="js/libs/stats.min.js"></script>
-		<script src="js/libs/dat.gui.module.js"></script>
+		<script src="js/libs/dat.gui.min.js"></script>
 		<script src="js/lotus_renderer.js"></script>
 
 
