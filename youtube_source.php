@@ -78,6 +78,8 @@ for( $i=0; $i<=5;$i++) {
 
 //echo $vid_ids;
 
+    $rock_ids = $vid_ids.$rock_ids;
+
     //$vid_ids = rtrim($vid_ids, ','); // remove final comma  
 
     //print_r($items_next);
@@ -86,7 +88,6 @@ for( $i=0; $i<=5;$i++) {
     }
 }
 
-$rock_ids .= $vid_ids.$rock_ids;
 echo "ROCK: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$rock_ids."<br><br>";
 
 
@@ -144,12 +145,10 @@ echo "POP: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$pop_ids."<br><br>";
 
 $items = array_merge($items,$items_d);
 
-$all .= $rock_ids.$punk_ids.$pop_ids;
 
-$all = str_replace('","',',',$all);
+// ---- Format for direct copy and paste into YouTube API Query
 
-
-echo "ALL:".$all."<br><br>";
+//$all = str_replace('","',',',$all); 
 
 
 //  ------
@@ -167,24 +166,12 @@ $json_results5[] = json_decode($results5,true); // decode API JSON to PHP array
 $items_e = array(); 
 $items_e = $json_results5[0]["items"];  // save playlist items to items array
 
-$vid_ids = '';  
+$country_ids = '';  
 foreach($items_e as $item) {
-         $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
+         $country_ids .= '"'.$item["snippet"]["resourceId"]["videoId"].'",'; // get string of videoIds 
 }
 
-$vid_ids = rtrim($vid_ids, ','); // remove final comma  
-
-$url5a = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=".$vid_ids;
-$url5a.= "&key=".$apikey2;
-
-$results_5a = getAPI($url5a);
-$json_results_5a = array();
-$json_results_5a[] = json_decode($results_5a,true);
-
-foreach($json_results_5a[0]["items"] as $key => $item) {
-            $items_e[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
-            $items_e[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
-}
+echo "COUNTRY: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$country_ids."<br><br>";  
 
 $items = array_merge($items,$items_e);
 
@@ -203,24 +190,14 @@ $json_results6[] = json_decode($results6,true); // decode API JSON to PHP array
 $items_f = array(); 
 $items_f = $json_results6[0]["items"];  // save playlist items to items array
 
-$vid_ids = '';  
+$funk_ids = '';  
 foreach($items_f as $item) {
-         $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
+         $funk_ids .= '"'.$item["snippet"]["resourceId"]["videoId"].'",'; // get string of videoIds 
 }
 
-$vid_ids = rtrim($vid_ids, ','); // remove final comma  
+//$vid_ids = rtrim($vid_ids, ','); // remove final comma  
 
-$url6a = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=".$vid_ids;
-$url6a.= "&key=".$apikey3;
-
-$results_6a = getAPI($url6a);
-$json_results_6a = array();
-$json_results_6a[] = json_decode($results_6a,true);
-
-foreach($json_results_6a[0]["items"] as $key => $item) {
-            $items_f[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
-            $items_f[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
-}
+echo "FUNK: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$funk_ids."<br><br>";  
 
 $items = array_merge($items,$items_f);
 
@@ -241,24 +218,12 @@ $json_results7[] = json_decode($results7,true); // decode API JSON to PHP array
 $items_g = array(); 
 $items_g = $json_results7[0]["items"];  // save playlist items to items array
 
-$vid_ids = '';  
+$folk_ids = '';  
 foreach($items_g as $item) {
-         $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
+        $folk_ids .= '"'.$item["snippet"]["resourceId"]["videoId"].'",'; // get string of videoIds 
 }
 
-$vid_ids = rtrim($vid_ids, ','); // remove final comma  
-
-$url7a = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=".$vid_ids;
-$url7a.= "&key=".$apikey3;
-
-$results_7a = getAPI($url7a);
-$json_results_7a = array();
-$json_results_7a[] = json_decode($results_7a,true);
-
-foreach($json_results_7a[0]["items"] as $key => $item) {
-            $items_g[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
-            $items_g[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
-}
+echo "FOLK: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$folk_ids."<br><br>";  
 
 $items = array_merge($items,$items_g);
 
@@ -278,24 +243,12 @@ $json_results8[] = json_decode($results8,true); // decode API JSON to PHP array
 $items_h = array(); 
 $items_h = $json_results8[0]["items"];  // save playlist items to items array
 
-$vid_ids = '';  
+$metal_ids = '';  
 foreach($items_h as $item) {
-         $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
+        $metal_ids .= '"'.$item["snippet"]["resourceId"]["videoId"].'",'; // get string of videoIds 
 }
 
-$vid_ids = rtrim($vid_ids, ','); // remove final comma  
-
-$url8a = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=".$vid_ids;
-$url8a.= "&key=".$apikey4;
-
-$results_8a = getAPI($url8a);
-$json_results_8a = array();
-$json_results_8a[] = json_decode($results_8a,true);
-
-foreach($json_results_8a[0]["items"] as $key => $item) {
-            $items_h[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
-            $items_h[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
-}
+echo "METAL: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$metal_ids."<br><br>";  
 
 $items = array_merge($items,$items_h);
 
@@ -314,24 +267,12 @@ $json_results9[] = json_decode($results9,true); // decode API JSON to PHP array
 $items_i = array(); 
 $items_i = $json_results9[0]["items"];  // save playlist items to items array
 
-$vid_ids = '';  
+$jazz_ids = '';  
 foreach($items_i as $item) {
-         $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
+        $jazz_ids .= '"'.$item["snippet"]["resourceId"]["videoId"].'",'; // get string of videoIds 
 }
 
-$vid_ids = rtrim($vid_ids, ','); // remove final comma  
-
-$url9a = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=".$vid_ids;
-$url9a.= "&key=".$apikey4;
-
-$results_9a = getAPI($url9a);
-$json_results_9a = array();
-$json_results_9a[] = json_decode($results_9a,true);
-
-foreach($json_results_9a[0]["items"] as $key => $item) {
-            $items_i[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
-            $items_i[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
-}
+echo "JAZZ: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$jazz_ids."<br><br>";  
 
 $items = array_merge($items,$items_i);
 
@@ -340,7 +281,7 @@ $items = array_merge($items,$items_i);
 $genre = "psych";
 
 $url10 = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet';
-$url10 .= '&playlistId='.'PLEuUPYukC_M7-BEQT2jnaP-QV6Zar_u5r';
+$url10 .= '&playlistId='.'PLEuUPYukC_M5wmdyB1KjciHzvAOqCKyOO';
 $url10 .= '&order=viewCount&maxResults=50';
 $url10 .= '&key='.$apikey5;
 
@@ -350,24 +291,12 @@ $json_results10[] = json_decode($results10,true); // decode API JSON to PHP arra
 $items_j = array(); 
 $items_j = $json_results10[0]["items"];  // save playlist items to items array
 
-$vid_ids = '';  
+$psych_ids = '';  
 foreach($items_j as $item) {
-         $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
+        $psych_ids .= '"'.$item["snippet"]["resourceId"]["videoId"].'",'; // get string of videoIds 
 }
 
-$vid_ids = rtrim($vid_ids, ','); // remove final comma  
-
-$url10a = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=".$vid_ids;
-$url10a.= "&key=".$apikey5;
-
-$results_10a = getAPI($url10a);
-$json_results_10a = array();
-$json_results_10a[] = json_decode($results_10a,true);
-
-foreach($json_results_10a[0]["items"] as $key => $item) {
-            $items_j[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
-            $items_j[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
-}
+echo "PSYCH: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$psych_ids."<br><br>";  
 
 $items = array_merge($items,$items_j);
 
@@ -387,24 +316,12 @@ $json_results11[] = json_decode($results11,true); // decode API JSON to PHP arra
 $items_k = array(); 
 $items_k = $json_results11[0]["items"];  // save playlist items to items array
 
-$vid_ids = '';  
+$hiphop_ids = '';  
 foreach($items_k as $item) {
-         $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
+        $hiphop_ids .= '"'.$item["snippet"]["resourceId"]["videoId"].'",'; // get string of videoIds 
 }
 
-$vid_ids = rtrim($vid_ids, ','); // remove final comma  
-
-$url11a = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=".$vid_ids;
-$url11a.= "&key=".$apikey5;
-
-$results_11a = getAPI($url11a);
-$json_results_11a = array();
-$json_results_11a[] = json_decode($results_11a,true);
-
-foreach($json_results_11a[0]["items"] as $key => $item) {
-            $items_k[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
-            $items_k[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
-}
+echo "HIPHOP: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$hiphop_ids."<br><br>";  
 
 $items = array_merge($items,$items_k);
 
@@ -423,24 +340,12 @@ $json_results12[] = json_decode($results12,true); // decode API JSON to PHP arra
 $items_l = array(); 
 $items_l = $json_results12[0]["items"];  // save playlist items to items array
 
-$vid_ids = '';  
+$electronica_ids = '';  
 foreach($items_l as $item) {
-         $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
+        $electronica_ids .= '"'.$item["snippet"]["resourceId"]["videoId"].'",'; // get string of videoIds 
 }
 
-$vid_ids = rtrim($vid_ids, ','); // remove final comma  
-
-$url12a = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=".$vid_ids;
-$url12a.= "&key=".$apikey5;
-
-$results_12a = getAPI($url12a);
-$json_results_12a = array();
-$json_results_12a[] = json_decode($results_12a,true);
-
-foreach($json_results_12a[0]["items"] as $key => $item) {
-            $items_l[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
-            $items_l[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
-}
+echo "ELECTRONICA: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$electronica_ids."<br><br>";  
 
 $items = array_merge($items,$items_l);
 
@@ -460,49 +365,30 @@ $json_results1[] = json_decode($results1,true); // decode API JSON to PHP array
 $items_a = array(); 
 $items_a = $json_results1[0]["items"];  // save playlist items to items array
 
-$vid_ids = '';  
+$blues_ids = '';  
 foreach($items_a as $item) {
-         $vid_ids .= $item["snippet"]["resourceId"]["videoId"].','; // get string of videoIds 
+        $blues_ids .= '"'.$item["snippet"]["resourceId"]["videoId"].'",'; // get string of videoIds 
 }
 
-$vid_ids = rtrim($vid_ids, ','); // remove final comma  
-
-$url1a = "https://www.googleapis.com/youtube/v3/videos?part=statistics&id=".$vid_ids;
-$url1a.= "&key=".$apikey4;
-
-$results_1a = getAPI($url1a);
-$json_results_1a = array();
-$json_results_1a[] = json_decode($results_1a,true);
-
-foreach($json_results_1a[0]["items"] as $key => $item) {
-            $items_a[$key]["statistics"] = $item["statistics"]; // attach statistics to main playlist JSON
-            $items_a[$key]["kind"] = $genre; // update "kind" value to reflect playlist genre
-}
+echo "BLUES: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$blues_ids."<br><br>";  
 
 $items = array_merge($items,$items_a);
 
 
-//  ------
+
+
+// ---- Format for copy and paste into PHP array to be parsed 50 items at a time
+
+
+$all .= $rock_ids.$punk_ids.$pop_ids.$country_ids.$funk_ids.$folk_ids.$metal_ids.$jazz_ids.$psych_ids.$hiphop_ids.$electronica_ids.$blues_ids;
+
+$all = rtrim($all, ','); // remove final comma
+
+echo "ALL:".$all."<br><br>";
 
 
 
-//print_r($items);
 
-//print_r($json_results2[0]["items"][0]);
-
-
-usort($items, function($a, $b) { //Sort the array using a user defined function
-    return $a["statistics"]["viewCount"] > $b["statistics"]["viewCount"] ? -1 : 1; //Compare the scores
-});
-
-$json_return = json_encode($items);  // encode PHP array as JSON
-
-
-//echo ($vid_ids);
-
-//print_r($json_results[0]);
-
-//print_r($json_return);
 
 
 
