@@ -456,7 +456,7 @@ drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 
 //drawPetalRing (16, 1, .1,  0x0099cc, 320, 20)  //outer petals
 
-group.position.set( 0, -.24, .75 );
+group.position.set( 0, -.22, .75 );
 
 
 /*console.log(curves);
@@ -740,6 +740,11 @@ for (i = 0; i < link_order.length; i++) {
   }
 }
 
+  // --- indicator code
+
+
+document.getElementById("rank").innerHTML = 5 + 7;  //test placement code
+
 
 
 
@@ -758,7 +763,8 @@ for (i = 0; i < link_order.length; i++) {
   window.addEventListener('click', onMouseClick, false)
   window.addEventListener('resize', onWindowResize, false)
 
-            // EVENTS
+  
+  // EVENTS
 
   document.getElementById( "rock" ).addEventListener( 'click', function () {
           addrockLinks();
@@ -781,20 +787,8 @@ for (i = 0; i < link_order.length; i++) {
     if (intersects.length > 0) {
       sphereInter.visible = true
       sphereInter.position.copy(intersects[0].point)
-      /*var k = 30;
-        invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        0xe45e9d
-      )*/
-    } else {
+    } 
+    else {
       sphereInter.visible = false
     }
   }
@@ -831,7 +825,7 @@ for (i = 0; i < link_order.length; i++) {
 
   //animate and render
 
-  camera.position.z = 3.75
+  camera.position.z = 3.85  //this value was originally 3.75, and can be tweaked as needed
 
   function animate () {
 

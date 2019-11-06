@@ -6,38 +6,57 @@
 		<title>Lotus.fm</title>
 		<style>
 			body { margin: 0; }
-			canvas { width: 100%; height: 100% }
+			canvas { width: 100%; height: 100%; }
 			#info {
 	position: absolute;
 	color: #FFF;
-	top: 10px;
+	top: 93%;
 	width: 100%;
 	text-align: center;
 	z-index: 100;
 	font-weight: bold;
 	font-family: sans-serif;
 	display:block;
-}
-		</style>
+				}		
+			#rank {
+	position: absolute;
+	color: #FFF;
+	top: 5px;
+	left: 95%;
+	width: 50px;
+	height:50px;
+	background-color: #BF5FFF;
+	border-radius: 25px;
+	padding:5px;
+	font-size: 12px;
+	text-align: center;
+	z-index: 100;
+	font-weight: bold;
+	font-family: sans-serif;
+	display:block;
+				
+			}
+
+</style>
 		<link rel='stylesheet' id='storefront-fonts-css'  href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,300italic,400italic,700,900&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
 	
 	</head>
 	<body>
+		<div id="rank"></div>
 		<div id="info">
-			Welcome to the Lotus.fm 400! Click the chart lines to hear a song.<br/>
 			<strong>Genres: </strong>
 			<button id="rock">rock</button>
 			<button id="punk">punk</button>
+			<button id="hip-hop">hip-hop</button>
 			<button id="pop">pop</button>
-			<button id="rock">rock</button>
-			<button id="punk">punk</button>
-			<button id="pop">pop</button>
-			<button id="rock">rock</button>
-			<button id="punk">punk</button>
-			<button id="pop">pop</button>
-			<button id="rock">country</button>
-			<button id="punk">hip-hop</button>
-			<button id="pop">electronica</button>
+			<button id="electronica">electronica</button>
+			<button id="folk">folk</button>
+			<button id="metal">metal</button>
+			<button id="psych">psych</button>
+			<button id="jazz">jazz</button>
+			<button id="blues">blues</button>
+			<button id="country">country</button>
+			<button id="funk">funk</button>
 			<br/>
 		</div>
 		<script src="../build/three.js"></script>
@@ -45,16 +64,9 @@
 		<script src="js/libs/stats.min.js"></script>
 		<script src="js/lotus_renderer.js"></script>
 
-
 <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
  <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<!--  <script src="touchui.js"></script> -->
-<!-- <script type="text/javascript" src="js/yt_library.js"></script>
-<script type="text/javascript" src="js/yt_player.js"></script>
-<script type="text/javascript" src="js/yt_search.js"></script>
--->
 <script src="https://apis.google.com/js/client.js"></script>
 
-		 <div id="player"></div>
 	</body>
 </html>
