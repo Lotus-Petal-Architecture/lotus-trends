@@ -742,8 +742,13 @@ for (i = 0; i < link_order.length; i++) {
 
   // --- indicator code
 
+function showRank(k) {
+  l = link_order.indexOf(k) 
+  document.getElementById("rank").innerHTML = "Rank<br>" + l;  //test placement code
+}
 
-document.getElementById("rank").innerHTML = 5 + 7;  //test placement code
+
+
 
 
 
@@ -787,6 +792,13 @@ document.getElementById("rank").innerHTML = 5 + 7;  //test placement code
     if (intersects.length > 0) {
       sphereInter.visible = true
       sphereInter.position.copy(intersects[0].point)
+      for (var i = 0; i < intersects.length; i++) 
+      {
+          var intersection = intersects[i],
+          obj = intersection.object
+          k = obj.label
+          showRank(k);
+      }      
     } 
     else {
       sphereInter.visible = false
