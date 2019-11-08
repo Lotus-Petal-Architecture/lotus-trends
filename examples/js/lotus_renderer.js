@@ -48,6 +48,7 @@ var r = 100,
   var link_order = [] // list of all link values in the module, with k values assigned to each index position
   var k_values = [] // list of all k values generated for corresponding module chart lines
   var active_links = [] //index values of active links
+  var active_links1 = [] //index values of active links
   var active_links2 = [] //index values of active links
   var active_links3 = [] //index values of active links
   var active_array = [] // placeholder for array values being filtered
@@ -555,6 +556,8 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
       var song_value = x[1].toString();
       var song_index = x[0];
 
+      active_links.push(song_index);
+
       //console.log(song_value);
       //var includes = rockgenre.includes(song_value);
       //console.log(includes);
@@ -563,7 +566,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
       if (rockgenre.includes(song_value))
       {
         
-        active_links.push(song_index);
+        active_links1.push(song_index);
       }
 /*
       else if (volume[song_index] < volume_adj) 
@@ -587,7 +590,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
       active_links2.push(song_index);
       }
 */
-      //active_links.push(song_index);
+      
     }
     //console.log(active_links);
     //console.log(active_links2);
@@ -619,7 +622,7 @@ for (i = 0; i < link_order.length; i++) {
       )
     }
 
-    if (active_links2.includes(i)) {
+   /*if (active_links2.includes(i)) {
 
       var k = link_order[i];
       var color_code = 0xe45e9d;
@@ -655,10 +658,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][8],
         color_code
       )
-    }
-
-
-
+    }*/
   }
 }
 
@@ -668,7 +668,7 @@ function addrockLinks() {  //adds links for selected values
 
 for (i = 0; i < link_order.length; i++) {
 
-    if (active_links.includes(i)) {
+    if (active_links1.includes(i)) {
 
       var k = link_order[i];
       var color_code = 0xe45e9d;
