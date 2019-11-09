@@ -1,4 +1,4 @@
-var camera, scene, raycaster, renderer, parentTransform, sphereInter
+var camera, scene, raycaster, renderer, parentTransform, genreTransform, sphereInter
 var mouse = new THREE.Vector2()
 var r = 100,
   dot = 0
@@ -55,7 +55,8 @@ var r = 100,
   var song_names = [] //list of youtube videos. uses the same index ranking as link_order
   var video_titles = []
   var video_thmbs = []
-  var curves = [];
+  //var curves = []
+  //var pasta = [] // array of active invisibleSpaghetti geometric links objects created
   var xmlhttp = new XMLHttpRequest()
 
   var rockgenre = ["uIP0iIxHLY4","E9yTHSyZeKg","VkavEUCwm0M","rddu5TgrTmE","DHXYSbs6Rb0","zClCsQnRj-c","yHNB4m1dfKE","4fr8k6O-Bko","w_otXEVPgOk","q-XpcMTnB-A","bU2WUSEC6PY","rQfs5UTzwFQ","8Ux6UnYOLvk","CyDHTJCIfHQ","AwkDVMr4Kso","0Jpqb5IYlEE","l5JhD4wKsrs","8BhdoriXe9Q","KLgWHoGLDx4","iv0ej8cJScM","kXFGQYGFeFU","LEKxlNbjgmE","KYhsehUH5b0","kYKcf7EWEfc","DElGhE2NhtQ","j0iohXlRXKA","_oQIIAdG8xM","Ys4YGRN8hgY","Duot03grNv8","2bHvzuupe4w","FxdnqfyvIkY","Y6BeTnjUqlo","cwHmeFidLbE","W3m7Uz7hF-s","APrpB-i4d_E","FuFtfhOipNQ","ON6pn6suSzc","BzkHp6EswEM","W05cPXpUHGI","kkcbxjWG9Mc","-DjpNgrocKo","MUfgAbFY4CA","D1vQJFF2TKQ","f-MroGCKDcM","hjg39XRkjVc","E5uAH0vNn2s","rCy1VIy8Hj0","Kc1htX3q-F0","pGOO7EE4Lhw","tRNDB9VqI3Q","qOM107PIxV8","Ti1liRM6cao","V4Yw6A_rlHc","d9MA4rFNf7I","OqeKV2UYq1Q","ksTFj6L0mao","E5H8DwJI0uA","qR9DjdMrpHg","zJXQSBWO5Qc","wcICuFnkxe4","pB08AUiTP3w","vZA_7FtttRY","cgr8e7da52o","MbxRu7fwR24","6r1-HTiwGiY","TpLhrLzSaFQ","HwgNMrs-i80","QJu611UdfxA","pO3_ZG7wJPc","sSCb-a2McRI","yyayVIXwg74","TkIloV7OMAk","xRFTYRXS3aw","1WaMgWUiYg0","wsF4TVHr42A","trZ244Ih_E4","iG8D1Kb7xgQ","EIpzPVAHpVg","WGnqoZx7_QY","n7zyfArxibk","UNUmSwWq-LU","Rh2YmGujtFI","PE1ges9nn6A","K_5lt23PRVs","DCI5XqT-AZs","QAhMakentwA","aUfu-lEflbQ","YbP-Aa3V6bA","t7Pv3eZEy4k","VZu1Z0oeFzo","_S0esU0n6sY","pOYN1p4Rc6o","mfA9K1hj2eg","OLTeVRvPq04","0_GeShK7aaY","U3iWpewLuyA","ull6hOYs5ZY","Palxbwco9pM","MP8Fd0mN50E","5AHz8HeDk3c","skvGTkW-qG4","-dJXBCBZwQg","aCgTgyBBswA","HcB7ZnkMnB8"]
@@ -288,7 +289,7 @@ function drawPetal (
     var geometry = new THREE.BufferGeometry().setFromPoints(points)
     var material = new THREE.LineBasicMaterial({ color: color_code })
     var curveObject = new THREE.Line(geometry, material)
-    curves.push(curveObject);
+    //curves.push(curveObject);
     group.add(curveObject)
   }
 
@@ -309,6 +310,23 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_
     material.opacity = .45
     object.label = k
     parentTransform.add(object)
+  }
+
+function invisibleSpaghetti2 (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_code) {
+    var link_curve = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(x, y, z),
+      new THREE.Vector3(x, ctrlpt, z),
+      new THREE.Vector3(x0, y0, z0)
+    )
+
+    var geometry = new THREE.TubeGeometry(link_curve, 64, 0.004, 8, false)
+    var material = new THREE.MeshBasicMaterial({ color: color_code })
+    var object = new THREE.Mesh(geometry, material)
+    //object.visible = true
+    material.transparent = true
+    material.opacity = .45
+    object.label = k
+    genreTransform.add(object)
   }
 
 //Draw Petals - draws ring of lotus petals
@@ -431,9 +449,6 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
   }
 
 
-  parentTransform = new THREE.Object3D()
-  group.add(parentTransform)
-
   group.add(new THREE.Line(geometry, material));
 
 }
@@ -442,7 +457,7 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
 
 /*var groupElements = [];
 var groupElements= group.children;
-console.log(groupElements);
+
 group.uncache(groupElements);
 */
 
@@ -459,19 +474,43 @@ drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 
 group.position.set( 0, -.22, .75 );
 
+parentTransform = new THREE.Object3D()
+group.add(parentTransform)
 
-/*console.log(curves);
-var object = curves[287];
-object.material.color.setHex( 0xFF0000 );
+genreTransform = new THREE.Object3D()
+group.add(genreTransform)
+
+//console.log(parentTransform);
+//console.log(parentTransform.children);
+//console.log(parentTransform.children.id);
+
+
+//console.log(curves);
+//var outlier1 = curves[0];
+//outlier1.material.color.setHex( 0xFF0000 );
+//console.log (outlier1.id);
 //object.label = 287
 //parentTransform.add(object);
 
-var outlier2 = curves[286];
-outlier2.material.color.setHex( 0xFF0000 );
+//var outlier2 = curves[1];
+//outlier2.material.color.setHex( 0xFF0000 );
+//outlier2.visible = false;
+//console.log (outlier2.id);
 //parentTransform.add(outlier2);*/
 
-/*var k = 30;
-        invisibleSpaghetti(
+
+
+
+function addLinks() {  //adds links for selected values
+
+for (i = 0; i < 380; i++) {
+
+    //if (active_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0xe45e9d;
+
+      invisibleSpaghetti(
         k,
         k_values[k][1],
         k_values[k][2],
@@ -481,9 +520,19 @@ outlier2.material.color.setHex( 0xFF0000 );
         k_values[k][6],
         k_values[k][7],
         k_values[k][8],
-        0xe45e9d
-      )*/
+        color_code
+      )
+    //}
+  }
+}
 
+function removeLinks() {
+  genreTransform.visible = false; 
+}
+
+function restoreLinks() {
+  genreTransform.visible = true; 
+}
 
 
 function getData() //processes JSON data and returns arrays for 5 main variables
@@ -512,9 +561,9 @@ function getData() //processes JSON data and returns arrays for 5 main variables
   var song_name = song.id;
   var popularity = song.statistics.viewCount;
   var song_title = song.snippet.title;
-  console.log(song_title);
-  console.log(song_name);
-  console.log(popularity);
+  //console.log(song_title);
+  //console.log(song_name);
+  //console.log(popularity);
   song_names.push([song_name]);
         //video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
         //video_titles[video_titles.length] = song.snippet.title;
@@ -526,11 +575,12 @@ function getData() //processes JSON data and returns arrays for 5 main variables
 
 getData();
 
-
 function getActiveLinks()  //sorts for a given set of values from the data obtained above
 {
 
-    console.log(song_names);
+    //console.log(song_names);
+    //console.log (pasta);
+    //console.log (pasta[1]);
 
     var active_array = song_names;
 
@@ -556,38 +606,32 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
       var song_value = x[1].toString();
       var song_index = x[0];
 
-      active_links.push(song_index);
+      //active_links.push(song_index);
 
       //console.log(song_value);
       //var includes = rockgenre.includes(song_value);
       //console.log(includes);
       //console.log(song_value);
-
+      /*
       if (rockgenre.includes(song_value))
       {
         
         active_links1.push(song_index);
       }
-/*
       else if (volume[song_index] < volume_adj) 
       {
         song = null;
       }
-*/
 
-      else if (punkgenre.includes(song_value)){
+
+      else */ if (punkgenre.includes(song_value)){
         
         active_links2.push(song_index);
       }
 
-      else if (popgenre.includes(song_value)){
+      /*else if (popgenre.includes(song_value)){
         
         active_links3.push(song_index);
-      }
-/*
-      else if (song_value > 10) {
-      song_index = song[0]
-      active_links2.push(song_index);
       }
 */
       
@@ -599,72 +643,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
 
 //console.log(link_order);
 
-function addLinks() {  //adds links for selected values
-
-for (i = 0; i < link_order.length; i++) {
-
-    if (active_links.includes(i)) {
-
-      var k = link_order[i];
-      var color_code = 0xe45e9d;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code
-      )
-    }
-
-   /*if (active_links2.includes(i)) {
-
-      var k = link_order[i];
-      var color_code = 0xe45e9d;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code
-      )
-    }
-
-    if (active_links3.includes(i)) {
-
-      var k = link_order[i];
-      var color_code = 0xe45e9d;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code
-      )
-    }*/
-  }
-}
-
-//console.log(link_order);
-
-function addrockLinks() {  //adds links for selected values
+/*function addrockLinks() {  //adds links for selected values
 
 for (i = 0; i < link_order.length; i++) {
 
@@ -688,6 +667,7 @@ for (i = 0; i < link_order.length; i++) {
     }
   }
 }
+*/
 
 function addpunkLinks() {  //adds links for selected values
 
@@ -698,7 +678,7 @@ for (i = 0; i < link_order.length; i++) {
       var k = link_order[i];
       var color_code = 0x32cd32;
 
-      invisibleSpaghetti(
+       invisibleSpaghetti2(
         k,
         k_values[k][1],
         k_values[k][2],
@@ -715,7 +695,7 @@ for (i = 0; i < link_order.length; i++) {
 }
 
 
-function addpopLinks() {  //adds links for selected values
+/*function addpopLinks() {  //adds links for selected values
 
 for (i = 0; i < link_order.length; i++) {
 
@@ -739,6 +719,7 @@ for (i = 0; i < link_order.length; i++) {
     }
   }
 }
+*/
 
   // --- indicator code
 
@@ -746,8 +727,6 @@ function showRank(k) {
   l = link_order.indexOf(k) 
   document.getElementById("rank").innerHTML = "Rank<br>" + l;  //test placement code
 }
-
-
 
 
 
@@ -772,7 +751,7 @@ function showRank(k) {
   // EVENTS
 
   document.getElementById( "rock" ).addEventListener( 'click', function () {
-          addrockLinks();
+          removeLinks();
         }, false );
   
   document.getElementById( "punk" ).addEventListener( 'click', function () {
@@ -780,7 +759,7 @@ function showRank(k) {
         }, false );
   
   document.getElementById( "pop" ).addEventListener( 'click', function () {
-          addpopLinks();
+          restoreLinks();
         }, false );
   
   function onDocumentMouseMove (event) {
@@ -818,10 +797,7 @@ function showRank(k) {
       k = obj.label
       l = link_order.indexOf(k)   //connects the k value -- position on lotus petal graph -- to ID for link value
       var URL = "https://www.youtube.com/embed/" + song_names[l] + "?autoplay=1&mute=0"
-      //console.log(song_names[l])
-      //console.log(URL);
       window.open(URL, 'iframe_a')
-       //player.cueVideoById(song_names[l][1]);
     }
   }
 
@@ -864,10 +840,17 @@ function showRank(k) {
   }
 }
 
-//  ---- reference code ----- //  
+/*/  ---- reference code ----- //  
 
+var blah = {
+  'myFunction': function () 
+  {
+  }
+}
+blah['myFunction']()
+blah.myFunction()
 
 
 //document.write(k + " " + links[k] + ", ");
 
-//  ---- reference code ----- //  
+//  ---- reference code ----- /*/  
