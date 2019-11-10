@@ -40,6 +40,7 @@ var r = 100,
   scene.add(group)
 
   var link_order_length = 0
+  var linkVisible = true
 
 
 // sample arrays for testing purposes
@@ -59,7 +60,7 @@ var r = 100,
   //var pasta = [] // array of active invisibleSpaghetti geometric links objects created
   var xmlhttp = new XMLHttpRequest()
 
-  var rockgenre = ["uIP0iIxHLY4","E9yTHSyZeKg","VkavEUCwm0M","rddu5TgrTmE","DHXYSbs6Rb0","zClCsQnRj-c","yHNB4m1dfKE","4fr8k6O-Bko","w_otXEVPgOk","q-XpcMTnB-A","bU2WUSEC6PY","rQfs5UTzwFQ","8Ux6UnYOLvk","CyDHTJCIfHQ","AwkDVMr4Kso","0Jpqb5IYlEE","l5JhD4wKsrs","8BhdoriXe9Q","KLgWHoGLDx4","iv0ej8cJScM","kXFGQYGFeFU","LEKxlNbjgmE","KYhsehUH5b0","kYKcf7EWEfc","DElGhE2NhtQ","j0iohXlRXKA","_oQIIAdG8xM","Ys4YGRN8hgY","Duot03grNv8","2bHvzuupe4w","FxdnqfyvIkY","Y6BeTnjUqlo","cwHmeFidLbE","W3m7Uz7hF-s","APrpB-i4d_E","FuFtfhOipNQ","ON6pn6suSzc","BzkHp6EswEM","W05cPXpUHGI","kkcbxjWG9Mc","-DjpNgrocKo","MUfgAbFY4CA","D1vQJFF2TKQ","f-MroGCKDcM","hjg39XRkjVc","E5uAH0vNn2s","rCy1VIy8Hj0","Kc1htX3q-F0","pGOO7EE4Lhw","tRNDB9VqI3Q","qOM107PIxV8","Ti1liRM6cao","V4Yw6A_rlHc","d9MA4rFNf7I","OqeKV2UYq1Q","ksTFj6L0mao","E5H8DwJI0uA","qR9DjdMrpHg","zJXQSBWO5Qc","wcICuFnkxe4","pB08AUiTP3w","vZA_7FtttRY","cgr8e7da52o","MbxRu7fwR24","6r1-HTiwGiY","TpLhrLzSaFQ","HwgNMrs-i80","QJu611UdfxA","pO3_ZG7wJPc","sSCb-a2McRI","yyayVIXwg74","TkIloV7OMAk","xRFTYRXS3aw","1WaMgWUiYg0","wsF4TVHr42A","trZ244Ih_E4","iG8D1Kb7xgQ","EIpzPVAHpVg","WGnqoZx7_QY","n7zyfArxibk","UNUmSwWq-LU","Rh2YmGujtFI","PE1ges9nn6A","K_5lt23PRVs","DCI5XqT-AZs","QAhMakentwA","aUfu-lEflbQ","YbP-Aa3V6bA","t7Pv3eZEy4k","VZu1Z0oeFzo","_S0esU0n6sY","pOYN1p4Rc6o","mfA9K1hj2eg","OLTeVRvPq04","0_GeShK7aaY","U3iWpewLuyA","ull6hOYs5ZY","Palxbwco9pM","MP8Fd0mN50E","5AHz8HeDk3c","skvGTkW-qG4","-dJXBCBZwQg","aCgTgyBBswA","HcB7ZnkMnB8"]
+  var rockgenre = ["uIP0iIxHLY4","E9yTHSyZeKg","VkavEUCwm0M","rddu5TgrTmE","DHXYSbs6Rb0","zClCsQnRj-c","yHNB4m1dfKE","4fr8k6O-Bko","w_otXEVPgOk","q-XpcMTnB-A","bU2WUSEC6PY","rQfs5UTzwFQ","8Ux6UnYOLvk","CyDHTJCIfHQ","AwkDVMr4Kso","0Jpqb5IYlEE","l5JhD4wKsrs","8BhdoriXe9Q","KLgWHoGLDx4","iv0ej8cJScM","kXFGQYGFeFU","LEKxlNbjgmE","KYhsehUH5b0","kYKcf7EWEfc","DElGhE2NhtQ","j0iohXlRXKA","_oQIIAdG8xM","Ys4YGRN8hgY","Duot03grNv8","2bHvzuupe4w","FxdnqfyvIkY","Y6BeTnjUqlo","cwHmeFidLbE","W3m7Uz7hF-s","APrpB-i4d_E","FuFtfhOipNQ","ON6pn6suSzc","BzkHp6EswEM","W05cPXpUHGI","kkcbxjWG9Mc","-DjpNgrocKo","MUfgAbFY4CA","D1vQJFF2TKQ","f-MroGCKDcM","hjg39XRkjVc","E5uAH0vNn2s","rCy1VIy8Hj0","Kc1htX3q-F0","pGOO7EE4Lhw","tRNDB9VqI3Q","qOM107PIxV8","Ti1liRM6cao","V4Yw6A_rlHc","d9MA4rFNf7I","OqeKV2UYq1Q","ksTFj6L0mao","E5H8DwJI0uA","qR9DjdMrpHg","zJXQSBWO5Qc","wcICuFnkxe4","pB08AUiTP3w","vZA_7FtttRY","cgr8e7da52o","MbxRu7fwR24","6r1-HTiwGiY","TpLhrLzSaFQ","HwgNMrs-i80","QJu611UdfxA","pO3_ZG7wJPc","sSCb-a2McRI","yyayVIXwg74","TkIloV7OMAk","xRFTYRXS3aw","1WaMgWUiYg0","wsF4TVHr42A","trZ244Ih_E4","iG8D1Kb7xgQ","EIpzPVAHpVg","WGnqoZx7_QY","n7zyfArxibk","UNUmSwWq-LU","Rh2YmGujtFI","PE1ges9nn6A","K_5lt23PRVs","DCI5XqT-AZs","QAhMakentwA","aUfu-lEflbQ","YbP-Aa3V6bA","t7Pv3eZEy4k","VZu1Z0oeFzo","_S0esU0n6sY","pOYN1p4Rc6o","mfA9K1hj2eg","OLTeVRvPq04","0_GeShK7aaY","U3iWpewLuyA","ull6hOYs5ZY","Palxbwco9pM","MP8Fd0mN50E","5AHz8HeDk3c","skvGTkW-qG4","-dJXBCBZwQg","aCgTgyBBswA","HcB7ZnkMnB8","0deHAT_KOqE"]
   var punkgenre = ["hPsdjlPVaJU","0deHAT_KOqE","YypAGqIBrX0","s_vgHgIKPQs","JOUmxw0DPsg","LesJtYAG8zM","pCgEUBf5y18","4qljGaHJbCs","FNFYq8O7DTY","cr5uFjA4TNI","VTd4JCIqL7U","OFOowKu7WjA","_ZydMszfZlQ","LJbtcit8Byg","Hu0wknFNTOk","rFP4gxn_uME","cQhGxSge7aA","5SeI6r8lI_U","WWWKRqzvxMg","LS7KFVYUQT4","uS1PyjaR8WM","LH7XPoWPz-4","hBF8YGF17rQ","0nt2Yn1M0oU","K0q6EYTGXXQ","8QcTCIsFJ2Q"]
   var popgenre = ["E7fzUGR8ZH4","pnfryoGog0A","Cqp-hL-I90A","YGv-OSvQwKY","IbE4ynQd_qQ","yQYu51hlkLk","w39qx5X_Owg","gK04XhlTLOM","XMUxca7gXv4","iLilpPtY2JU","X9BWRh92ifs","srwAMHbHVAE","yntvBrlZNeA","_P63qccOdzs","7hneF9Iu71g","Cg4c0RA2DJQ","uA4RNW3HkcQ","WJi9MXfl3zA","c-kLsqvD6q8","3MfJ9qMXBVQ","fPEoI43MMhs","3jWQzkoPFTg","c8H7Anvad6E","KqXN_5G_kuo","rVqIhE53D_w","9x6Mxs5DyxI","weW-VnINl-E","bS22uZHDr54","gahV15Oe9Xs","Bm1g5Yg0hUw","OCVgWq9B_HE","GiZHmwzNAqE","vtS54c9sP0U"]
 
@@ -307,7 +308,7 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_
     var object = new THREE.Mesh(geometry, material)
     //object.visible = true
     material.transparent = true
-    material.opacity = .45
+    material.opacity = 0
     object.label = k
     parentTransform.add(object)
   }
@@ -324,7 +325,24 @@ function invisibleSpaghetti2 (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color
     var object = new THREE.Mesh(geometry, material)
     //object.visible = true
     material.transparent = true
-    material.opacity = .45
+    material.opacity = .4
+    object.label = k
+    genreTransform.add(object)
+  }
+
+  function invisibleSpaghetti3 (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_code) {
+    var link_curve = new THREE.QuadraticBezierCurve3(
+      new THREE.Vector3(x, y, z),
+      new THREE.Vector3(x, ctrlpt, z),
+      new THREE.Vector3(x0, y0, z0)
+    )
+
+    var geometry = new THREE.TubeGeometry(link_curve, 64, 0.004, 8, false)
+    var material = new THREE.MeshBasicMaterial({ color: color_code })
+    var object = new THREE.Mesh(geometry, material)
+    //object.visible = true
+    material.transparent = true
+    material.opacity = .4
     object.label = k
     genreTransform.add(object)
   }
@@ -476,9 +494,12 @@ group.position.set( 0, -.22, .75 );
 
 parentTransform = new THREE.Object3D()
 group.add(parentTransform)
+//parentTransform.visible = false;
 
 genreTransform = new THREE.Object3D()
 group.add(genreTransform)
+
+
 
 //console.log(parentTransform);
 //console.log(parentTransform.children);
@@ -508,7 +529,7 @@ for (i = 0; i < 380; i++) {
     //if (active_links.includes(i)) {
 
       var k = link_order[i];
-      var color_code = 0xe45e9d;
+      var color_code = 0xffffff;
 
       invisibleSpaghetti(
         k,
@@ -524,14 +545,27 @@ for (i = 0; i < 380; i++) {
       )
     //}
   }
-}
+for (i = 0; i < link_order.length; i++) {
 
-function removeLinks() {
-  genreTransform.visible = false; 
-}
+    if (active_links2.includes(i)) {
 
-function restoreLinks() {
-  genreTransform.visible = true; 
+      var k = link_order[i];
+      var color_code = 0x32cd32;
+
+       invisibleSpaghetti2(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code
+      )
+    }
+  }
 }
 
 
@@ -612,19 +646,14 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
       //var includes = rockgenre.includes(song_value);
       //console.log(includes);
       //console.log(song_value);
-      /*
+      
       if (rockgenre.includes(song_value))
       {
         
         active_links1.push(song_index);
       }
-      else if (volume[song_index] < volume_adj) 
-      {
-        song = null;
-      }
 
-
-      else */ if (punkgenre.includes(song_value)){
+      if (punkgenre.includes(song_value)){
         
         active_links2.push(song_index);
       }
@@ -643,7 +672,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
 
 //console.log(link_order);
 
-/*function addrockLinks() {  //adds links for selected values
+function addrockLinks() {  //adds links for selected values
 
 for (i = 0; i < link_order.length; i++) {
 
@@ -652,7 +681,7 @@ for (i = 0; i < link_order.length; i++) {
       var k = link_order[i];
       var color_code = 0xe45e9d;
 
-      invisibleSpaghetti(
+      invisibleSpaghetti2(
         k,
         k_values[k][1],
         k_values[k][2],
@@ -667,7 +696,7 @@ for (i = 0; i < link_order.length; i++) {
     }
   }
 }
-*/
+
 
 function addpunkLinks() {  //adds links for selected values
 
@@ -694,6 +723,10 @@ for (i = 0; i < link_order.length; i++) {
   }
 }
 
+
+
+
+//genreTransform.visibility = false;
 
 /*function addpopLinks() {  //adds links for selected values
 
@@ -729,6 +762,23 @@ function showRank(k) {
 }
 
 
+function removeLinks() {
+  genreTransform.visible = false; 
+}
+
+function restoreLinks() {
+  genreTransform.visible = true; 
+}
+
+function toggleLinks(linkobject) {
+  linkVisible =! linkVisible; 
+
+  if (linkVisible == true) {
+    linkobject.visible = true;
+  }
+  else linkobject.visible = false;
+}
+
 
 
 
@@ -751,11 +801,11 @@ function showRank(k) {
   // EVENTS
 
   document.getElementById( "rock" ).addEventListener( 'click', function () {
-          removeLinks();
+          addrockLinks();
         }, false );
   
   document.getElementById( "punk" ).addEventListener( 'click', function () {
-          addpunkLinks();
+          toggleLinks(genreTransform);
         }, false );
   
   document.getElementById( "pop" ).addEventListener( 'click', function () {
