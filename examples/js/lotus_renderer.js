@@ -1,4 +1,4 @@
-var camera, scene, raycaster, renderer, parentTransform, genreTransform, sphereInter
+var camera, scene, raycaster, renderer, parentTransform, sphereInter
 var mouse = new THREE.Vector2()
 var r = 100,
   dot = 0
@@ -48,10 +48,10 @@ var r = 100,
 
   var link_order = [] // list of all link values in the module, with k values assigned to each index position
   var k_values = [] // list of all k values generated for corresponding module chart lines
-  var active_links = [] //index values of active links
-  var active_links1 = [] //index values of active links
-  var active_links2 = [] //index values of active links
-  var active_links3 = [] //index values of active links
+  var active_links = [] //index values of all active links
+  var rock_links = [] //index values of genre links
+  var punk_links = [] //index values of genre links
+  var pop_links = [] //index values of genre links
   var active_array = [] // placeholder for array values being filtered
   var song_names = [] //list of youtube videos. uses the same index ranking as link_order
   var video_titles = []
@@ -296,7 +296,7 @@ function drawPetal (
 
 
 //Invisible Spaghetti - add TubeGeometry objects that sheath chart lines representing active geometric links.
-function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_code) {
+function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_code, opacity, category) {
     var link_curve = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(x, y, z),
       new THREE.Vector3(x, ctrlpt, z),
@@ -308,44 +308,11 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_
     var object = new THREE.Mesh(geometry, material)
     //object.visible = true
     material.transparent = true
-    material.opacity = 0
+    material.opacity = opacity
     object.label = k
-    parentTransform.add(object)
+    category.add(object)
   }
 
-function invisibleSpaghetti2 (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_code) {
-    var link_curve = new THREE.QuadraticBezierCurve3(
-      new THREE.Vector3(x, y, z),
-      new THREE.Vector3(x, ctrlpt, z),
-      new THREE.Vector3(x0, y0, z0)
-    )
-
-    var geometry = new THREE.TubeGeometry(link_curve, 64, 0.004, 8, false)
-    var material = new THREE.MeshBasicMaterial({ color: color_code })
-    var object = new THREE.Mesh(geometry, material)
-    //object.visible = true
-    material.transparent = true
-    material.opacity = .4
-    object.label = k
-    genreTransform.add(object)
-  }
-
-  function invisibleSpaghetti3 (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_code) {
-    var link_curve = new THREE.QuadraticBezierCurve3(
-      new THREE.Vector3(x, y, z),
-      new THREE.Vector3(x, ctrlpt, z),
-      new THREE.Vector3(x0, y0, z0)
-    )
-
-    var geometry = new THREE.TubeGeometry(link_curve, 64, 0.004, 8, false)
-    var material = new THREE.MeshBasicMaterial({ color: color_code })
-    var object = new THREE.Mesh(geometry, material)
-    //object.visible = true
-    material.transparent = true
-    material.opacity = .4
-    object.label = k
-    genreTransform.add(object)
-  }
 
 //Draw Petals - draws ring of lotus petals
 function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, divisor){
@@ -494,11 +461,14 @@ group.position.set( 0, -.22, .75 );
 
 parentTransform = new THREE.Object3D()
 group.add(parentTransform)
-//parentTransform.visible = false;
 
-genreTransform = new THREE.Object3D()
-group.add(genreTransform)
+rockTransform = new THREE.Object3D()
+group.add(rockTransform)
+//rockTransform.visible = false;
 
+punkTransform = new THREE.Object3D()
+group.add(punkTransform)
+//punkTransform.visible = false;
 
 
 //console.log(parentTransform);
@@ -518,55 +488,6 @@ group.add(genreTransform)
 //outlier2.visible = false;
 //console.log (outlier2.id);
 //parentTransform.add(outlier2);*/
-
-
-
-
-function addLinks() {  //adds links for selected values
-
-for (i = 0; i < 380; i++) {
-
-    //if (active_links.includes(i)) {
-
-      var k = link_order[i];
-      var color_code = 0xffffff;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code
-      )
-    //}
-  }
-for (i = 0; i < link_order.length; i++) {
-
-    if (active_links2.includes(i)) {
-
-      var k = link_order[i];
-      var color_code = 0x32cd32;
-
-       invisibleSpaghetti2(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code
-      )
-    }
-  }
-}
 
 
 function getData() //processes JSON data and returns arrays for 5 main variables
@@ -618,56 +539,104 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
 
     var active_array = song_names;
 
-/*  
-    if (song_change_time == "1h") 
-      {
-        var active_array = song_change_1h;
-      }
-
-    if (song_change_time == "24h") 
-      {
-        var active_array = song_change_24h;
-      }
-
-    if (song_change_time == "1w") 
-      {
-        var active_array = song_change_1w;
-      }
-*/
     var f = active_array.entries(); 
 
     for (x of f) {
       var song_value = x[1].toString();
       var song_index = x[0];
-
-      //active_links.push(song_index);
-
-      //console.log(song_value);
-      //var includes = rockgenre.includes(song_value);
-      //console.log(includes);
-      //console.log(song_value);
       
       if (rockgenre.includes(song_value))
       {
         
-        active_links1.push(song_index);
+        rock_links.push(song_index);
       }
 
       if (punkgenre.includes(song_value)){
         
-        active_links2.push(song_index);
+        punk_links.push(song_index);
       }
 
-      /*else if (popgenre.includes(song_value)){
+      if (popgenre.includes(song_value)){
         
-        active_links3.push(song_index);
-      }
-*/
-      
+        pop_links.push(song_index);
+      }     
     }
-    //console.log(active_links);
-    //console.log(active_links2);
+}
 
+console.log (rock_links)
+
+// generates clickable and color-coded links by category
+
+function addLinks() {  //adds links for selected values
+
+for (i = 0; i < 380; i++) {
+
+    //if (active_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0xffffff;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        0,
+        parentTransform
+      )
+    //}
+  }
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (rock_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0xe45e9d;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .4,
+        rockTransform
+      )
+    }
+
+    if (punk_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0x32cd32;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .4,
+        punkTransform
+      )
+    }
+  }
 }
 
 //console.log(link_order);
@@ -761,22 +730,16 @@ function showRank(k) {
   document.getElementById("rank").innerHTML = "Rank<br>" + l;  //test placement code
 }
 
-
-function removeLinks() {
-  genreTransform.visible = false; 
-}
-
-function restoreLinks() {
-  genreTransform.visible = true; 
-}
-
 function toggleLinks(linkobject) {
   linkVisible =! linkVisible; 
 
   if (linkVisible == true) {
     linkobject.visible = true;
   }
-  else linkobject.visible = false;
+  else if 
+    (linkVisible == false) {
+    linkobject.visible = false;
+  }
 }
 
 
@@ -801,11 +764,11 @@ function toggleLinks(linkobject) {
   // EVENTS
 
   document.getElementById( "rock" ).addEventListener( 'click', function () {
-          addrockLinks();
+          toggleLinks(rockTransform);
         }, false );
   
   document.getElementById( "punk" ).addEventListener( 'click', function () {
-          toggleLinks(genreTransform);
+          toggleLinks(punkTransform);
         }, false );
   
   document.getElementById( "pop" ).addEventListener( 'click', function () {
