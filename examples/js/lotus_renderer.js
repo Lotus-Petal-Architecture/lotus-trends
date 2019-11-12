@@ -639,6 +639,65 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
 
 // generates clickable and color-coded links by category
 
+function addTopSongs() {  // adds links for selected values
+
+topTransform = new THREE.Object3D()
+group.add(topTransform) 
+
+for (i = 0; i < 100; i++) {
+
+      var k = link_order[i];
+      var color_code = 0xcccccc;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .2,
+        topTransform
+      )
+  }
+}
+
+addTopSongs()
+
+function addTop8Songs() {  // adds links for selected values
+
+top8Transform = new THREE.Object3D()
+group.add(top8Transform) 
+
+for (i = 0; i < 8; i++) {
+
+      var k = link_order[i];
+      var color_code = 0xcccccc;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .4,
+        top8Transform
+      )
+  }
+}
+
+addTop8Songs()  
+
+
 function addLinks() {  // adds links for selected values
 
 console.log (song_names.length) // current actual number of songs being ranked
@@ -1155,6 +1214,11 @@ function toggleLinks(linkobject) {
   document.getElementById( "blues" ).addEventListener( 'click', function () {
           toggleLinks(bluesTransform);
         }, false );
+
+  document.getElementById( "top100" ).addEventListener( 'click', function () {
+          toggleLinks(topTransform);
+        }, false );
+
 
   
   function onDocumentMouseMove (event) {
