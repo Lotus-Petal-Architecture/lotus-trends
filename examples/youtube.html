@@ -17,7 +17,24 @@
 	font-weight: bold;
 	font-family: sans-serif;
 	display:block;
-				}		
+				}
+
+			#views {
+	position: absolute;
+	color: #FFF;
+	top: 5px;
+	left: 5px;
+	width: 30px;
+	height:30px;
+	background-color: transparent;
+	padding:5px;
+	font-size: 10px;
+	text-align: center;
+	z-index: 100;
+	font-weight: bold;
+	font-family: sans-serif;
+	display:block;
+			}		
 			#rank {
 	position: absolute;
 	color: #FFF;
@@ -25,16 +42,24 @@
 	left: 95%;
 	width: 30px;
 	height:30px;
-	background-color: #BF5FFF;
+	background-color: #0F426A;
 	border-radius: 25px;
 	padding:5px;
-	font-size: 12px;
+	padding-top:8px;
+	padding-bottom:2px;
+	font-size: 10px;
 	text-align: center;
 	z-index: 100;
 	font-weight: bold;
 	font-family: sans-serif;
 	display:block;
-				
+			}
+
+			button {
+
+				border-radius: 25px;
+				padding:0px 5px 2px 5px;
+				font-weight: bold;
 			}
 
 </style>
@@ -42,21 +67,22 @@
 	
 	</head>
 	<body>
-		<div id="rank"></div>
+		<div id="views"><span style="">Views</span><br></div>
+		<div id="rank"><span style="">Rank</span><br></div>
 		<div id="info">
 			<strong>Genres: </strong>
-			<button id="rock">rock</button>
-			<button id="punk">punk</button>
-			<button id="hip-hop">hip-hop</button>
-			<button id="pop">pop</button>
-			<button id="electronica">electronica</button>
-			<button id="folk">folk</button>
-			<button id="metal">metal</button>
-			<button id="psych">psych</button>
-			<button id="jazz">jazz</button>
-			<button id="blues">blues</button>
-			<button id="country">country</button>
-			<button id="funk">funk</button>
+			<button id="rock" style="background-color: #e45e9d; border:0;">rock</button>
+			<button id="punk" style="background-color: #8BFA05; border:0;">punk</button>
+			<button id="hiphop" style="background-color: #FCF51B; border:0;">hip-hop</button>
+			<button id="pop" style="background-color: #ffffff; border:0;">pop</button>
+			<button id="electronica" style="background-color: #24FCD8; border:0;">electronica</button>
+			<button id="folk" style="background-color: #ffca85; border:0;">folk</button>
+			<button id="metal" style="background-color: #FF0000; border:0;">metal</button>
+			<button id="psych" style="background-color: #FC24E8; border:0;">psych</button>
+			<button id="jazz" style="background-color: #019028; border:0;">jazz</button>
+			<button id="blues" style="background-color: #005CFE; border:0;">blues</button>
+			<button id="country" style="background-color: #FF5733; border:0;">country</button>
+			<button id="funk" style="background-color: #A002DC; border:0;">funk</button>
 			<br/>
 		</div>
 		<script src="../build/three.js"></script>

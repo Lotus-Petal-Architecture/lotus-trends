@@ -40,7 +40,7 @@ var r = 100,
   scene.add(group)
 
   var link_order_length = 0
-  var linkVisible = true
+  //var linkVisible = true
 
 
 // sample arrays for testing purposes
@@ -52,17 +52,38 @@ var r = 100,
   var rock_links = [] //index values of genre links
   var punk_links = [] //index values of genre links
   var pop_links = [] //index values of genre links
+  var country_links = [] //index values of genre links
+  var folk_links = [] //index values of genre links
+  var metal_links = [] //index values of genre links
+  var jazz_links = [] //index values of genre links
+  var psych_links = [] //index values of genre links
+  var hiphop_links = [] //index values of genre links
+  var electronica_links = [] //index values of genre links
+  var blues_links = [] //index values of genre links
+  var funk_links = [] //index values of genre links
   var active_array = [] // placeholder for array values being filtered
   var song_names = [] //list of youtube videos. uses the same index ranking as link_order
+  var views = [] //popularity of youtube videas. uses same index ranking as link_order
   var video_titles = []
   var video_thmbs = []
   //var curves = []
   //var pasta = [] // array of active invisibleSpaghetti geometric links objects created
   var xmlhttp = new XMLHttpRequest()
 
+  //These song IDs are periodically queried from the Lotus YouTube genre playlists.  
+
   var rockgenre = ["uIP0iIxHLY4","E9yTHSyZeKg","VkavEUCwm0M","rddu5TgrTmE","DHXYSbs6Rb0","zClCsQnRj-c","yHNB4m1dfKE","4fr8k6O-Bko","w_otXEVPgOk","q-XpcMTnB-A","bU2WUSEC6PY","rQfs5UTzwFQ","8Ux6UnYOLvk","CyDHTJCIfHQ","AwkDVMr4Kso","0Jpqb5IYlEE","l5JhD4wKsrs","8BhdoriXe9Q","KLgWHoGLDx4","iv0ej8cJScM","kXFGQYGFeFU","LEKxlNbjgmE","KYhsehUH5b0","kYKcf7EWEfc","DElGhE2NhtQ","j0iohXlRXKA","_oQIIAdG8xM","Ys4YGRN8hgY","Duot03grNv8","2bHvzuupe4w","FxdnqfyvIkY","Y6BeTnjUqlo","cwHmeFidLbE","W3m7Uz7hF-s","APrpB-i4d_E","FuFtfhOipNQ","ON6pn6suSzc","BzkHp6EswEM","W05cPXpUHGI","kkcbxjWG9Mc","-DjpNgrocKo","MUfgAbFY4CA","D1vQJFF2TKQ","f-MroGCKDcM","hjg39XRkjVc","E5uAH0vNn2s","rCy1VIy8Hj0","Kc1htX3q-F0","pGOO7EE4Lhw","tRNDB9VqI3Q","qOM107PIxV8","Ti1liRM6cao","V4Yw6A_rlHc","d9MA4rFNf7I","OqeKV2UYq1Q","ksTFj6L0mao","E5H8DwJI0uA","qR9DjdMrpHg","zJXQSBWO5Qc","wcICuFnkxe4","pB08AUiTP3w","vZA_7FtttRY","cgr8e7da52o","MbxRu7fwR24","6r1-HTiwGiY","TpLhrLzSaFQ","HwgNMrs-i80","QJu611UdfxA","pO3_ZG7wJPc","sSCb-a2McRI","yyayVIXwg74","TkIloV7OMAk","xRFTYRXS3aw","1WaMgWUiYg0","wsF4TVHr42A","trZ244Ih_E4","iG8D1Kb7xgQ","EIpzPVAHpVg","WGnqoZx7_QY","n7zyfArxibk","UNUmSwWq-LU","Rh2YmGujtFI","PE1ges9nn6A","K_5lt23PRVs","DCI5XqT-AZs","QAhMakentwA","aUfu-lEflbQ","YbP-Aa3V6bA","t7Pv3eZEy4k","VZu1Z0oeFzo","_S0esU0n6sY","pOYN1p4Rc6o","mfA9K1hj2eg","OLTeVRvPq04","0_GeShK7aaY","U3iWpewLuyA","ull6hOYs5ZY","Palxbwco9pM","MP8Fd0mN50E","5AHz8HeDk3c","skvGTkW-qG4","-dJXBCBZwQg","aCgTgyBBswA","HcB7ZnkMnB8","0deHAT_KOqE"]
   var punkgenre = ["hPsdjlPVaJU","0deHAT_KOqE","YypAGqIBrX0","s_vgHgIKPQs","JOUmxw0DPsg","LesJtYAG8zM","pCgEUBf5y18","4qljGaHJbCs","FNFYq8O7DTY","cr5uFjA4TNI","VTd4JCIqL7U","OFOowKu7WjA","_ZydMszfZlQ","LJbtcit8Byg","Hu0wknFNTOk","rFP4gxn_uME","cQhGxSge7aA","5SeI6r8lI_U","WWWKRqzvxMg","LS7KFVYUQT4","uS1PyjaR8WM","LH7XPoWPz-4","hBF8YGF17rQ","0nt2Yn1M0oU","K0q6EYTGXXQ","8QcTCIsFJ2Q"]
   var popgenre = ["E7fzUGR8ZH4","pnfryoGog0A","Cqp-hL-I90A","YGv-OSvQwKY","IbE4ynQd_qQ","yQYu51hlkLk","w39qx5X_Owg","gK04XhlTLOM","XMUxca7gXv4","iLilpPtY2JU","X9BWRh92ifs","srwAMHbHVAE","yntvBrlZNeA","_P63qccOdzs","7hneF9Iu71g","Cg4c0RA2DJQ","uA4RNW3HkcQ","WJi9MXfl3zA","c-kLsqvD6q8","3MfJ9qMXBVQ","fPEoI43MMhs","3jWQzkoPFTg","c8H7Anvad6E","KqXN_5G_kuo","rVqIhE53D_w","9x6Mxs5DyxI","weW-VnINl-E","bS22uZHDr54","gahV15Oe9Xs","Bm1g5Yg0hUw","OCVgWq9B_HE","GiZHmwzNAqE","vtS54c9sP0U"]
+  var countrygenre = ["_86LQH-c1d8","ENODBnQ5ed0","z0lHW09eQRA","SBA_vLLrXr0","c4cBdT5WCoE","nKJeB03TrJg"]
+  var folkgenre = ["iPAr7kL-mmg","SBOK9CBjCK8","-Rfqo7OSimw","uJMn4WGaIOc","CmBgxP56R1I","Mub2i2BoHpM","ZyvYIYwLzTw","-ITl4-Kyey0","2wnDyOHPxrE","i94eFYHHAOY","au-mBoepJUA","6RzlgEyS-BE","6P8mfvCGKyg","4K8ou0iA_68","qMol4iSzXis","pfjyV0qtNlk","ba_SMlx-gi0","TN9upnrVwog","p1nmsaPh31E","V0HIfZmn3oU","5xFP4ikGCLk"]
+  var metalgenre = ["Ed_16Cblg9s","xuXln0HC-Lg","xxi6VQkCJPY","slua80kJ8zA","s5Eyu9-kchQ","RFmIOaRhOnE","sk4aZSLSkMs","iZtFjqZxBxw","4n8vZyzBWNs","BL8AJFQv9V4","bbt3qhOiH3M","9NrC7pRra9o","nptjor9ee_Q","r6i5PCn7_oY"]
+  var jazzgenre = ["6Y_B3wdQLgg","ZEhWfrVOWlE","Ra616vyPBp8","tG2F72T-ixY","t50c2AiAkpw"]
+  var psychgenre = ["3zDO7P_P3Aw","A4uAL0T_CUI","KiHrn43djYc","9_N4gVkx9_w","YZJ2rOm-PVA","x9_1ia_nB_E","SVi7fXWKqSk","KR6DysiE9Sk","--w4Ui8Alzc","M1hSddzlxL4","q93hgeROqvk"]
+  var hiphopgenre = ["Bi4K58Fd_1o","xL94jLzIGt0","zDoDWbB6RN8","71u8cSuyZrI","W8CrBGhfSiA","njHZdD0MGDs","bqogMblcal0","H_6GtBFCTyQ","RSfii8RLmNM","t1IMifXyJLc","OV2lquaPxSU","AguOdYNF2d4","Z9RsVV-zfgY","QYDXRoHpF0w","mKZBingy2OA","oErErOGaAv0","50ADWH1d3E8","Gv7iV4n7cXM","qepl1N0P-SA","U53SHxO4sbk"]
+  var electrogenre = ["MP_2p79Ems4","eg5Emkcjfdo","jt068Vdmfww","6ZowS0dDW1k","yDOi6phVQXM","H7vVXIiisSw","bBMPzOX_VUo","qIhPPceIEV0","f-FOTHUir_4","vAuwQugGdS4","_liZNFe-TDM","2sKF3MHrHEY","XfgAXwaseM8","s9t2QH5zTCQ","iF0IhEpDces","GdK4jqnDNN8","-G1XWvUBXk4","ZGmXbfF8uvM","ms2iYyh6jLI","IgfIh-NBoCw"]
+  var bluesgenre = ["-Q53gXuXd5s","uE2R5d6cPYs","AXHi-B2VbU0"]
+  var funkgenre = ["DWeB6hWoKyI","SBrMBqFbWok","6u8lUKuaUx8","Pjw-qzT6qBs","yMku_xfki1U","ClVNU2-C3rQ","uL8Dipf5kXc","MJLe_O2J5Xg","599tHbAQVts","8drkE_zLnLk","1jY7kdEIhaA","HmuGq5weoZA","c1UTArVwyZs","U-eK9RcU90s","6SGy0zUCtsk","9IjxNwHkttU","COICJal838M","slqKrANo7Uo","C7r5KziEspU","vxnYp5NyD4k","XTCUjmhWL4Y","Q72ENpHcrDQ"]
 
 // -------------------------------------------- //
 
@@ -313,7 +334,6 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_
     category.add(object)
   }
 
-
 //Draw Petals - draws ring of lotus petals
 function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, divisor){
   var geometry = new THREE.Geometry(),
@@ -462,19 +482,22 @@ group.position.set( 0, -.22, .75 );
 parentTransform = new THREE.Object3D()
 group.add(parentTransform)
 
-rockTransform = new THREE.Object3D()
-group.add(rockTransform)
-//rockTransform.visible = false;
-
+/*/rockTransform = new THREE.Object3D()
 punkTransform = new THREE.Object3D()
-group.add(punkTransform)
-//punkTransform.visible = false;
+popTransform = new THREE.Object3D()
+folkTransform = new THREE.Object3D()
+countryTransform = new THREE.Object3D()
+metalTransform = new THREE.Object3D()
+psychTransform = new THREE.Object3D()
+jazzTransform = new THREE.Object3D()
+hiphopTransform = new THREE.Object3D()
+electronicaTransform = new THREE.Object3D()
+bluesTransform = new THREE.Object3D()
+funkTransform = new THREE.Object3D()
 
 
-//console.log(parentTransform);
-//console.log(parentTransform.children);
-//console.log(parentTransform.children.id);
-
+group.add(/*rockTransform, punkTransform, popTransform, folkTransform, countryTransform, metalTransform, psychTransform, jazzTransform, hiphopTransform, electronicaTransform, bluesTransform, funkTransform)
+/*
 
 //console.log(curves);
 //var outlier1 = curves[0];
@@ -519,6 +542,8 @@ function getData() //processes JSON data and returns arrays for 5 main variables
   //console.log(song_title);
   //console.log(song_name);
   //console.log(popularity);
+  views.push([popularity]);
+  console.log(views) 
   song_names.push([song_name]);
         //video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
         //video_titles[video_titles.length] = song.snippet.title;
@@ -559,7 +584,55 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
       if (popgenre.includes(song_value)){
         
         pop_links.push(song_index);
-      }     
+      }
+
+      if (folkgenre.includes(song_value))
+      {
+        
+        folk_links.push(song_index);
+      }
+
+      if (countrygenre.includes(song_value)){
+        
+        country_links.push(song_index);
+      }
+
+      if (metalgenre.includes(song_value)){
+        
+        metal_links.push(song_index);
+      }
+
+      if (psychgenre.includes(song_value))
+      {
+        
+        psych_links.push(song_index);
+      }
+
+      if (hiphopgenre.includes(song_value)){
+        
+        hiphop_links.push(song_index);
+      }
+
+      if (jazzgenre.includes(song_value)){
+        
+        jazz_links.push(song_index);
+      }
+
+      if (bluesgenre.includes(song_value))
+      {
+        
+        blues_links.push(song_index);
+      }
+
+      if (funkgenre.includes(song_value)){
+        
+        funk_links.push(song_index);
+      }
+
+      if (electrogenre.includes(song_value)){
+        
+        electronica_links.push(song_index);
+      }       
     }
 }
 
@@ -570,8 +643,6 @@ console.log (rock_links)
 function addLinks() {  //adds links for selected values
 
 for (i = 0; i < 380; i++) {
-
-    //if (active_links.includes(i)) {
 
       var k = link_order[i];
       var color_code = 0xffffff;
@@ -590,8 +661,39 @@ for (i = 0; i < 380; i++) {
         0,
         parentTransform
       )
-    //}
   }
+
+addrockLinks()
+
+addpunkLinks()
+
+addpopLinks()
+
+addcountryLinks()
+
+addfolkLinks()
+
+addmetalLinks()
+
+addjazzLinks()
+
+addpsychLinks()
+
+addhiphopLinks()
+
+addelectronicaLinks()
+
+addbluesLinks()
+
+addfunkLinks()
+
+}
+
+
+function addrockLinks() {  //adds links for selected values
+
+rockTransform = new THREE.Object3D()
+group.add(rockTransform) 
 
 for (i = 0; i < link_order.length; i++) {
 
@@ -615,11 +717,21 @@ for (i = 0; i < link_order.length; i++) {
         rockTransform
       )
     }
+  }
+}
+
+
+function addpunkLinks() {  //adds links for selected values
+
+punkTransform = new THREE.Object3D()
+group.add(punkTransform) 
+
+for (i = 0; i < link_order.length; i++) {
 
     if (punk_links.includes(i)) {
 
       var k = link_order[i];
-      var color_code = 0x32cd32;
+      var color_code = 0x8BFA05;
 
        invisibleSpaghetti(
         k,
@@ -639,74 +751,20 @@ for (i = 0; i < link_order.length; i++) {
   }
 }
 
-//console.log(link_order);
 
-function addrockLinks() {  //adds links for selected values
+function addpopLinks() {  //adds links for selected values
 
-for (i = 0; i < link_order.length; i++) {
-
-    if (active_links1.includes(i)) {
-
-      var k = link_order[i];
-      var color_code = 0xe45e9d;
-
-      invisibleSpaghetti2(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code
-      )
-    }
-  }
-}
-
-
-function addpunkLinks() {  //adds links for selected values
+popTransform = new THREE.Object3D()
+group.add(popTransform) 
 
 for (i = 0; i < link_order.length; i++) {
 
-    if (active_links2.includes(i)) {
-
-      var k = link_order[i];
-      var color_code = 0x32cd32;
-
-       invisibleSpaghetti2(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code
-      )
-    }
-  }
-}
-
-
-
-
-//genreTransform.visibility = false;
-
-/*function addpopLinks() {  //adds links for selected values
-
-for (i = 0; i < link_order.length; i++) {
-
-    if (active_links3.includes(i)) {
+    if (pop_links.includes(i)) {
 
       var k = link_order[i];
       var color_code = 0xffffff;
 
-      invisibleSpaghetti(
+       invisibleSpaghetti(
         k,
         k_values[k][1],
         k_values[k][2],
@@ -716,14 +774,301 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][6],
         k_values[k][7],
         k_values[k][8],
-        color_code
+        color_code,
+        .4,
+        popTransform
       )
     }
   }
 }
-*/
+
+
+function addcountryLinks() {  //adds links for selected values
+
+countryTransform = new THREE.Object3D()
+group.add(countryTransform) 
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (country_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0xFF5733;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .4,
+        countryTransform
+      )
+    }
+  }
+}
+
+
+function addfolkLinks() {  //adds links for selected values
+
+folkTransform = new THREE.Object3D()
+group.add(folkTransform) 
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (folk_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0xffca85;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .4,
+        folkTransform
+      )
+    }
+  }
+}
+
+
+function addmetalLinks() {  //adds links for selected values
+
+metalTransform = new THREE.Object3D()
+group.add(metalTransform) 
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (metal_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0xFF0000;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .4,
+        metalTransform
+      )
+    }
+  }
+}
+
+
+function addpsychLinks() {  //adds links for selected values
+
+psychTransform = new THREE.Object3D()
+group.add(psychTransform) 
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (psych_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0xFC24E8;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .4,
+        psychTransform
+      )
+    }
+  }
+}
+
+
+function addjazzLinks() {  //adds links for selected values
+
+jazzTransform = new THREE.Object3D()
+group.add(jazzTransform) 
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (jazz_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0x019028;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .4,
+        jazzTransform
+      )
+    }
+  }
+}
+
+
+function addhiphopLinks() {  //adds links for selected values
+
+hiphopTransform = new THREE.Object3D()
+group.add(hiphopTransform) 
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (hiphop_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0xFCF51B;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .4,
+        hiphopTransform
+      )
+    }
+  }
+}
+
+
+function addelectronicaLinks() {  //adds links for selected values
+
+electronicaTransform = new THREE.Object3D()
+group.add(electronicaTransform) 
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (electronica_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0x24FCD8;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .4,
+        electronicaTransform
+      )
+    }
+  }
+}
+
+
+function addfunkLinks() {  //adds links for selected values
+
+funkTransform = new THREE.Object3D()
+group.add(funkTransform) 
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (funk_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0xA002DC;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .4,
+        funkTransform
+      )
+    }
+  }
+}
+
+
+function addbluesLinks() {  //adds links for selected values
+
+bluesTransform = new THREE.Object3D()
+group.add(bluesTransform) 
+
+for (i = 0; i < link_order.length; i++) {
+
+    if (blues_links.includes(i)) {
+
+      var k = link_order[i];
+      var color_code = 0x005CFE;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .8,
+        bluesTransform
+      )
+    }
+  }
+}
+
 
   // --- indicator code
+
+function showViews(k) {
+  l = link_order.indexOf(k) 
+  var songViews= views[l];
+  document.getElementById("views").innerHTML = "Views<br>" + songViews;  //test placement code
+}
 
 function showRank(k) {
   l = link_order.indexOf(k) 
@@ -731,15 +1076,14 @@ function showRank(k) {
 }
 
 function toggleLinks(linkobject) {
-  linkVisible =! linkVisible; 
 
-  if (linkVisible == true) {
-    linkobject.visible = true;
-  }
-  else if 
-    (linkVisible == false) {
+  //group.remove(linkobject)
+
+  if (linkobject.visible == true) {
     linkobject.visible = false;
   }
+  else 
+    linkobject.visible = true;
 }
 
 
@@ -761,7 +1105,7 @@ function toggleLinks(linkobject) {
   window.addEventListener('resize', onWindowResize, false)
 
   
-  // EVENTS
+  // BUTTONS
 
   document.getElementById( "rock" ).addEventListener( 'click', function () {
           toggleLinks(rockTransform);
@@ -772,8 +1116,45 @@ function toggleLinks(linkobject) {
         }, false );
   
   document.getElementById( "pop" ).addEventListener( 'click', function () {
-          restoreLinks();
+          toggleLinks(popTransform);
         }, false );
+
+  document.getElementById( "folk" ).addEventListener( 'click', function () {
+          toggleLinks(folkTransform);
+        }, false );
+  
+  document.getElementById( "hiphop" ).addEventListener( 'click', function () {
+          toggleLinks(hiphopTransform);
+        }, false );
+  
+  document.getElementById( "country" ).addEventListener( 'click', function () {
+          toggleLinks(countryTransform);
+        }, false );
+
+  document.getElementById( "electronica" ).addEventListener( 'click', function () {
+          toggleLinks(electronicaTransform);
+        }, false );
+  
+  document.getElementById( "metal" ).addEventListener( 'click', function () {
+          toggleLinks(metalTransform);
+        }, false );
+  
+  document.getElementById( "psych" ).addEventListener( 'click', function () {
+          toggleLinks(psychTransform);
+        }, false );
+
+  document.getElementById( "jazz" ).addEventListener( 'click', function () {
+          toggleLinks(jazzTransform);
+        }, false );
+  
+  document.getElementById( "funk" ).addEventListener( 'click', function () {
+          toggleLinks(funkTransform);
+        }, false );
+  
+  document.getElementById( "blues" ).addEventListener( 'click', function () {
+          toggleLinks(bluesTransform);
+        }, false );
+
   
   function onDocumentMouseMove (event) {
     event.preventDefault()
@@ -789,6 +1170,7 @@ function toggleLinks(linkobject) {
           var intersection = intersects[i],
           obj = intersection.object
           k = obj.label
+          showViews(k);
           showRank(k);
       }      
     } 
@@ -813,9 +1195,6 @@ function toggleLinks(linkobject) {
       window.open(URL, 'iframe_a')
     }
   }
-
-
-
 
 
   function onWindowResize () {
