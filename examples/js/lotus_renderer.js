@@ -93,6 +93,9 @@ function init () {
   container = document.createElement('div')
   document.body.appendChild(container)
 
+  var URL = "https://www.youtube.com/embed/" + "-Rfqo7OSimw" + "?autoplay=1&mute=0"
+  window.open(URL, 'iframe_a')
+
 function assignLinks () //this assigns k values to the ranked link ids, so that the highest values occur at the highest chart points for each concentric ring.
 
 
@@ -332,6 +335,7 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_
     material.opacity = opacity
     object.label = k
     category.add(object)
+    category.visible = false
   }
 
 //Draw Petals - draws ring of lotus petals
@@ -482,23 +486,6 @@ group.position.set( 0, -.22, .75 );
 parentTransform = new THREE.Object3D()
 group.add(parentTransform)
 
-/*/rockTransform = new THREE.Object3D()
-punkTransform = new THREE.Object3D()
-popTransform = new THREE.Object3D()
-folkTransform = new THREE.Object3D()
-countryTransform = new THREE.Object3D()
-metalTransform = new THREE.Object3D()
-psychTransform = new THREE.Object3D()
-jazzTransform = new THREE.Object3D()
-hiphopTransform = new THREE.Object3D()
-electronicaTransform = new THREE.Object3D()
-bluesTransform = new THREE.Object3D()
-funkTransform = new THREE.Object3D()
-
-
-group.add(/*rockTransform, punkTransform, popTransform, folkTransform, countryTransform, metalTransform, psychTransform, jazzTransform, hiphopTransform, electronicaTransform, bluesTransform, funkTransform)
-/*
-
 //console.log(curves);
 //var outlier1 = curves[0];
 //outlier1.material.color.setHex( 0xFF0000 );
@@ -557,9 +544,6 @@ getData();
 function getActiveLinks()  //sorts for a given set of values from the data obtained above
 {
 
-    //console.log(song_names);
-    //console.log (pasta);
-    //console.log (pasta[1]);
 
     var active_array = song_names;
 
@@ -647,7 +631,7 @@ group.add(topTransform)
 for (i = 0; i < 100; i++) {
 
       var k = link_order[i];
-      var color_code = 0xcccccc;
+      var color_code = 0x87ceeb;
 
       invisibleSpaghetti(
         k,
@@ -660,13 +644,12 @@ for (i = 0; i < 100; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .2,
+        .4,
         topTransform
       )
   }
+topTransform.visible = true
 }
-
-addTopSongs()
 
 function addTop8Songs() {  // adds links for selected values
 
@@ -676,7 +659,7 @@ group.add(top8Transform)
 for (i = 0; i < 8; i++) {
 
       var k = link_order[i];
-      var color_code = 0xcccccc;
+      var color_code = 0x87ceeb;
 
       invisibleSpaghetti(
         k,
@@ -693,9 +676,40 @@ for (i = 0; i < 8; i++) {
         top8Transform
       )
   }
+top8Transform.visible = true
 }
 
-addTop8Songs()  
+function addTopEmergingSongs() {  // adds links for selected values
+
+topETransform = new THREE.Object3D()
+group.add(topETransform) 
+
+for (i = 152; i < 164; i++) {
+
+      var k = link_order[i];
+      var color_code = 0x87ceeb;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .6,
+        topETransform
+      )
+  }
+topETransform.visible = true
+}
+
+addTopSongs() 
+addTop8Songs()
+addTopEmergingSongs()  
 
 
 function addLinks() {  // adds links for selected values
@@ -902,6 +916,7 @@ for (i = 0; i < link_order.length; i++) {
       )
     }
   }
+folkTransform.visible=true
 }
 
 
