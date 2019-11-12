@@ -543,7 +543,6 @@ function getData() //processes JSON data and returns arrays for 5 main variables
   //console.log(song_name);
   //console.log(popularity);
   views.push([popularity]);
-  console.log(views) 
   song_names.push([song_name]);
         //video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
         //video_titles[video_titles.length] = song.snippet.title;
@@ -636,13 +635,15 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
     }
 }
 
-console.log (rock_links)
+
 
 // generates clickable and color-coded links by category
 
-function addLinks() {  //adds links for selected values
+function addLinks() {  // adds links for selected values
 
-for (i = 0; i < 380; i++) {
+console.log (song_names.length) // current actual number of songs being ranked
+
+for (i = 0; i < song_names.length; i++) {
 
       var k = link_order[i];
       var color_code = 0xffffff;
