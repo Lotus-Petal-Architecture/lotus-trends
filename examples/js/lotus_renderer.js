@@ -63,7 +63,6 @@ var r = 100,
   var electronica_links = [] //index values of genre links
   var blues_links = [] //index values of genre links
   var funk_links = [] //index values of genre links
-  var active_array = [] // placeholder for array values being filtered
   var song_names = [] //list of youtube videos. uses the same index ranking as link_order
   var views = [] //popularity of youtube videas. uses same index ranking as link_order
   var video_titles = []
@@ -545,19 +544,25 @@ function getData() //processes JSON data and returns arrays for 5 main variables
 
 getData();
 
-
-
 function getActiveLinks()  //sorts for a given set of values from the data obtained above
 {
 
-
-    var active_array = song_names;
-
-    var f = active_array.entries(); 
+    var f = song_names.entries(); 
 
     for (x of f) {
       var song_value = x[1].toString();
       var song_index = x[0];
+
+            //code to get intro video rank and views to appear -- in the future the opening song will be randomized
+      if (song_value == "-Rfqo7OSimw") {
+
+        var l = song_index
+        console.log(l)
+        var k = link_order[l];
+        showViews(k);
+        showRank(k);
+      }
+      
       
       if (rockgenre.includes(song_value))
       {
@@ -622,17 +627,6 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
         
         electronica_links.push(song_index);
       }
-
-      //code to get intro video rank and views to appear -- in the future the opening song will be randomized
-      if (song_value == "-Rfqo7OSimw") {
-
-        var l = song_index
-        console.log(l)
-        var k = link_order[l];
-        showViews(k);
-        showRank(k);
-
-      }
     }
 }
 
@@ -661,11 +655,11 @@ for (i = 0; i < 100; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .2,
         topTransform
       )
   }
-topTransform.visible = true
+topTransform.visible = false
 }
 
 function addTop8Songs() {  // adds links for selected values
@@ -689,7 +683,7 @@ for (i = 0; i < 8; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .2,
         top8Transform
       )
   }
@@ -717,14 +711,14 @@ for (i = 152; i < 164; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .6,
+        .3,
         topETransform
       )
   }
 topETransform.visible = true
 }
 
-addTopSongs() 
+addTopSongs()
 addTop8Songs()
 addTopEmergingSongs()  
 
@@ -835,7 +829,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .2,
         punkTransform
       )
     }
@@ -866,7 +860,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .2,
         popTransform
       )
     }
@@ -897,7 +891,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .5,
         countryTransform
       )
     }
@@ -928,7 +922,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .3,
         folkTransform
       )
     }
@@ -991,7 +985,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .3,
         psychTransform
       )
     }
@@ -1022,7 +1016,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .6,
         jazzTransform
       )
     }
@@ -1053,7 +1047,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .2,
         hiphopTransform
       )
     }
@@ -1084,7 +1078,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .2,
         electronicaTransform
       )
     }
@@ -1146,7 +1140,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .8,
+        .6,
         bluesTransform
       )
     }
@@ -1340,5 +1334,10 @@ blah.myFunction()
 
 
 //document.write(k + " " + links[k] + ", ");
+
+Site Colors:  
+#656565  - medium grey
+#87ceeb - cerulean
+#C2D6F - hot pink
 
 //  ---- reference code ----- /*/  

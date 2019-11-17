@@ -63,7 +63,6 @@ var r = 100,
   var electronica_links = [] //index values of genre links
   var blues_links = [] //index values of genre links
   var funk_links = [] //index values of genre links
-  var active_array = [] // placeholder for array values being filtered
   var song_names = [] //list of youtube videos. uses the same index ranking as link_order
   var views = [] //popularity of youtube videas. uses same index ranking as link_order
   var video_titles = []
@@ -161,9 +160,9 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
 
 assignLinks();
 
+var linkstr = link_order.toString();
+console.log(linkstr)
 
-console.log(link_order)
-//console.log(song_names)
 
 
 /*
@@ -438,6 +437,8 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
           color_code
         )
 
+        //console.log(k)
+
 
         k_values.push([    //k values each define a unique curve in 3D space. They are not associated with a specific petal ring.
           k,
@@ -545,19 +546,25 @@ function getData() //processes JSON data and returns arrays for 5 main variables
 
 getData();
 
-
-
 function getActiveLinks()  //sorts for a given set of values from the data obtained above
 {
 
-
-    var active_array = song_names;
-
-    var f = active_array.entries(); 
+    var f = song_names.entries(); 
 
     for (x of f) {
       var song_value = x[1].toString();
       var song_index = x[0];
+
+            //code to get intro video rank and views to appear -- in the future the opening song will be randomized
+      if (song_value == "-Rfqo7OSimw") {
+
+        var l = song_index
+        //console.log(l)
+        var k = link_order[l];
+        showViews(k);
+        showRank(k);
+      }
+      
       
       if (rockgenre.includes(song_value))
       {
@@ -622,17 +629,6 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
         
         electronica_links.push(song_index);
       }
-
-      //code to get intro video rank and views to appear -- in the future the opening song will be randomized
-      if (song_value == "-Rfqo7OSimw") {
-
-        var l = song_index
-        console.log(l)
-        var k = link_order[l];
-        showViews(k);
-        showRank(k);
-
-      }
     }
 }
 
@@ -661,11 +657,11 @@ for (i = 0; i < 100; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .2,
         topTransform
       )
   }
-topTransform.visible = true
+topTransform.visible = false
 }
 
 function addTop8Songs() {  // adds links for selected values
@@ -689,7 +685,7 @@ for (i = 0; i < 8; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .2,
         top8Transform
       )
   }
@@ -717,14 +713,14 @@ for (i = 152; i < 164; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .6,
+        .3,
         topETransform
       )
   }
 topETransform.visible = true
 }
 
-addTopSongs() 
+addTopSongs()
 addTop8Songs()
 addTopEmergingSongs()  
 
@@ -754,7 +750,7 @@ for (i = 0; i < song_names.length; i++) {
       )
   }
 
-addrockLinks()
+/*addrockLinks()
 
 addpunkLinks()
 
@@ -777,8 +773,34 @@ addelectronicaLinks()
 addbluesLinks()
 
 addfunkLinks()
+*/
 
 }
+
+      var k = 10
+
+      testTransform = new THREE.Object3D()
+      group.add(testTransform) 
+
+      var color_code = 0xe45e9d;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        1,
+        testTransform
+      )
+
+testTransform.visible = true
+      
 
 
 function addrockLinks() {  //adds links for selected values
@@ -835,7 +857,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .2,
         punkTransform
       )
     }
@@ -866,7 +888,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .2,
         popTransform
       )
     }
@@ -897,7 +919,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .5,
         countryTransform
       )
     }
@@ -928,7 +950,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .3,
         folkTransform
       )
     }
@@ -991,7 +1013,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .3,
         psychTransform
       )
     }
@@ -1022,7 +1044,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .6,
         jazzTransform
       )
     }
@@ -1053,7 +1075,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .2,
         hiphopTransform
       )
     }
@@ -1084,7 +1106,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .4,
+        .2,
         electronicaTransform
       )
     }
@@ -1146,7 +1168,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .8,
+        .6,
         bluesTransform
       )
     }
@@ -1177,8 +1199,6 @@ function toggleLinks(linkobject) {
   else 
     linkobject.visible = true;
 }
-
-
 
   // --- raycaster code
 
@@ -1340,5 +1360,10 @@ blah.myFunction()
 
 
 //document.write(k + " " + links[k] + ", ");
+
+Site Colors:  
+#656565  - medium grey
+#87ceeb - cerulean
+#C2D6F - hot pink
 
 //  ---- reference code ----- /*/  
