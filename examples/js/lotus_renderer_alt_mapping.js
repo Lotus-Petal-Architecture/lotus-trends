@@ -1,4 +1,5 @@
 //Copyright 2019 by Lotus.fm LLC
+//This script represents an alternate approach to link order, where every k value is mapped to a spot in the link_order array.
 
 var camera, scene, raycaster, renderer, parentTransform, sphereInter
 var mouse = new THREE.Vector2()
@@ -103,39 +104,63 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
 
 
   {
-  var interval = 20;
+  var interval = 20; // each petal contains 20 chart lines
 
-  for (var i = 0; i < 8; i++) { //link ids for the innermost petal ring
+//generates the first 160 values for an 8 petal ring ---
+
+  for (var i = 0; i < 8; i++) //link ids for the innermost petal ring
+  {
     k = (i * interval )+ 10;
     link_order.push(k);
   }
-  for (var h = 0; h < 9; h++) {
+  for (var h = 0; h < 9; h++) 
+  { 
     for (var j = 0; j < 8; j++) {
       k = link_order[j];
-      k1 = k - 2 - h;
+      k1 = k - 1 - h;
       k2 = k - (-1) + h;
       link_order.push(k1);
       link_order.push(k2);
     }
   }
+  for (var i = 0; i < 8; i++) 
+  { 
+    k = (i*interval);
+    link_order.push(k);
+  }
+
+// ---
+
+//generates the remaining 240 values for a 12 petal ring ---
 
   var start = link_order.length;
-  var stop= start + 12
+  var stop = start + 12
 
   for (var i = 0; i < 12; i++) {  //link ids for the middle petal ring
     k = (i * interval )+ 10;
     k = k + 160;
-    link_order.push(k);
+    link_order.push([k]);
   }
+
+  console.log (start)
+
   for (var h = 0; h < 9; h++) {
     for (var j = start; j < stop; j++) {
       k = link_order[j];
-      k1 = k - 2 - h;
+      k1 = k - 1 - h;
       k2 = k - (-1) + h;
       link_order.push(k1);
       link_order.push(k2);
     }
   }
+  for (var i = 0; i < 12; i++) 
+  { 
+    k = (i*interval);
+    k = k + 160;
+    link_order.push(k);
+  }
+
+// ---
 
   /*var link_order_length = link_order.length;
   var stop= link_order_length + 16
@@ -160,22 +185,11 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
 
 assignLinks();
 
-
-/*console.log(link_order)
+console.log(link_order)
 var linkstr = link_order.toString();
 console.log(linkstr)
 
-var dupes = []
-dupes = link_order
 
-var dupestr = dupes.toString();
-console.log(dupestr)
-
-dupes.sort();
-
-var dupestr = dupes.toString();
-console.log(dupestr)
-/*
 
 /*
 //This function can be used to sort arrays -- if the data is not already pre-sorted.
@@ -449,6 +463,8 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
           color_code
         )
 
+        //console.log(k)
+
 
         k_values.push([    //k values each define a unique curve in 3D space. They are not associated with a specific petal ring.
           k,
@@ -569,7 +585,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
       if (song_value == "-Rfqo7OSimw") {
 
         var l = song_index
-        console.log(l)
+        //console.log(l)
         var k = link_order[l];
         showViews(k);
         showRank(k);
@@ -760,7 +776,7 @@ for (i = 0; i < song_names.length; i++) {
       )
   }
 
-addrockLinks()
+/*addrockLinks()
 
 addpunkLinks()
 
@@ -783,8 +799,38 @@ addelectronicaLinks()
 addbluesLinks()
 
 addfunkLinks()
+*/
 
 }
+
+
+/*  test code
+      var k = 20
+
+      testTransform = new THREE.Object3D()
+      group.add(testTransform) 
+
+      var color_code = 0xe45e9d;
+
+       invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        1,
+        testTransform
+      )
+
+testTransform.visible = true
+
+*/
+      
 
 
 function addrockLinks() {  //adds links for selected values
@@ -1183,8 +1229,6 @@ function toggleLinks(linkobject) {
   else 
     linkobject.visible = true;
 }
-
-
 
   // --- raycaster code
 
