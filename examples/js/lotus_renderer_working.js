@@ -1195,6 +1195,9 @@ function toggleLinks(linkobject) {
   sphereInter.visible = false
   scene.add(sphereInter)
 
+  activeLink = new THREE.Object3D()
+  group.add(activeLink)
+
   raycaster = new THREE.Raycaster()
 
   document.addEventListener('mousemove', onDocumentMouseMove, false)
@@ -1267,17 +1270,39 @@ function toggleLinks(linkobject) {
     if (intersects.length > 0) {
       sphereInter.visible = true
       sphereInter.position.copy(intersects[0].point)
+      group.remove(activeLink)
+      activeLink = new THREE.Object3D()
+      group.add(activeLink)
       for (var i = 0; i < intersects.length; i++) 
       {
           var intersection = intersects[i],
           obj = intersection.object
           k = obj.label
+          var color_code = 0xCC2D6F; 
+          invisibleSpaghetti (
+            k,
+            k_values[k][1],
+            k_values[k][2],
+            k_values[k][3],
+            k_values[k][4],
+            k_values[k][5],
+            k_values[k][6],
+            k_values[k][7],
+            k_values[k][8],
+            color_code,
+            .8,
+            activeLink
+      )
+          activeLink.visible = true;
           showViews(k);
           showRank(k);
+          //return activeLink
       }      
     } 
     else {
       sphereInter.visible = false
+      //activeLink.visible = false;
+      group.remove(activeLink)
     }
   }
 
