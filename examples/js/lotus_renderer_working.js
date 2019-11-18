@@ -140,7 +140,7 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
   /*var link_order_length = link_order.length;
   var stop= link_order_length + 16
 
-  for (var i = 0; i < 16; i++) {  //link ids for the outer petal ring
+  for (var i = 0; i < 16; i++) {          //link ids for the outer petal ring
     k = (i * interval )+ 25;
      k = k + 1300;
     link_order.push([k]);
@@ -161,7 +161,7 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
 assignLinks();
 
 
-/*console.log(link_order)
+/*console.log(link_order)                   //testing code
 var linkstr = link_order.toString();
 console.log(linkstr)
 
@@ -569,7 +569,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
       if (song_value == "-Rfqo7OSimw") {
 
         var l = song_index
-        console.log(l)
+        //console.log(l)
         var k = link_order[l];
         showViews(k);
         showRank(k);
@@ -1170,7 +1170,7 @@ function showViews(k) {
 
 function showRank(k) {
   l = link_order.indexOf(k) 
-  document.getElementById("rank").innerHTML = "Rank<br>" + l;  //test placement code
+  document.getElementById("rank").innerHTML = "Rank<br>" + (l+1);  //test placement code
 }
 
 function toggleLinks(linkobject) {
