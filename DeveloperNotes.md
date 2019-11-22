@@ -51,3 +51,7 @@ https://www.gnu.org/licenses/javascript-labels.html
 YouTube references
 
 https://developers.google.com/youtube/v3/docs/playlistItems?authuser=4
+
+Button Classes
+
+https://www.w3schools.com/w3css/w3css_buttons.asp

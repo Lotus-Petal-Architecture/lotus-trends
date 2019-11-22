@@ -1,6 +1,6 @@
 //Copyright 2019 by Lotus.fm LLC
 
-var camera, scene, raycaster, renderer, parentTransform, sphereInter
+var camera, scene, raycaster, renderer, parentTransform, sphereInter, activeLink
 var mouse = new THREE.Vector2()
 var r = 100,
   dot = 0
@@ -199,7 +199,7 @@ function drawPetal (
     z1,
     petalheight,
     ctrlpt,
-    color_code,
+    color_code
   ) {
     var curve = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(x, y, z),
@@ -730,10 +730,9 @@ for (i = 152; i < 164; i++) {
 topETransform.visible = true
 }
 
-addTopSongs()
+/*addTopSongs()
 addTop8Songs()
-addTopEmergingSongs()  
-
+addTopEmergingSongs()*/
 
 function addLinks() {  // adds links for selected values
 
@@ -760,7 +759,10 @@ for (i = 0; i < song_names.length; i++) {
       )
   }
 
-addrockLinks()
+rockTransform = new THREE.Object3D()
+group.add(rockTransform) 
+
+/*addrockLinks()
 
 addpunkLinks()
 
@@ -782,7 +784,7 @@ addelectronicaLinks()
 
 addbluesLinks()
 
-addfunkLinks()
+addfunkLinks()*/
 
 }
 
@@ -815,6 +817,7 @@ for (i = 0; i < link_order.length; i++) {
       )
     }
   }
+rockTransform.visible=true
 }
 
 
@@ -1173,6 +1176,18 @@ function showRank(k) {
   document.getElementById("rank").innerHTML = "Rank<br>" + (l+1);  //test placement code
 }
 
+function toggleLinks(addLinkfunction, removeLinkfunction) {
+
+  if (linkobject.visible == true) {
+    group.remove(linkobject);
+  }
+  else 
+  linkfunction()
+
+}
+
+
+/* old code
 function toggleLinks(linkobject) {
 
   //group.remove(linkobject)
@@ -1183,7 +1198,7 @@ function toggleLinks(linkobject) {
   else 
     linkobject.visible = true;
 }
-
+*/
 
 
   // --- raycaster code
@@ -1208,7 +1223,7 @@ function toggleLinks(linkobject) {
   // BUTTONS
 
   document.getElementById( "rock" ).addEventListener( 'click', function () {
-          toggleLinks(rockTransform);
+          toggleLinks(addrockLinks, rockTransform);
         }, false );
   
   document.getElementById( "punk" ).addEventListener( 'click', function () {
