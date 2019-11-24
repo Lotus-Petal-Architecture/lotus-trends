@@ -8,7 +8,7 @@ var r = 100,
   var scene = new THREE.Scene()
 
   var camera = new THREE.PerspectiveCamera(
-    15,
+    27,
     window.innerWidth / window.innerHeight,
     0.1,
     1000
@@ -496,7 +496,8 @@ drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 
 //drawPetalRing (16, 1, .1,  0x0099cc, 320, 20)  //outer petals
 
-group.position.set( 0, -.22, .75 );
+group.position.set( 0, -.17, .75 );
+group.rotation.set(0,0,.4);
 
 parentTransform = new THREE.Object3D()
 group.add(parentTransform)
@@ -730,9 +731,9 @@ for (i = 152; i < 164; i++) {
 topETransform.visible = true
 }
 
-/*addTopSongs()
+addTopSongs()
 addTop8Songs()
-addTopEmergingSongs()*/
+addTopEmergingSongs()
 
 function addLinks() {  // adds links for selected values
 
@@ -759,10 +760,10 @@ for (i = 0; i < song_names.length; i++) {
       )
   }
 
-rockTransform = new THREE.Object3D()
-group.add(rockTransform) 
+//rockTransform = new THREE.Object3D()
+//group.add(rockTransform) 
 
-/*addrockLinks()
+addrockLinks()
 
 addpunkLinks()
 
@@ -784,7 +785,7 @@ addelectronicaLinks()
 
 addbluesLinks()
 
-addfunkLinks()*/
+addfunkLinks()
 
 }
 
@@ -1176,7 +1177,7 @@ function showRank(k) {
   document.getElementById("rank").innerHTML = "Rank<br>" + (l+1);  //test placement code
 }
 
-function toggleLinks(addLinkfunction, removeLinkfunction) {
+/*function toggleLinks(addLinkfunction, removeLinkfunction) {
 
   if (linkobject.visible == true) {
     group.remove(linkobject);
@@ -1185,9 +1186,10 @@ function toggleLinks(addLinkfunction, removeLinkfunction) {
   linkfunction()
 
 }
+*/
 
 
-/* old code
+// old code
 function toggleLinks(linkobject) {
 
   //group.remove(linkobject)
@@ -1198,7 +1200,7 @@ function toggleLinks(linkobject) {
   else 
     linkobject.visible = true;
 }
-*/
+//
 
 
   // --- raycaster code
@@ -1206,9 +1208,6 @@ function toggleLinks(linkobject) {
 
   var geometry = new THREE.SphereBufferGeometry(0.01)
   var material = new THREE.MeshBasicMaterial({ color: 0x45a7c5 })
-  sphereInter = new THREE.Mesh(geometry, material)
-  sphereInter.visible = false
-  scene.add(sphereInter)
 
   activeLink = new THREE.Object3D()
   group.add(activeLink)
@@ -1223,7 +1222,8 @@ function toggleLinks(linkobject) {
   // BUTTONS
 
   document.getElementById( "rock" ).addEventListener( 'click', function () {
-          toggleLinks(addrockLinks, rockTransform);
+          //toggleLinks(addrockLinks, rockTransform);
+          toggleLinks(rockTransform);
         }, false );
   
   document.getElementById( "punk" ).addEventListener( 'click', function () {
@@ -1270,9 +1270,9 @@ function toggleLinks(linkobject) {
           toggleLinks(bluesTransform);
         }, false );
 
-  document.getElementById( "top100" ).addEventListener( 'click', function () {
+  /*document.getElementById( "top100" ).addEventListener( 'click', function () {
           toggleLinks(topTransform);
-        }, false );
+        }, false );*/
 
 
   
@@ -1283,8 +1283,6 @@ function toggleLinks(linkobject) {
     raycaster.setFromCamera(mouse, camera)
     var intersects = raycaster.intersectObjects(parentTransform.children, true)
     if (intersects.length > 0) {
-      sphereInter.visible = true
-      sphereInter.position.copy(intersects[0].point)
       group.remove(activeLink)
       activeLink = new THREE.Object3D()
       group.add(activeLink)
@@ -1315,7 +1313,6 @@ function toggleLinks(linkobject) {
       }      
     } 
     else {
-      sphereInter.visible = false
       //activeLink.visible = false;
       group.remove(activeLink)
     }
@@ -1347,7 +1344,7 @@ function toggleLinks(linkobject) {
 
   //animate and render
 
-  camera.position.z = 3.85  //this value was originally 3.75, and can be tweaked as needed
+  camera.position.z = 3.75  //this value was originally 3.75, and can be tweaked as needed
 
   function animate () {
 
@@ -1355,8 +1352,8 @@ function toggleLinks(linkobject) {
 
     requestAnimationFrame(animate)
     render()
-    group.rotation.x += 0.0000
-    group.rotation.y += 0.0001
+    group.rotation.x += 0.0001
+    group.rotation.y += 0.0002
     }
 
     else {
@@ -1370,6 +1367,7 @@ function toggleLinks(linkobject) {
 
   function render () {
     dot += 0
+    renderer.setClearColor(0x0F426A, 1)
     renderer.render(scene, camera)
   }
 }
@@ -1390,6 +1388,6 @@ blah.myFunction()
 Site Colors:  
 #656565  - medium grey
 #87ceeb - cerulean
-#C2D6F - hot pink
+#CC2D6F - hot pink
 
 //  ---- reference code ----- /*/  
