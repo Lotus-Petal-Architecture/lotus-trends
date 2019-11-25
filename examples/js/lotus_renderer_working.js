@@ -97,6 +97,7 @@ function init () {
 
   var URL = "https://www.youtube.com/embed/" + "-Rfqo7OSimw" + "?autoplay=1&mute=1"
   window.open(URL, 'iframe_a')
+  //document.getElementById("nowplaying").innerHTML = "Now Playing:";  //test placement code
 
 
 function assignLinks () //this assigns k values to the ranked link ids, so that the highest values occur at the highest chart points for each concentric ring.
@@ -547,7 +548,8 @@ function getData() //processes JSON data and returns arrays for 5 main variables
   //console.log(popularity);
   views.push([popularity]);
   song_names.push([song_name]);
-        //video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
+  //video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
+  //console.log (video_thmbs)
         //video_titles[video_titles.length] = song.snippet.title;
      }
      }
@@ -1177,6 +1179,11 @@ function showRank(k) {
   document.getElementById("rank").innerHTML = "Rank<br>" + (l+1);  //test placement code
 }
 
+function showPointer() {
+  document.body.style.cursor = "pointer";
+}
+
+
 /*function toggleLinks(addLinkfunction, removeLinkfunction) {
 
   if (linkobject.visible == true) {
@@ -1309,12 +1316,13 @@ function toggleLinks(linkobject) {
           activeLink.visible = true;
           showViews(k);
           showRank(k);
-          //return activeLink
+          showPointer();
       }      
     } 
     else {
       //activeLink.visible = false;
       group.remove(activeLink)
+      document.body.style.cursor = "default";
     }
   }
 
