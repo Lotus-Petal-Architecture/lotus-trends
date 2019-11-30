@@ -65,7 +65,7 @@ var r = 100,
   var funk_links = [] //index values of genre links
   var song_names = [] //list of youtube videos. uses the same index ranking as link_order
   var views = [] //popularity of youtube videas. uses same index ranking as link_order
-  var video_titles = []
+  var song_titles = []
   var video_thmbs = []
   //var curves = []
   //var pasta = [] // array of active invisibleSpaghetti geometric links objects created
@@ -549,9 +549,10 @@ function getData() //processes JSON data and returns arrays for 5 main variables
   //console.log(popularity);
   views.push([popularity]);
   song_names.push([song_name]);
-  //video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
+  song_titles.push([song_title]);
+  video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
   //console.log (video_thmbs)
-        //video_titles[video_titles.length] = song.snippet.title;
+  //video_titles[video_titles.length] = song.snippet.title;
      }
      }
   }
@@ -575,6 +576,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
         var l = song_index
         //console.log(l)
         var k = link_order[l];
+        nowPlaying(k);
         showViews(k);
         showRank(k);
       }
@@ -1171,15 +1173,21 @@ for (i = 0; i < link_order.length; i++) {
 
   // --- indicator code
 
+function nowPlaying(k) {
+  l = link_order.indexOf(k)
+  var song_title= song_titles[l]; 
+  document.getElementById("nowplaying").innerHTML = "<b>Song Name</b><br>" + song_title;  //test placement code
+}
+
 function showViews(k) {
   l = link_order.indexOf(k) 
   var songViews= views[l];
-  document.getElementById("views").innerHTML = "Views<br>" + songViews;  //test placement code
+  document.getElementById("views").innerHTML = "<b>Views</b><br>" + songViews;  //test placement code
 }
 
 function showRank(k) {
   l = link_order.indexOf(k) 
-  document.getElementById("rank").innerHTML = "Rank<br>" + (l+1);  //test placement code
+  document.getElementById("rank").innerHTML = "<b>Rank</b><br>" + (l+1);  //test placement code
 }
 
 function showPointer() {
@@ -1330,6 +1338,7 @@ function toggleLinks(linkobject,id) {
           activeLink.visible = true;
           showViews(k);
           showRank(k);
+          nowPlaying(k);
           showPointer();
       }      
     } 
