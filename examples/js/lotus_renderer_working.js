@@ -1254,6 +1254,15 @@ function toggleLinks(linkobject,id) {
   document.getElementById( "info" ).addEventListener( 'mousemove', function(ev) {
   ev.stopPropagation(); 
         }, false );
+
+  document.getElementById( "suggest" ).addEventListener( 'click', function () {
+          window.open("https://web.lotus.fm/contact/", "_self")
+        }, false );
+  
+
+  document.getElementById( "enter" ).addEventListener( 'click', function () {
+          window.open("https://web.lotus.fm", "_self")
+        }, false );
   
   document.getElementById( "punk" ).addEventListener( 'click', function () {
           toggleLinks(punkTransform,"punk");
