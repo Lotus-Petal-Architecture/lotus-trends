@@ -62,3 +62,7 @@ https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mob
 
 https://www.w3schools.com/jsref/event_touchstart.asp
 
+JavaScript Animation
+
+https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop
+

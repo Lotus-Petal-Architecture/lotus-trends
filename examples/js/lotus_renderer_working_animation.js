@@ -1,7 +1,6 @@
 //Copyright 2019 by Lotus.fm LLC
-//This script represents an alternate approach to link order, where every k value is mapped to a spot in the link_order array.
 
-var camera, scene, raycaster, renderer, parentTransform, sphereInter
+var camera, scene, raycaster, renderer, parentTransform, rockTransform, activeLink
 var mouse = new THREE.Vector2()
 var r = 100,
   dot = 0
@@ -9,7 +8,7 @@ var r = 100,
   var scene = new THREE.Scene()
 
   var camera = new THREE.PerspectiveCamera(
-    15,
+    27,
     window.innerWidth / window.innerHeight,
     0.1,
     1000
@@ -66,7 +65,7 @@ var r = 100,
   var funk_links = [] //index values of genre links
   var song_names = [] //list of youtube videos. uses the same index ranking as link_order
   var views = [] //popularity of youtube videas. uses same index ranking as link_order
-  var video_titles = []
+  var song_titles = []
   var video_thmbs = []
   //var curves = []
   //var pasta = [] // array of active invisibleSpaghetti geometric links objects created
@@ -99,73 +98,51 @@ function init () {
   var URL = "https://www.youtube.com/embed/" + "-Rfqo7OSimw" + "?autoplay=1&mute=1"
   window.open(URL, 'iframe_a')
 
+  //document.getElementById("nowplaying").innerHTML = "Now Playing"//: <br>Small Million \u2022 Sirens";  //test placement code
+
 
 function assignLinks () //this assigns k values to the ranked link ids, so that the highest values occur at the highest chart points for each concentric ring.
 
 
   {
-  var interval = 20; // each petal contains 20 chart lines
+  var interval = 20;
 
-//generates the first 160 values for an 8 petal ring ---
-
-  for (var i = 0; i < 8; i++) //link ids for the innermost petal ring
-  {
+  for (var i = 0; i < 8; i++) { //link ids for the innermost petal ring
     k = (i * interval )+ 10;
     link_order.push(k);
   }
-  for (var h = 0; h < 9; h++) 
-  { 
+  for (var h = 0; h < 9; h++) {
     for (var j = 0; j < 8; j++) {
       k = link_order[j];
-      k1 = k - 1 - h;
+      k1 = k - 2 - h;
       k2 = k - (-1) + h;
       link_order.push(k1);
       link_order.push(k2);
     }
   }
-  for (var i = 0; i < 8; i++) 
-  { 
-    k = (i*interval);
-    link_order.push(k);
-  }
-
-// ---
-
-//generates the remaining 240 values for a 12 petal ring ---
 
   var start = link_order.length;
-  var stop = start + 12
+  var stop= start + 12
 
   for (var i = 0; i < 12; i++) {  //link ids for the middle petal ring
     k = (i * interval )+ 10;
     k = k + 160;
-    link_order.push([k]);
+    link_order.push(k);
   }
-
-  console.log (start)
-
   for (var h = 0; h < 9; h++) {
     for (var j = start; j < stop; j++) {
       k = link_order[j];
-      k1 = k - 1 - h;
+      k1 = k - 2 - h;
       k2 = k - (-1) + h;
       link_order.push(k1);
       link_order.push(k2);
     }
   }
-  for (var i = 0; i < 12; i++) 
-  { 
-    k = (i*interval);
-    k = k + 160;
-    link_order.push(k);
-  }
-
-// ---
 
   /*var link_order_length = link_order.length;
   var stop= link_order_length + 16
 
-  for (var i = 0; i < 16; i++) {  //link ids for the outer petal ring
+  for (var i = 0; i < 16; i++) {          //link ids for the outer petal ring
     k = (i * interval )+ 25;
      k = k + 1300;
     link_order.push([k]);
@@ -185,20 +162,6 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
 
 assignLinks();
 
-console.log(link_order)
-var linkstr = link_order.toString();
-console.log(linkstr)
-
-
-
-/*
-//This function can be used to sort arrays -- if the data is not already pre-sorted.
-function sortLinks() {
-  cap_rank = market_cap.sort(function(a, b){return a-b});
-}
-
-sortLinks();*/
-
 
 //Petal Constructor - draws outline of petal
 function drawPetal (
@@ -213,7 +176,7 @@ function drawPetal (
     z1,
     petalheight,
     ctrlpt,
-    color_code,
+    color_code
   ) {
     var curve = new THREE.QuadraticBezierCurve3(
       new THREE.Vector3(x, y, z),
@@ -284,7 +247,6 @@ function drawPetal (
     var points = points1.concat(points2)
     return points
   }
-
 
   
   //Chart Position Arc - returns points for top of chart lines
@@ -366,6 +328,7 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_
     category.add(object)
     category.visible = false
   }
+
 
 //Draw Petals - draws ring of lotus petals
 function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, divisor){
@@ -463,8 +426,6 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
           color_code
         )
 
-        //console.log(k)
-
 
         k_values.push([    //k values each define a unique curve in 3D space. They are not associated with a specific petal ring.
           k,
@@ -492,15 +453,6 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
   group.add(new THREE.Line(geometry, material));
 
 }
-
-
-
-/*var groupElements = [];
-var groupElements= group.children;
-
-group.uncache(groupElements);
-*/
-
   
 
 // -------------------------------- // 
@@ -512,7 +464,10 @@ drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 
 //drawPetalRing (16, 1, .1,  0x0099cc, 320, 20)  //outer petals
 
-group.position.set( 0, -.22, .75 );
+group.position.set( 0, -.17, .75 );
+group.rotation.set(0,0,.4);
+
+
 
 parentTransform = new THREE.Object3D()
 group.add(parentTransform)
@@ -529,6 +484,100 @@ group.add(parentTransform)
 //outlier2.visible = false;
 //console.log (outlier2.id);
 //parentTransform.add(outlier2);*/
+
+
+// generates clickable and color-coded links by category
+
+function addTop8Songs() {  // adds links for selected values
+
+top8Transform = new THREE.Object3D()
+group.add(top8Transform) 
+
+for (i = 0; i < 8; i++) {
+
+      var k = link_order[i];
+      var color_code = 0xCC2D6F;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .8,
+        top8Transform
+      )
+  }
+top8Transform.visible = true
+}
+
+function addTopSongs() {  // adds links for selected values
+
+topTransform = new THREE.Object3D()
+group.add(topTransform) 
+
+for (i = 0; i < 100; i++) {
+
+      var k = link_order[i];
+      var color_code = 0xCC2D6F;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .5,
+        topTransform
+      )
+  }
+topTransform.visible = true
+}
+
+
+
+function addTopEmergingSongs() {  // adds links for Top 12 selected values in outer ring
+
+topETransform = new THREE.Object3D()
+group.add(topETransform) 
+
+for (i = 152; i < 164; i++) {
+
+      var k = link_order[i];
+      var color_code = 0x87ceeb;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .2,
+        topETransform
+      )
+  }
+topETransform.visible = true
+}
+
+addTop8Songs()
+addTopSongs()
+
+//addTopEmergingSongs()
 
 
 function getData() //processes JSON data and returns arrays for 5 main variables
@@ -562,8 +611,10 @@ function getData() //processes JSON data and returns arrays for 5 main variables
   //console.log(popularity);
   views.push([popularity]);
   song_names.push([song_name]);
-        //video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
-        //video_titles[video_titles.length] = song.snippet.title;
+  song_titles.push([song_title]);
+  video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
+  //console.log (video_thmbs)
+  //video_titles[video_titles.length] = song.snippet.title;
      }
      }
   }
@@ -587,6 +638,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
         var l = song_index
         //console.log(l)
         var k = link_order[l];
+        nowPlaying(k);
         showViews(k);
         showRank(k);
       }
@@ -660,95 +712,6 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
 
 
 
-// generates clickable and color-coded links by category
-
-function addTopSongs() {  // adds links for selected values
-
-topTransform = new THREE.Object3D()
-group.add(topTransform) 
-
-for (i = 0; i < 100; i++) {
-
-      var k = link_order[i];
-      var color_code = 0x87ceeb;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code,
-        .2,
-        topTransform
-      )
-  }
-topTransform.visible = false
-}
-
-function addTop8Songs() {  // adds links for selected values
-
-top8Transform = new THREE.Object3D()
-group.add(top8Transform) 
-
-for (i = 0; i < 8; i++) {
-
-      var k = link_order[i];
-      var color_code = 0x87ceeb;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code,
-        .2,
-        top8Transform
-      )
-  }
-top8Transform.visible = true
-}
-
-function addTopEmergingSongs() {  // adds links for selected values
-
-topETransform = new THREE.Object3D()
-group.add(topETransform) 
-
-for (i = 152; i < 164; i++) {
-
-      var k = link_order[i];
-      var color_code = 0x87ceeb;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code,
-        .3,
-        topETransform
-      )
-  }
-topETransform.visible = true
-}
-
-addTopSongs()
-addTop8Songs()
-addTopEmergingSongs()  
 
 
 function addLinks() {  // adds links for selected values
@@ -776,7 +739,8 @@ for (i = 0; i < song_names.length; i++) {
       )
   }
 
-/*addrockLinks()
+document.getElementById("rock").style.backgroundColor = "#2387aa"
+addrockLinks()
 
 addpunkLinks()
 
@@ -784,6 +748,7 @@ addpopLinks()
 
 addcountryLinks()
 
+document.getElementById("folk").style.backgroundColor = "#2387aa"
 addfolkLinks()
 
 addmetalLinks()
@@ -799,38 +764,11 @@ addelectronicaLinks()
 addbluesLinks()
 
 addfunkLinks()
-*/
+
+
+
 
 }
-
-
-/*  test code
-      var k = 20
-
-      testTransform = new THREE.Object3D()
-      group.add(testTransform) 
-
-      var color_code = 0xe45e9d;
-
-       invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code,
-        1,
-        testTransform
-      )
-
-testTransform.visible = true
-
-*/
-      
 
 
 function addrockLinks() {  //adds links for selected values
@@ -861,6 +799,7 @@ for (i = 0; i < link_order.length; i++) {
       )
     }
   }
+rockTransform.visible=true
 }
 
 
@@ -1208,36 +1147,70 @@ for (i = 0; i < link_order.length; i++) {
 
   // --- indicator code
 
+function nowPlaying(k) {
+  l = link_order.indexOf(k)
+  var song_title= song_titles[l]; 
+  document.getElementById("nowplaying").innerHTML = "<b>Song Name</b><br>" + song_title;  //test placement code
+}
+
 function showViews(k) {
   l = link_order.indexOf(k) 
   var songViews= views[l];
-  document.getElementById("views").innerHTML = "Views<br>" + songViews;  //test placement code
+  document.getElementById("views").innerHTML = "<b>Views</b><br>" + songViews;  //test placement code
 }
 
 function showRank(k) {
   l = link_order.indexOf(k) 
-  document.getElementById("rank").innerHTML = "Rank<br>" + l;  //test placement code
+  document.getElementById("rank").innerHTML = "<b>Rank</b><br>" + (l+1);  //test placement code
 }
 
-function toggleLinks(linkobject) {
+function showPointer() {
+  document.body.style.cursor = "pointer";
+}
 
-  //group.remove(linkobject)
+/*/ alt code
+function toggleLinks(linkfunction,linkobject) {
+
+  if (typeof linkobject == 'undefined') {
+    console.log ("undefined")
+    linkfunction()
+  }
+  else
+    {
+    console.log ("defined")
+    linkobject.dispose()
+  }
+}
+/*/
+
+function hideLink()
+{
+  group.remove(activeLink)
+}
+
+
+function toggleLinks(linkobject,id) {
 
   if (linkobject.visible == true) {
     linkobject.visible = false;
+    document.getElementById(id).style.backgroundColor = "#a5c6d1";
   }
   else 
-    linkobject.visible = true;
+    {
+      linkobject.visible = true;
+    document.getElementById(id).style.backgroundColor = "#2387aa";
+  }
 }
+
 
   // --- raycaster code
 
 
   var geometry = new THREE.SphereBufferGeometry(0.01)
   var material = new THREE.MeshBasicMaterial({ color: 0x45a7c5 })
-  sphereInter = new THREE.Mesh(geometry, material)
-  sphereInter.visible = false
-  scene.add(sphereInter)
+
+  activeLink = new THREE.Object3D()
+  group.add(activeLink)
 
   raycaster = new THREE.Raycaster()
 
@@ -1249,56 +1222,69 @@ function toggleLinks(linkobject) {
   // BUTTONS
 
   document.getElementById( "rock" ).addEventListener( 'click', function () {
-          toggleLinks(rockTransform);
+          toggleLinks(rockTransform,"rock");
+        }, false );
+
+  document.getElementById( "info" ).addEventListener( 'mousemove', function(ev) {
+  ev.stopPropagation(); 
+        }, false );
+
+  document.getElementById( "suggest" ).addEventListener( 'click', function () {
+          window.open("https://web.lotus.fm/contact/", "_self")
+        }, false );
+  
+
+  document.getElementById( "enter" ).addEventListener( 'click', function () {
+          window.open("https://web.lotus.fm", "_self")
         }, false );
   
   document.getElementById( "punk" ).addEventListener( 'click', function () {
-          toggleLinks(punkTransform);
+          toggleLinks(punkTransform,"punk");
         }, false );
   
-  document.getElementById( "pop" ).addEventListener( 'click', function () {
-          toggleLinks(popTransform);
+  document.getElementById( "pop").addEventListener( 'click', function () {
+          toggleLinks(popTransform,"pop");
         }, false );
 
   document.getElementById( "folk" ).addEventListener( 'click', function () {
-          toggleLinks(folkTransform);
+          toggleLinks(folkTransform,"folk");
         }, false );
   
   document.getElementById( "hiphop" ).addEventListener( 'click', function () {
-          toggleLinks(hiphopTransform);
+          toggleLinks(hiphopTransform,"hiphop");
         }, false );
   
   document.getElementById( "country" ).addEventListener( 'click', function () {
-          toggleLinks(countryTransform);
+          toggleLinks(countryTransform,"country");
         }, false );
 
   document.getElementById( "electronica" ).addEventListener( 'click', function () {
-          toggleLinks(electronicaTransform);
+          toggleLinks(electronicaTransform,"electronica");
         }, false );
   
   document.getElementById( "metal" ).addEventListener( 'click', function () {
-          toggleLinks(metalTransform);
+          toggleLinks(metalTransform,"metal");
         }, false );
   
   document.getElementById( "psych" ).addEventListener( 'click', function () {
-          toggleLinks(psychTransform);
+          toggleLinks(psychTransform,"psych");
         }, false );
 
   document.getElementById( "jazz" ).addEventListener( 'click', function () {
-          toggleLinks(jazzTransform);
+          toggleLinks(jazzTransform,"jazz");
         }, false );
   
   document.getElementById( "funk" ).addEventListener( 'click', function () {
-          toggleLinks(funkTransform);
+          toggleLinks(funkTransform,"funk");
         }, false );
   
   document.getElementById( "blues" ).addEventListener( 'click', function () {
-          toggleLinks(bluesTransform);
+          toggleLinks(bluesTransform,"blues");
         }, false );
 
-  document.getElementById( "top100" ).addEventListener( 'click', function () {
+  /*document.getElementById( "top100" ).addEventListener( 'click', function () {
           toggleLinks(topTransform);
-        }, false );
+        }, false );*/
 
 
   
@@ -1309,19 +1295,40 @@ function toggleLinks(linkobject) {
     raycaster.setFromCamera(mouse, camera)
     var intersects = raycaster.intersectObjects(parentTransform.children, true)
     if (intersects.length > 0) {
-      sphereInter.visible = true
-      sphereInter.position.copy(intersects[0].point)
+      group.remove(activeLink)
+      activeLink = new THREE.Object3D()
+      group.add(activeLink)
       for (var i = 0; i < intersects.length; i++) 
       {
           var intersection = intersects[i],
           obj = intersection.object
           k = obj.label
+          var color_code = 0xCC2D6F; 
+          invisibleSpaghetti (
+            k,
+            k_values[k][1],
+            k_values[k][2],
+            k_values[k][3],
+            k_values[k][4],
+            k_values[k][5],
+            k_values[k][6],
+            k_values[k][7],
+            k_values[k][8],
+            color_code,
+            .8,
+            activeLink
+      )
+          activeLink.visible = true;
           showViews(k);
           showRank(k);
+          nowPlaying(k);
+          showPointer();
       }      
     } 
     else {
-      sphereInter.visible = false
+      //activeLink.visible = false;
+      group.remove(activeLink)
+      document.body.style.cursor = "default";
     }
   }
 
@@ -1351,7 +1358,7 @@ function toggleLinks(linkobject) {
 
   //animate and render
 
-  camera.position.z = 3.85  //this value was originally 3.75, and can be tweaked as needed
+  camera.position.z = 3.75  //this value was originally 3.75, and can be tweaked as needed
 
   function animate () {
 
@@ -1359,8 +1366,8 @@ function toggleLinks(linkobject) {
 
     requestAnimationFrame(animate)
     render()
-    group.rotation.x += 0.0000
-    group.rotation.y += 0.0001
+    group.rotation.x += 0.000//1
+    group.rotation.y += 0.000//2
     }
 
     else {
@@ -1374,6 +1381,7 @@ function toggleLinks(linkobject) {
 
   function render () {
     dot += 0
+    renderer.setClearColor(0x0F426A, 1)
     renderer.render(scene, camera)
   }
 }
@@ -1394,6 +1402,7 @@ blah.myFunction()
 Site Colors:  
 #656565  - medium grey
 #87ceeb - cerulean
-#C2D6F - hot pink
+#CC2D6F - hot pink
+button down style="background-color: #0289b6; filter: saturate(85%);"
 
 //  ---- reference code ----- /*/  

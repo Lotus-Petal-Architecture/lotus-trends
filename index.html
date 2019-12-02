@@ -4,7 +4,7 @@
 		<meta charset=utf-8
 		 Copyright 2019 by Lotus.fm LLC>
 		<title>Lotus.fm</title>
-		<script src="https://kit.fontawesome.com/2eef814402.js" crossorigin="anonymous"></script>
+		<!-- <script src="https://kit.fontawesome.com/2eef814402.js" crossorigin="anonymous"></script> -->
 		<link rel='stylesheet' id='storefront-fonts-css'  href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,300italic,400italic,700,900&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
 		<style>
 			body { margin: 0; background-color: #0F426A; font-family: Helvetica, sans serif;}
@@ -15,6 +15,19 @@
     			outline: none;
     			border:none;
 			}
+
+		#nav {
+	position: absolute;
+	color: #FFF;
+	top: 4px;
+	left:20px;
+	width: 150px;
+	text-align: left;
+	z-index: 100;
+	font-weight: bold;
+	display:block;
+	margin:0;
+				}
 
 			#info {
 	position: absolute;
@@ -35,7 +48,7 @@
 	top: 20px;
 	left: 0px;
 	width: 200px;
-	height:38spx;
+	height:38px;
 	text-align: left;
 	float:left;
 	padding: 5px;
@@ -126,10 +139,23 @@
     			color: #CC2D6F;
 			}
 
+			button:active {
+    			background-color: #CC2D6F;
+    			color:#FFF;
+			}
+
 			button:visited {
     			text-decoration: none;
     			outline: none;
     			border:none;
+			}
+
+			.icon {
+				background-color: transparent;
+				border-radius: 0;
+				width:30px;
+				padding:0px;
+				margin:4px 0px;
 			}
 
 </style>
@@ -151,9 +177,14 @@
 </script>
 	</head>
 	<body>
-
+		<div id="nav"><button class="icon" id="reload" style="background-image: url('examples/files/lotus_icon.png');" alt="Reload Chart" title="Reload Chart"></button>
+		&nbsp;
+		<button class="icon" id="about" style="background-image: url('examples/files/info_icon.png');" alt="About this Visualization" title="About this Visualization"></a></button>
+		&nbsp;
+		<button class="icon" id="toggleControls" style="background-image: url('examples/files/minimize_icon.png');" alt="Show/Hide Controls" title="Show/Hide Controls"></button></div>
 		<div id="info">
 			<!--<strong>Genres: </strong>-->
+			<div id="genres">
 			<button id="rock">rock</button>
 			<button id="punk">punk</button>
 			<button id="hiphop">hip-hop</button>
@@ -166,6 +197,7 @@
 			<button id="blues">blues</button>
 			<button id="country">country</button>
 			<button id="funk">funk</button>
+		</div>
 			<!--<button id="all">all</button>-->
 			<!--<button id="top8" style="background-color: #A002DC; border:0;">Top 8</button>-->
 			<!--<button id="top100" style="background-color: #87ceeb; border:0;">Top 100</button>-->
@@ -174,7 +206,7 @@
 				<div style="width:480px; float:left; text-align:left; 
 				background-color: transparent;
 				border:0;">
-				<div style="width:100%; float:left; text-align:left; 
+				<div id="message" style="width:100%; float:left; text-align:left; 
 				border-radius: 8px;
 				padding:18px;
 				font-weight: normal;

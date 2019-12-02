@@ -1,6 +1,6 @@
 //Copyright 2019 by Lotus.fm LLC
 
-var camera, scene, raycaster, renderer, parentTransform, rockTransform, activeLink
+var camera, scene, raycaster, renderer, parentTransform, rockTransform, activeLink, controlsVisible
 var mouse = new THREE.Vector2()
 var r = 100,
   dot = 0
@@ -42,7 +42,7 @@ var r = 100,
   scene.add(group)
 
   var link_order_length = 0
-  //var linkVisible = true
+  var controlsVisible = true
 
 
 // sample arrays for testing purposes
@@ -163,31 +163,6 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
 assignLinks();
 
 
-/*console.log(link_order)                   //testing code
-var linkstr = link_order.toString();
-console.log(linkstr)
-
-var dupes = []
-dupes = link_order
-
-var dupestr = dupes.toString();
-console.log(dupestr)
-
-dupes.sort();
-
-var dupestr = dupes.toString();
-console.log(dupestr)
-/*
-
-/*
-//This function can be used to sort arrays -- if the data is not already pre-sorted.
-function sortLinks() {
-  cap_rank = market_cap.sort(function(a, b){return a-b});
-}
-
-sortLinks();*/
-
-
 //Petal Constructor - draws outline of petal
 function drawPetal (
     x,
@@ -273,7 +248,6 @@ function drawPetal (
     return points
   }
 
-
   
   //Chart Position Arc - returns points for top of chart lines
   function chartTop (
@@ -354,6 +328,7 @@ function invisibleSpaghetti (k, x, y, z, x0, y0, z0, petalheight, ctrlpt, color_
     category.add(object)
     category.visible = false
   }
+
 
 //Draw Petals - draws ring of lotus petals
 function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, divisor){
@@ -478,15 +453,6 @@ function drawPetalRing (segmentCount, radius, depth, color_code, chartLines, div
   group.add(new THREE.Line(geometry, material));
 
 }
-
-
-
-/*var groupElements = [];
-var groupElements= group.children;
-
-group.uncache(groupElements);
-*/
-
   
 
 // -------------------------------- // 
@@ -500,6 +466,8 @@ drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 
 group.position.set( 0, -.17, .75 );
 group.rotation.set(0,0,.4);
+
+
 
 parentTransform = new THREE.Object3D()
 group.add(parentTransform)
@@ -516,6 +484,99 @@ group.add(parentTransform)
 //outlier2.visible = false;
 //console.log (outlier2.id);
 //parentTransform.add(outlier2);*/
+
+
+// generates clickable and color-coded links by category
+
+function addTop8Songs() {  // adds links for selected values
+
+top8Transform = new THREE.Object3D()
+group.add(top8Transform) 
+
+for (i = 0; i < 8; i++) {
+
+      var k = link_order[i];
+      var color_code = 0xCC2D6F;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .8,
+        top8Transform
+      )
+  }
+top8Transform.visible = true
+}
+
+function addTopSongs() {  // adds links for selected values
+
+topTransform = new THREE.Object3D()
+group.add(topTransform) 
+
+for (i = 0; i < 100; i++) {
+
+      var k = link_order[i];
+      var color_code = 0xCC2D6F;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .5,
+        topTransform
+      )
+  }
+topTransform.visible = true
+}
+
+
+
+function addTopEmergingSongs() {  // adds links for Top 12 selected values in outer ring
+
+topETransform = new THREE.Object3D()
+group.add(topETransform) 
+
+for (i = 152; i < 164; i++) {
+
+      var k = link_order[i];
+      var color_code = 0x87ceeb;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .2,
+        topETransform
+      )
+  }
+topETransform.visible = true
+}
+
+//addTop8Songs()
+//addTopSongs()
+//addTopEmergingSongs()
 
 
 function getData() //processes JSON data and returns arrays for 5 main variables
@@ -650,95 +711,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
 
 
 
-// generates clickable and color-coded links by category
 
-function addTopSongs() {  // adds links for selected values
-
-topTransform = new THREE.Object3D()
-group.add(topTransform) 
-
-for (i = 0; i < 100; i++) {
-
-      var k = link_order[i];
-      var color_code = 0x87ceeb;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code,
-        .2,
-        topTransform
-      )
-  }
-topTransform.visible = false
-}
-
-function addTop8Songs() {  // adds links for selected values
-
-top8Transform = new THREE.Object3D()
-group.add(top8Transform) 
-
-for (i = 0; i < 8; i++) {
-
-      var k = link_order[i];
-      var color_code = 0x87ceeb;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code,
-        .2,
-        top8Transform
-      )
-  }
-top8Transform.visible = true
-}
-
-function addTopEmergingSongs() {  // adds links for selected values
-
-topETransform = new THREE.Object3D()
-group.add(topETransform) 
-
-for (i = 152; i < 164; i++) {
-
-      var k = link_order[i];
-      var color_code = 0x87ceeb;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code,
-        .3,
-        topETransform
-      )
-  }
-topETransform.visible = true
-}
-
-/*addTopSongs()
-addTop8Songs()
-addTopEmergingSongs()*/
 
 function addLinks() {  // adds links for selected values
 
@@ -1194,6 +1167,41 @@ function showPointer() {
   document.body.style.cursor = "pointer";
 }
 
+function hideControls() {
+  document.getElementById("genres").style.display  = "none";
+  document.getElementById("message").style.display  = "none";
+  document.getElementById("nowplaying").style.display  = "none";
+  document.getElementById("views").style.display  = "none";
+  document.getElementById("rank").style.display  = "none";
+  document.getElementById("share").style.display  = "none";
+  document.getElementById("toggleControls").style.backgroundImage  = "url('examples/files/maximize_icon.png')";
+
+}
+
+function showControls() {
+  document.getElementById("genres").style.display  = "block";
+  document.getElementById("message").style.display  = "block";
+  document.getElementById("nowplaying").style.display = "block";
+  document.getElementById("views").style.display  = "block";
+  document.getElementById("rank").style.display  = "block";
+  document.getElementById("share").style.display  = "block";
+  document.getElementById("toggleControls").style.backgroundImage  = "url('examples/files/minimize_icon.png')";
+}
+
+function toggleControls() {
+
+  if (controlsVisible == true) {
+    controlsVisible = false;
+    hideControls();
+  }
+  else 
+    {
+      controlsVisible = true;
+      showControls();
+  }
+}
+
+
 /*/ alt code
 function toggleLinks(linkfunction,linkobject) {
 
@@ -1247,9 +1255,18 @@ function toggleLinks(linkobject,id) {
   
   // BUTTONS
 
-  document.getElementById( "rock" ).addEventListener( 'click', function () {
-          toggleLinks(rockTransform,"rock");
+  document.getElementById( "reload" ).addEventListener( 'click', function () {
+          window.open("https://lotus.fm", "_self")
         }, false );
+
+  document.getElementById( "about" ).addEventListener( 'click', function () {
+          window.open("https://web.lotus.fm/data-visualization/", "_self")
+        }, false );
+
+  document.getElementById( "toggleControls" ).addEventListener( 'click', function () {
+          toggleControls();
+        }, false );
+
 
   document.getElementById( "info" ).addEventListener( 'mousemove', function(ev) {
   ev.stopPropagation(); 
@@ -1258,12 +1275,16 @@ function toggleLinks(linkobject,id) {
   document.getElementById( "suggest" ).addEventListener( 'click', function () {
           window.open("https://web.lotus.fm/contact/", "_self")
         }, false );
-  
 
   document.getElementById( "enter" ).addEventListener( 'click', function () {
           window.open("https://web.lotus.fm", "_self")
         }, false );
   
+  document.getElementById( "rock" ).addEventListener( 'click', function () {
+          toggleLinks(rockTransform,"rock");
+        }, false );
+
+
   document.getElementById( "punk" ).addEventListener( 'click', function () {
           toggleLinks(punkTransform,"punk");
         }, false );
