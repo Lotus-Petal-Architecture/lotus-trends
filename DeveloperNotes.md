@@ -55,3 +55,10 @@ https://developers.google.com/youtube/v3/docs/playlistItems?authuser=4
 Button Classes
 
 https://www.w3schools.com/w3css/w3css_buttons.asp
+
+Mobile Device Detection
+
+https://stackoverflow.com/questions/3514784/what-is-the-best-way-to-detect-a-mobile-device
+
+https://www.w3schools.com/jsref/event_touchstart.asp
+
