@@ -1255,40 +1255,40 @@ function allVisible() {
 function showAll() {
 
     rockTransform.visible = true;
-    document.getElementById("rock").style.backgroundColor = "#e45e9d";
+    document.getElementById("rock").style.backgroundColor  = "#2387aa";
 
     punkTransform.visible = true;
-    document.getElementById("punk").style.backgroundColor = "#8BFA05";
+    document.getElementById("punk").style.backgroundColor  = "#2387aa";
 
     popTransform.visible = true;
-    document.getElementById("pop").style.backgroundColor = "#ffffff";
+    document.getElementById("pop").style.backgroundColor  = "#2387aa";
 
     folkTransform.visible = true;
-    document.getElementById("folk").style.backgroundColor = "#ffca85";
+    document.getElementById("folk").style.backgroundColor  = "#2387aa";
 
     metalTransform.visible = true;
-    document.getElementById("metal").style.backgroundColor = "#FF0000";
+    document.getElementById("metal").style.backgroundColor  = "#2387aa";
 
     psychTransform.visible = true;
-    document.getElementById("psych").style.backgroundColor = "#FC24E8";
+    document.getElementById("psych").style.backgroundColor  = "#2387aa";
 
     bluesTransform.visible = true;
-    document.getElementById("blues").style.backgroundColor = "#005CFE";
+    document.getElementById("blues").style.backgroundColor  = "#2387aa";
 
     countryTransform.visible = true;
-    document.getElementById("country").style.backgroundColor = "#FF5733";
+    document.getElementById("country").style.backgroundColor  = "#2387aa";
 
     funkTransform.visible = true;
-    document.getElementById("funk").style.backgroundColor = "#A002DC";
+    document.getElementById("funk").style.backgroundColor = "#2387aa";
 
     electronicaTransform.visible = true;
-    document.getElementById("electronica").style.backgroundColor = "#24FCD8";
+    document.getElementById("electronica").style.backgroundColor  = "#2387aa";
 
     jazzTransform.visible = true;
-    document.getElementById("jazz").style.backgroundColor = "#019028";
+    document.getElementById("jazz").style.backgroundColor  = "#2387aa";
 
     hiphopTransform.visible = true;
-    document.getElementById("hiphop").style.backgroundColor = "#FCF51B";
+    document.getElementById("hiphop").style.backgroundColor =  "#2387aa";
 
 }
 
