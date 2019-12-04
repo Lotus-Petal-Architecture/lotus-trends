@@ -1175,6 +1175,7 @@ function hideControls() {
   document.getElementById("genres").style.display  = "none";
   document.getElementById("message").style.display  = "none";
   document.getElementById("nowplaying").style.display  = "none";
+  document.getElementById("thumb").style.display  = "none";
   document.getElementById("views").style.display  = "none";
   document.getElementById("rank").style.display  = "none";
   document.getElementById("share").style.display  = "none";
@@ -1186,6 +1187,7 @@ function showControls() {
   document.getElementById("genres").style.display  = "block";
   document.getElementById("message").style.display  = "block";
   document.getElementById("nowplaying").style.display = "block";
+  document.getElementById("thumb").style.display  = "block";
   document.getElementById("views").style.display  = "block";
   document.getElementById("rank").style.display  = "block";
   document.getElementById("share").style.display  = "block";
