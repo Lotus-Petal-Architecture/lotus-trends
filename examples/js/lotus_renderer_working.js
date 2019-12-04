@@ -639,7 +639,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
         //console.log(l)
         var k = link_order[l];
         nowPlaying(k);
-        showViews(k);
+        showThumb(k);
         showRank(k);
       }
       
@@ -1146,22 +1146,25 @@ for (i = 0; i < link_order.length; i++) {
 
 
   // --- indicator code
+console.log(video_thmbs[0])
+
 
 function nowPlaying(k) {
   l = link_order.indexOf(k)
   var song_title= song_titles[l]; 
-  document.getElementById("nowplaying").innerHTML = "<b>Song Name</b><br>" + song_title;  //test placement code
+  document.getElementById("nowplaying").innerHTML = "<b>Song Name</b><p>" + song_title;  //test placement code
 }
 
-function showViews(k) {
+function showThumb(k) {
   l = link_order.indexOf(k) 
-  var songViews= views[l];
-  document.getElementById("views").innerHTML = "<b>Views</b><br>" + songViews;  //test placement code
+  document.getElementById("thumb").innerHTML = "<img src=" + video_thmbs[l] + ">";  //test placement code
 }
 
 function showRank(k) {
-  l = link_order.indexOf(k) 
-  document.getElementById("rank").innerHTML = "<b>Rank</b><br>" + (l+1);  //test placement code
+  l = link_order.indexOf(k)
+  var songViews= views[l]; 
+  document.getElementById("rank").innerHTML = "<b>Rank</b><p>" + (l+1);
+  document.getElementById("views").innerHTML = "<b>Views</b><p>" + songViews;
 }
 
 function showPointer() {
@@ -1474,7 +1477,7 @@ function hideAll() {
             activeLink
       )
           activeLink.visible = true;
-          showViews(k);
+          showThumb(k);
           showRank(k);
           nowPlaying(k);
           showPointer();
