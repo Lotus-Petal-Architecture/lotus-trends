@@ -66,3 +66,13 @@ JavaScript Animation
 
 https://stackoverflow.com/questions/3583724/how-do-i-add-a-delay-in-a-javascript-loop
 
+Accessibility
+
+WAVE Browser Extension https://wave.webaim.org/
+
+Social Share Buttons
+
+https://ellisonleao.github.io/sharer.js/
+
+https://sharethis.com/
+

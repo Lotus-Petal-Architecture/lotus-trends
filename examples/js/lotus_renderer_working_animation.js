@@ -1,6 +1,6 @@
 //Copyright 2019 by Lotus.fm LLC
 
-var camera, scene, raycaster, renderer, parentTransform, rockTransform, activeLink
+var camera, scene, raycaster, renderer, parentTransform, rockTransform, activeLink, controlsVisible, allgenresVisible
 var mouse = new THREE.Vector2()
 var r = 100,
   dot = 0
@@ -42,7 +42,8 @@ var r = 100,
   scene.add(group)
 
   var link_order_length = 0
-  //var linkVisible = true
+  var controlsVisible = true
+  var allgenresVisible = false
 
 
 // sample arrays for testing purposes
@@ -73,7 +74,7 @@ var r = 100,
 
   //These song IDs are periodically queried from the Lotus YouTube genre playlists.  
 
-  var rockgenre = ["uIP0iIxHLY4","E9yTHSyZeKg","VkavEUCwm0M","rddu5TgrTmE","DHXYSbs6Rb0","zClCsQnRj-c","yHNB4m1dfKE","4fr8k6O-Bko","w_otXEVPgOk","q-XpcMTnB-A","bU2WUSEC6PY","rQfs5UTzwFQ","8Ux6UnYOLvk","CyDHTJCIfHQ","AwkDVMr4Kso","0Jpqb5IYlEE","l5JhD4wKsrs","8BhdoriXe9Q","KLgWHoGLDx4","iv0ej8cJScM","kXFGQYGFeFU","LEKxlNbjgmE","KYhsehUH5b0","kYKcf7EWEfc","DElGhE2NhtQ","j0iohXlRXKA","_oQIIAdG8xM","Ys4YGRN8hgY","Duot03grNv8","2bHvzuupe4w","FxdnqfyvIkY","Y6BeTnjUqlo","cwHmeFidLbE","W3m7Uz7hF-s","APrpB-i4d_E","FuFtfhOipNQ","ON6pn6suSzc","BzkHp6EswEM","W05cPXpUHGI","kkcbxjWG9Mc","-DjpNgrocKo","MUfgAbFY4CA","D1vQJFF2TKQ","f-MroGCKDcM","hjg39XRkjVc","E5uAH0vNn2s","rCy1VIy8Hj0","Kc1htX3q-F0","pGOO7EE4Lhw","tRNDB9VqI3Q","qOM107PIxV8","Ti1liRM6cao","V4Yw6A_rlHc","d9MA4rFNf7I","OqeKV2UYq1Q","ksTFj6L0mao","E5H8DwJI0uA","qR9DjdMrpHg","zJXQSBWO5Qc","wcICuFnkxe4","pB08AUiTP3w","vZA_7FtttRY","cgr8e7da52o","MbxRu7fwR24","6r1-HTiwGiY","TpLhrLzSaFQ","HwgNMrs-i80","QJu611UdfxA","pO3_ZG7wJPc","sSCb-a2McRI","yyayVIXwg74","TkIloV7OMAk","xRFTYRXS3aw","1WaMgWUiYg0","wsF4TVHr42A","trZ244Ih_E4","iG8D1Kb7xgQ","EIpzPVAHpVg","WGnqoZx7_QY","n7zyfArxibk","UNUmSwWq-LU","Rh2YmGujtFI","PE1ges9nn6A","K_5lt23PRVs","DCI5XqT-AZs","QAhMakentwA","aUfu-lEflbQ","YbP-Aa3V6bA","t7Pv3eZEy4k","VZu1Z0oeFzo","_S0esU0n6sY","pOYN1p4Rc6o","mfA9K1hj2eg","OLTeVRvPq04","0_GeShK7aaY","U3iWpewLuyA","ull6hOYs5ZY","Palxbwco9pM","MP8Fd0mN50E","5AHz8HeDk3c","skvGTkW-qG4","-dJXBCBZwQg","aCgTgyBBswA","HcB7ZnkMnB8","0deHAT_KOqE"]
+  var rockgenre = ["uIP0iIxHLY4","E9yTHSyZeKg","VkavEUCwm0M","rddu5TgrTmE","DHXYSbs6Rb0","zClCsQnRj-c","yHNB4m1dfKE","4fr8k6O-Bko","w_otXEVPgOk","q-XpcMTnB-A","bU2WUSEC6PY","rQfs5UTzwFQ","8Ux6UnYOLvk","CyDHTJCIfHQ","AwkDVMr4Kso","0Jpqb5IYlEE","l5JhD4wKsrs","8BhdoriXe9Q","KLgWHoGLDx4","iv0ej8cJScM","kXFGQYGFeFU","LEKxlNbjgmE","KYhsehUH5b0","kYKcf7EWEfc","DElGhE2NhtQ","j0iohXlRXKA","_oQIIAdG8xM","Ys4YGRN8hgY","Duot03grNv8","2bHvzuupe4w","FxdnqfyvIkY","Y6BeTnjUqlo","cwHmeFidLbE","W3m7Uz7hF-s","APrpB-i4d_E","FuFtfhOipNQ","ON6pn6suSzc","BzkHp6EswEM","W05cPXpUHGI","kkcbxjWG9Mc","-DjpNgrocKo","MUfgAbFY4CA","D1vQJFF2TKQ","f-MroGCKDcM","hjg39XRkjVc","E5uAH0vNn2s","rCy1VIy8Hj0","Kc1htX3q-F0","pGOO7EE4Lhw","tRNDB9VqI3Q","qOM107PIxV8","Ti1liRM6cao","V4Yw6A_rlHc","d9MA4rFNf7I","OqeKV2UYq1Q","ksTFj6L0mao","E5H8DwJI0uA","qR9DjdMrpHg","zJXQSBWO5Qc","wcICuFnkxe4","pB08AUiTP3w","vZA_7FtttRY","cgr8e7da52o","MbxRu7fwR24","6r1-HTiwGiY","TpLhrLzSaFQ","HwgNMrs-i80","QJu611UdfxA","pO3_ZG7wJPc","sSCb-a2McRI","yyayVIXwg74","TkIloV7OMAk","xRFTYRXS3aw","1WaMgWUiYg0","wsF4TVHr42A","trZ244Ih_E4","iG8D1Kb7xgQ","EIpzPVAHpVg","WGnqoZx7_QY","n7zyfArxibk","UNUmSwWq-LU","Rh2YmGujtFI","PE1ges9nn6A","K_5lt23PRVs","DCI5XqT-AZs","QAhMakentwA","aUfu-lEflbQ","YbP-Aa3V6bA","t7Pv3eZEy4k","VZu1Z0oeFzo","_S0esU0n6sY","pOYN1p4Rc6o","mfA9K1hj2eg","OLTeVRvPq04","0_GeShK7aaY","U3iWpewLuyA","ull6hOYs5ZY","Palxbwco9pM","MP8Fd0mN50E","5AHz8HeDk3c","skvGTkW-qG4","-dJXBCBZwQg","aCgTgyBBswA","HcB7ZnkMnB8","0deHAT_KOqE","-Rfqo7OSimw"]
   var punkgenre = ["hPsdjlPVaJU","0deHAT_KOqE","YypAGqIBrX0","s_vgHgIKPQs","JOUmxw0DPsg","LesJtYAG8zM","pCgEUBf5y18","4qljGaHJbCs","FNFYq8O7DTY","cr5uFjA4TNI","VTd4JCIqL7U","OFOowKu7WjA","_ZydMszfZlQ","LJbtcit8Byg","Hu0wknFNTOk","rFP4gxn_uME","cQhGxSge7aA","5SeI6r8lI_U","WWWKRqzvxMg","LS7KFVYUQT4","uS1PyjaR8WM","LH7XPoWPz-4","hBF8YGF17rQ","0nt2Yn1M0oU","K0q6EYTGXXQ","8QcTCIsFJ2Q"]
   var popgenre = ["E7fzUGR8ZH4","pnfryoGog0A","Cqp-hL-I90A","YGv-OSvQwKY","IbE4ynQd_qQ","yQYu51hlkLk","w39qx5X_Owg","gK04XhlTLOM","XMUxca7gXv4","iLilpPtY2JU","X9BWRh92ifs","srwAMHbHVAE","yntvBrlZNeA","_P63qccOdzs","7hneF9Iu71g","Cg4c0RA2DJQ","uA4RNW3HkcQ","WJi9MXfl3zA","c-kLsqvD6q8","3MfJ9qMXBVQ","fPEoI43MMhs","3jWQzkoPFTg","c8H7Anvad6E","KqXN_5G_kuo","rVqIhE53D_w","9x6Mxs5DyxI","weW-VnINl-E","bS22uZHDr54","gahV15Oe9Xs","Bm1g5Yg0hUw","OCVgWq9B_HE","GiZHmwzNAqE","vtS54c9sP0U"]
   var countrygenre = ["_86LQH-c1d8","ENODBnQ5ed0","z0lHW09eQRA","SBA_vLLrXr0","c4cBdT5WCoE","nKJeB03TrJg"]
@@ -94,9 +95,27 @@ function init () {
   container = document.createElement('div')
   document.body.appendChild(container)
 
+  function welcome () {
+  document.getElementById("message").innerHTML = `
+          <span style="font-size: 15px;font-family:Source Sans Pro; font-weight: 900;">Welcome to the Lotus 400.</span>  <span">To celebrate our new app, we're compiling a chart of the 400 Portland videos of all time. We have 116 spots remaining.</span>
+          <p style="text-align:right; font-size:14px; text-transform: uppercase; margin:0; margin-bottom:6px; margin-top:15px; padding:0;">
+          <button id="suggest" style="background-color: transparent; margin:0; margin-right:10px; padding: 0; "><a href="https://web.lotus.fm" style="background-color:#CC2D6F; color:#FFF; border-radius:4px; padding:10px 12px; height:36px; border:1px solid #CC2D6F; letter-spacing:1px; box-shadow: 2px 2px 3px grey; text-align:right; font-size:14px; font-family:Arial; text-transform: uppercase; text-decoration:none; font-weight: normal;">Suggest a Song</a></button> 
+          <button id="enter" style="background-color: transparent; margin:0; padding: 0; "><a href="https://web.lotus.fm" style="border-color:#0F426A; border-radius:4px; border: solid 1px; padding:10px 12px; text-decoration:none; color:#0F426A; height:36px; text-align:right; font-size:14px; font-family:Arial; text-transform: uppercase;">Proceed to Site</a></button></p>
+              </p>`;
+  }
+  
+  function spacer () {
+          top8Transform.visible = false 
+          topTransform.visible = false
+  }
+
+  welcome ()
+
 
   var URL = "https://www.youtube.com/embed/" + "-Rfqo7OSimw" + "?autoplay=1&mute=1"
   window.open(URL, 'iframe_a')
+
+
 
   //document.getElementById("nowplaying").innerHTML = "Now Playing"//: <br>Small Million \u2022 Sirens";  //test placement code
 
@@ -490,6 +509,7 @@ group.add(parentTransform)
 
 function addTop8Songs() {  // adds links for selected values
 
+document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #CC2D6F;"><strong>Top Eight Songs...</strong></span>`
 top8Transform = new THREE.Object3D()
 group.add(top8Transform) 
 
@@ -514,6 +534,7 @@ for (i = 0; i < 8; i++) {
       )
   }
 top8Transform.visible = true
+
 }
 
 function addTopSongs() {  // adds links for selected values
@@ -542,6 +563,8 @@ for (i = 0; i < 100; i++) {
       )
   }
 topTransform.visible = true
+
+document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #CC2D6F; margin-left:0px;"><strong>Top 100 Songs...</strong></span>`
 }
 
 
@@ -574,8 +597,11 @@ for (i = 152; i < 164; i++) {
 topETransform.visible = true
 }
 
-addTop8Songs()
-addTopSongs()
+
+//setTimeout(spacer, 1000);
+setTimeout(addTop8Songs, 200);
+//setTimeout(spacer,500);
+setTimeout(addTopSongs, 1500);
 
 //addTopEmergingSongs()
 
@@ -639,7 +665,7 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
         //console.log(l)
         var k = link_order[l];
         nowPlaying(k);
-        showViews(k);
+        showThumb(k);
         showRank(k);
       }
       
@@ -1146,27 +1172,67 @@ for (i = 0; i < link_order.length; i++) {
 
 
   // --- indicator code
+console.log(video_thmbs[0])
+
 
 function nowPlaying(k) {
   l = link_order.indexOf(k)
   var song_title= song_titles[l]; 
-  document.getElementById("nowplaying").innerHTML = "<b>Song Name</b><br>" + song_title;  //test placement code
+  document.getElementById("nowplaying").innerHTML = "<b>Song Name</b><p>" + song_title;  //test placement code
 }
 
-function showViews(k) {
+function showThumb(k) {
   l = link_order.indexOf(k) 
-  var songViews= views[l];
-  document.getElementById("views").innerHTML = "<b>Views</b><br>" + songViews;  //test placement code
+  document.getElementById("thumb").innerHTML = "<img src=" + video_thmbs[l] + ">";  //test placement code
 }
 
 function showRank(k) {
-  l = link_order.indexOf(k) 
-  document.getElementById("rank").innerHTML = "<b>Rank</b><br>" + (l+1);  //test placement code
+  l = link_order.indexOf(k)
+  var songViews= views[l]; 
+  document.getElementById("rank").innerHTML = "<b>Rank</b><p>" + (l+1);
+  document.getElementById("views").innerHTML = "<b>Views</b><p>" + songViews;
 }
 
 function showPointer() {
   document.body.style.cursor = "pointer";
 }
+
+function hideControls() {
+  document.getElementById("genres").style.visibility  = "hidden";
+  document.getElementById("message").style.visibility  = "hidden";
+  document.getElementById("nowplaying").style.visibility  = "hidden";
+  document.getElementById("thumb").style.visibility  = "hidden";
+  document.getElementById("views").style.visibility  = "hidden";
+  document.getElementById("rank").style.visibility  = "hidden";
+  document.getElementById("share").style.visibility  = "hidden";
+  document.getElementById("toggleControls").style.backgroundImage  = "url('examples/files/maximize_icon.png')";
+
+}
+
+function showControls() {
+  document.getElementById("genres").style.visibility  = "visible";;
+  document.getElementById("message").style.visibility  = "visible";
+  document.getElementById("nowplaying").style.visibility  = "visible";
+  document.getElementById("thumb").style.visibility  = "visible";
+  document.getElementById("views").style.visibility  = "visible";
+  document.getElementById("rank").style.visibility  = "visible";
+  document.getElementById("share").style.visibility  = "visible";
+  document.getElementById("toggleControls").style.backgroundImage  = "url('examples/files/minimize_icon.png')";
+}
+
+function toggleControls() {
+
+  if (controlsVisible == true) {
+    controlsVisible = false;
+    hideControls();
+  }
+  else 
+    {
+      controlsVisible = true;
+      showControls();
+  }
+}
+
 
 /*/ alt code
 function toggleLinks(linkfunction,linkobject) {
@@ -1202,6 +1268,101 @@ function toggleLinks(linkobject,id) {
   }
 }
 
+function allVisible() {
+
+  if (allgenresVisible == true) {
+    allgenresVisible = false;
+    document.getElementById("all").style.backgroundColor = "#a5c6d1";
+    hideAll();
+  }
+  else 
+    {
+      allgenresVisible = true;
+      document.getElementById("all").style.backgroundColor = "#2387aa";
+      showAll();
+  }
+}
+
+function showAll() {
+
+    rockTransform.visible = true;
+    document.getElementById("rock").style.backgroundColor  = "#2387aa";
+
+    punkTransform.visible = true;
+    document.getElementById("punk").style.backgroundColor  = "#2387aa";
+
+    popTransform.visible = true;
+    document.getElementById("pop").style.backgroundColor  = "#2387aa";
+
+    folkTransform.visible = true;
+    document.getElementById("folk").style.backgroundColor  = "#2387aa";
+
+    metalTransform.visible = true;
+    document.getElementById("metal").style.backgroundColor  = "#2387aa";
+
+    psychTransform.visible = true;
+    document.getElementById("psych").style.backgroundColor  = "#2387aa";
+
+    bluesTransform.visible = true;
+    document.getElementById("blues").style.backgroundColor  = "#2387aa";
+
+    countryTransform.visible = true;
+    document.getElementById("country").style.backgroundColor  = "#2387aa";
+
+    funkTransform.visible = true;
+    document.getElementById("funk").style.backgroundColor = "#2387aa";
+
+    electronicaTransform.visible = true;
+    document.getElementById("electronica").style.backgroundColor  = "#2387aa";
+
+    jazzTransform.visible = true;
+    document.getElementById("jazz").style.backgroundColor  = "#2387aa";
+
+    hiphopTransform.visible = true;
+    document.getElementById("hiphop").style.backgroundColor =  "#2387aa";
+
+}
+
+function hideAll() {
+
+    rockTransform.visible = false;
+    document.getElementById("rock").style.backgroundColor = "#a5c6d1";
+
+    punkTransform.visible = false;
+    document.getElementById("punk").style.backgroundColor = "#a5c6d1";
+
+    popTransform.visible = false;
+    document.getElementById("pop").style.backgroundColor = "#a5c6d1";
+
+    folkTransform.visible = false;
+    document.getElementById("folk").style.backgroundColor = "#a5c6d1";
+
+    metalTransform.visible = false;
+    document.getElementById("metal").style.backgroundColor = "#a5c6d1";
+
+    psychTransform.visible = false;
+    document.getElementById("psych").style.backgroundColor = "#a5c6d1";
+
+    bluesTransform.visible = false;
+    document.getElementById("blues").style.backgroundColor = "#a5c6d1";
+
+    countryTransform.visible = false;
+    document.getElementById("country").style.backgroundColor = "#a5c6d1";
+
+    funkTransform.visible = false;
+    document.getElementById("funk").style.backgroundColor = "#a5c6d1";
+
+    electronicaTransform.visible = false;
+    document.getElementById("electronica").style.backgroundColor = "#a5c6d1";
+
+    jazzTransform.visible = false;
+    document.getElementById("jazz").style.backgroundColor = "#a5c6d1";
+
+    hiphopTransform.visible = false;
+    document.getElementById("hiphop").style.backgroundColor = "#a5c6d1";
+
+}
+
 
   // --- raycaster code
 
@@ -1221,9 +1382,23 @@ function toggleLinks(linkobject,id) {
   
   // BUTTONS
 
-  document.getElementById( "rock" ).addEventListener( 'click', function () {
-          toggleLinks(rockTransform,"rock");
+
+  //top icons
+
+  document.getElementById( "reload" ).addEventListener( 'click', function () {
+          window.open("https://lotus.fm", "_self")
         }, false );
+
+  document.getElementById( "about" ).addEventListener( 'click', function () {
+          window.open("https://web.lotus.fm/data-visualization/", "_self")
+        }, false );
+
+  document.getElementById( "toggleControls" ).addEventListener( 'click', function () {
+          toggleControls();
+        }, false );
+
+
+  //calls to action
 
   document.getElementById( "info" ).addEventListener( 'mousemove', function(ev) {
   ev.stopPropagation(); 
@@ -1232,12 +1407,19 @@ function toggleLinks(linkobject,id) {
   document.getElementById( "suggest" ).addEventListener( 'click', function () {
           window.open("https://web.lotus.fm/contact/", "_self")
         }, false );
-  
 
   document.getElementById( "enter" ).addEventListener( 'click', function () {
           window.open("https://web.lotus.fm", "_self")
         }, false );
-  
+
+
+  //genre buttons
+
+  document.getElementById( "rock" ).addEventListener( 'click', function () {
+          toggleLinks(rockTransform,"rock");
+        }, false );
+
+
   document.getElementById( "punk" ).addEventListener( 'click', function () {
           toggleLinks(punkTransform,"punk");
         }, false );
@@ -1282,6 +1464,10 @@ function toggleLinks(linkobject,id) {
           toggleLinks(bluesTransform,"blues");
         }, false );
 
+    document.getElementById( "all" ).addEventListener( 'click', function () {
+          allVisible();
+        }, false );
+
   /*document.getElementById( "top100" ).addEventListener( 'click', function () {
           toggleLinks(topTransform);
         }, false );*/
@@ -1319,7 +1505,7 @@ function toggleLinks(linkobject,id) {
             activeLink
       )
           activeLink.visible = true;
-          showViews(k);
+          showThumb(k);
           showRank(k);
           nowPlaying(k);
           showPointer();
@@ -1366,8 +1552,8 @@ function toggleLinks(linkobject,id) {
 
     requestAnimationFrame(animate)
     render()
-    group.rotation.x += 0.000//1
-    group.rotation.y += 0.000//2
+    group.rotation.x += 0.0001
+    group.rotation.y += 0.0002
     }
 
     else {
