@@ -44,6 +44,7 @@ var r = 100,
   var link_order_length = 0
   var controlsVisible = true
   var allgenresVisible = false
+  var fullyloaded = false
 
 
 // sample arrays for testing purposes
@@ -64,12 +65,10 @@ var r = 100,
   var electronica_links = [] //index values of genre links
   var blues_links = [] //index values of genre links
   var funk_links = [] //index values of genre links
-  var song_names = [] //list of youtube videos. uses the same index ranking as link_order
+  var song_names = ["OqeKV2UYq1Q", "kkcbxjWG9Mc", "MUfgAbFY4CA", "W05cPXpUHGI", "Bm1g5Yg0hUw", "iPAr7kL-mmg", "APrpB-i4d_E", "D1vQJFF2TKQ", "qR9DjdMrpHg", "E5H8DwJI0uA", "ksTFj6L0mao", "Kc1htX3q-F0", "GiZHmwzNAqE", "n7zyfArxibk", "vZA_7FtttRY", "hjg39XRkjVc", "E7fzUGR8ZH4", "ON6pn6suSzc", "W3m7Uz7hF-s", "CmBgxP56R1I", "QJu611UdfxA", "-DjpNgrocKo", "qOM107PIxV8", "FuFtfhOipNQ", "zJXQSBWO5Qc", "yQYu51hlkLk", "HwgNMrs-i80", "tRNDB9VqI3Q", "iLilpPtY2JU", "pO3_ZG7wJPc", "wcICuFnkxe4", "pnfryoGog0A", "hPsdjlPVaJU", "MbxRu7fwR24", "f-MroGCKDcM", "Mub2i2BoHpM", "6r1-HTiwGiY", "d9MA4rFNf7I", "E5uAH0vNn2s", "OCVgWq9B_HE", "4K8ou0iA_68", "PE1ges9nn6A", "w39qx5X_Owg", "aUfu-lEflbQ", "6P8mfvCGKyg", "TpLhrLzSaFQ", "rCy1VIy8Hj0", "ZyvYIYwLzTw", "cgr8e7da52o", "Cg4c0RA2DJQ", "f-FOTHUir_4", "BzkHp6EswEM", "YbP-Aa3V6bA", "7hneF9Iu71g", "FNFYq8O7DTY", "UNUmSwWq-LU", "4qljGaHJbCs", "2wnDyOHPxrE", "cr5uFjA4TNI", "MP_2p79Ems4", "-ITl4-Kyey0", "iG8D1Kb7xgQ", "au-mBoepJUA", "XMUxca7gXv4", "pB08AUiTP3w", "srwAMHbHVAE", "K_5lt23PRVs", "OFOowKu7WjA", "Ti1liRM6cao", "V4Yw6A_rlHc", "vtS54c9sP0U", "6RzlgEyS-BE", "Rh2YmGujtFI", "VTd4JCIqL7U", "uIP0iIxHLY4", "Pjw-qzT6qBs", "K0q6EYTGXXQ", "gK04XhlTLOM", "weW-VnINl-E", "QAhMakentwA", "IgfIh-NBoCw", "cwHmeFidLbE", "pGOO7EE4Lhw", "nKJeB03TrJg", "yMku_xfki1U", "WGnqoZx7_QY", "6SGy0zUCtsk", "X9BWRh92ifs", "9NrC7pRra9o", "E9yTHSyZeKg", "Z9RsVV-zfgY", "EIpzPVAHpVg", "LS7KFVYUQT4", "uS1PyjaR8WM", "WJi9MXfl3zA", "yntvBrlZNeA", "8QcTCIsFJ2Q", "RemMNe7z6vg", "4fr8k6O-Bko", "Ed_16Cblg9s", "Gv7iV4n7cXM", "uL8Dipf5kXc", "ClVNU2-C3rQ", "tAZko_MSZhc", "IbE4ynQd_qQ", "_P63qccOdzs", "zClCsQnRj-c", "uA4RNW3HkcQ", "Palxbwco9pM", "i94eFYHHAOY", "hBF8YGF17rQ", "bbt3qhOiH3M", "VkavEUCwm0M", "9Rz4kMBD8jU", "LJbtcit8Byg", "bS22uZHDr54", "bU2WUSEC6PY", "Duot03grNv8", "ull6hOYs5ZY", "ZEhWfrVOWlE", "W8CrBGhfSiA", "yHNB4m1dfKE", "GFfN5mFjOFo", "slua80kJ8zA", "AXHi-B2VbU0", "6Y_B3wdQLgg", "fPEoI43MMhs", "uJMn4WGaIOc", "rddu5TgrTmE", "SBrMBqFbWok", "DHXYSbs6Rb0", "s9t2QH5zTCQ", "qMol4iSzXis", "6u8lUKuaUx8", "_86LQH-c1d8", "c1UTArVwyZs", "HcB7ZnkMnB8", "slqKrANo7Uo", "0nt2Yn1M0oU", "yyayVIXwg74", "2bHvzuupe4w", "mKZBingy2OA", "aVwVvtP5qJ4", "s5Eyu9-kchQ", "Cqp-hL-I90A", "OV2lquaPxSU", "SBOK9CBjCK8", "9x6Mxs5DyxI", "GdK4jqnDNN8", "LesJtYAG8zM", "w_otXEVPgOk", "Pp_e6vZuhBI", "--w4Ui8Alzc", "cQhGxSge7aA", "rx4woNwVS8g", "50ADWH1d3E8", "eNcSFnr3508", "p1nmsaPh31E", "9IjxNwHkttU", "1jY7kdEIhaA", "YypAGqIBrX0", "eg5Emkcjfdo", "iF0IhEpDces", "FAL01pUnhGI", "DWeB6hWoKyI", "c8H7Anvad6E", "LH7XPoWPz-4", "TkIloV7OMAk", "_ZydMszfZlQ", "YGv-OSvQwKY", "AguOdYNF2d4", "TN9upnrVwog", "FxdnqfyvIkY", "-dJXBCBZwQg", "5AHz8HeDk3c", "DCI5XqT-AZs", "t7Pv3eZEy4k", "tG2F72T-ixY", "8drkE_zLnLk", "0deHAT_KOqE", "Q72ENpHcrDQ", "COICJal838M", "pfjyV0qtNlk", "sSCb-a2McRI", "M1hSddzlxL4", "RSfii8RLmNM", "rVqIhE53D_w", "UX1BvCRg6gs", "gahV15Oe9Xs", "pCgEUBf5y18", "vAuwQugGdS4", "jt068Vdmfww", "ENODBnQ5ed0", "JOUmxw0DPsg", "QYDXRoHpF0w", "-Rfqo7OSimw", "BVh6Jb3DQxE", "Ra616vyPBp8", "5xFP4ikGCLk", "HmuGq5weoZA", "KqXN_5G_kuo", "SVi7fXWKqSk", "fAcdBmxu-6s", "3jWQzkoPFTg", "nptjor9ee_Q", "rQfs5UTzwFQ", "wsF4TVHr42A", "xRFTYRXS3aw", "AwkDVMr4Kso", "H3GXCAeWMb0", "x9_1ia_nB_E", "Ys4YGRN8hgY", "t50c2AiAkpw", "q93hgeROqvk", "3zDO7P_P3Aw", "mfA9K1hj2eg", "0Jpqb5IYlEE", "BL8AJFQv9V4", "4n8vZyzBWNs", "1WaMgWUiYg0", "Hu0wknFNTOk", "iZtFjqZxBxw", "5SeI6r8lI_U", "A4uAL0T_CUI", "r6i5PCn7_oY", "ba_SMlx-gi0", "8Ux6UnYOLvk", "t1IMifXyJLc", "sk4aZSLSkMs", "XTCUjmhWL4Y", "2sKF3MHrHEY", "z0lHW09eQRA", "RFmIOaRhOnE", "H7vVXIiisSw", "-G1XWvUBXk4", "CyDHTJCIfHQ", "njHZdD0MGDs", "0_GeShK7aaY", "WWWKRqzvxMg", "_oQIIAdG8xM", "H_6GtBFCTyQ", "VZu1Z0oeFzo", "-Q53gXuXd5s", "oErErOGaAv0", "U3iWpewLuyA", "XPR2bV8u5rk", "_S0esU0n6sY", "U-eK9RcU90s", "KYhsehUH5b0", "9_N4gVkx9_w", "s_vgHgIKPQs", "Y6BeTnjUqlo", "kXFGQYGFeFU", "MP8Fd0mN50E", "qepl1N0P-SA", "bqogMblcal0", "_liZNFe-TDM", "SBA_vLLrXr0", "q-XpcMTnB-A", "c-kLsqvD6q8", "ZGmXbfF8uvM", "Bi4K58Fd_1o", "XfgAXwaseM8", "pOYN1p4Rc6o", "c4cBdT5WCoE", "599tHbAQVts", "8BhdoriXe9Q", "l5JhD4wKsrs", "iv0ej8cJScM", "uE2R5d6cPYs", "vxnYp5NyD4k", "aCgTgyBBswA", "C7r5KziEspU", "KR6DysiE9Sk", "trZ244Ih_E4", "71u8cSuyZrI", "DElGhE2NhtQ", "kYKcf7EWEfc", "KGKJQNtxjhI", "KiHrn43djYc", "qIhPPceIEV0", "U53SHxO4sbk", "zDoDWbB6RN8", "j0iohXlRXKA", "LEKxlNbjgmE", "6ZowS0dDW1k", "KLgWHoGLDx4", "V0HIfZmn3oU", "yDOi6phVQXM", "xxi6VQkCJPY", "bBMPzOX_VUo", "YZJ2rOm-PVA", "xuXln0HC-Lg", "ms2iYyh6jLI", "MJLe_O2J5Xg", "skvGTkW-qG4", "rFP4gxn_uME", "OLTeVRvPq04", "3MfJ9qMXBVQ", "xL94jLzIGt0"] //list of youtube videos. uses the same index ranking as link_order
   var views = [] //popularity of youtube videas. uses same index ranking as link_order
   var song_titles = []
   var video_thmbs = []
-  //var curves = []
-  //var pasta = [] // array of active invisibleSpaghetti geometric links objects created
   var xmlhttp = new XMLHttpRequest()
 
   //These song IDs are periodically queried from the Lotus YouTube genre playlists.  
@@ -93,95 +92,6 @@ init()
 function init () {
   container = document.createElement('div')
   document.body.appendChild(container)
-
-
-  //code for animated "tour"
-
-  /*function welcome () {
-  document.getElementById("message").innerHTML = `
-          <span style="font-size: 15px;font-family:Source Sans Pro; font-weight: 900;">Welcome to the Lotus 400.</span>  <span">To celebrate our new app, we're compiling a chart of the 400 Portland videos of all time. We have 116 spots remaining.</span>
-          <p style="text-align:right; font-size:14px; text-transform: uppercase; margin:0; margin-bottom:6px; margin-top:15px; padding:0;">
-          <button id="suggest" style="background-color: transparent; margin:0; margin-right:10px; padding: 0; "><a href="https://web.lotus.fm" style="background-color:#CC2D6F; color:#FFF; border-radius:4px; padding:10px 12px; height:36px; border:1px solid #CC2D6F; letter-spacing:1px; box-shadow: 2px 2px 3px grey; text-align:right; font-size:14px; font-family:Arial; text-transform: uppercase; text-decoration:none; font-weight: normal;">Suggest a Song</a></button> 
-          <button id="enter" style="background-color: transparent; margin:0; padding: 0; "><a href="https://web.lotus.fm" style="border-color:#0F426A; border-radius:4px; border: solid 1px; padding:10px 12px; text-decoration:none; color:#0F426A; height:36px; text-align:right; font-size:14px; font-family:Arial; text-transform: uppercase;">Proceed to Site</a></button></p>
-              </p>`;
-  }
-  
-  function spacer () {
-          top8Transform.visible = false 
-          topTransform.visible = false
-  }
-
-  welcome ()*/
-
-
-  var URL = "https://www.youtube.com/embed/" + "-Rfqo7OSimw" + "?autoplay=1&mute=1"
-  window.open(URL, 'iframe_a')
-
-
-
-  //document.getElementById("nowplaying").innerHTML = "Now Playing"//: <br>Small Million \u2022 Sirens";  //test placement code
-
-
-function assignLinks () //this assigns k values to the ranked link ids, so that the highest values occur at the highest chart points for each concentric ring.
-
-
-  {
-  var interval = 20;
-
-  for (var i = 0; i < 8; i++) { //link ids for the innermost petal ring
-    k = (i * interval )+ 10;
-    link_order.push(k);
-  }
-  for (var h = 0; h < 9; h++) {
-    for (var j = 0; j < 8; j++) {
-      k = link_order[j];
-      k1 = k - 2 - h;
-      k2 = k - (-1) + h;
-      link_order.push(k1);
-      link_order.push(k2);
-    }
-  }
-
-  var start = link_order.length;
-  var stop= start + 12
-
-  for (var i = 0; i < 12; i++) {  //link ids for the middle petal ring
-    k = (i * interval )+ 10;
-    k = k + 160;
-    link_order.push(k);
-  }
-  for (var h = 0; h < 9; h++) {
-    for (var j = start; j < stop; j++) {
-      k = link_order[j];
-      k1 = k - 2 - h;
-      k2 = k - (-1) + h;
-      link_order.push(k1);
-      link_order.push(k2);
-    }
-  }
-
-  /*var link_order_length = link_order.length;
-  var stop= link_order_length + 16
-
-  for (var i = 0; i < 16; i++) {          //link ids for the outer petal ring
-    k = (i * interval )+ 25;
-     k = k + 1300;
-    link_order.push([k]);
-  }
-  for (var h = 0; h < 24; h++) {
-    for (var j = link_order_length; j < stop; j++) {
-      k = link_order[j];
-      k1 = k - 2 - h;
-      k2 = k - (-1) + h;
-      link_order.push(k1);
-      link_order.push(k2);
-    }
-  }*/
-
-
-}
-
-assignLinks();
 
 
 //Petal Constructor - draws outline of petal
@@ -483,175 +393,79 @@ drawPetalRing (8, .65, .1, 0x00769d, 160, 20) //center petals
 
 drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 
-//drawPetalRing (16, 1, .1,  0x0099cc, 320, 20)  //outer petals
-
 group.position.set( 0, -.17, .75 );
 group.rotation.set(0,0,.4);
 
+  //animate and render
 
+  camera.position.z = 3.75  //this value was originally 3.75, and can be tweaked as needed
 
-parentTransform = new THREE.Object3D()
-group.add(parentTransform)
+  function animate () {
 
-// alternate approach to representing colored filters on lotus chart -- may be less memory intensive.
+    if (play) {
 
-//console.log(curves);
-//var outlier1 = curves[0];
-//outlier1.material.color.setHex( 0xFF0000 );
-//console.log (outlier1.id);
-//object.label = 287
-//parentTransform.add(object);
+    requestAnimationFrame(animate)
+    render()
+    group.rotation.x += 0.0001
+    group.rotation.y += 0.0002
+    }
 
-//var outlier2 = curves[1];
-//outlier2.material.color.setHex( 0xFF0000 );
-//outlier2.visible = false;
-//console.log (outlier2.id);
-//parentTransform.add(outlier2);*/
+    else {
 
-
-
-// generates clickable, highlighted link objects
-/*
-function addTop8Songs() {  // adds links for selected values
-
-document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #CC2D6F;"><strong>Top Eight Songs...</strong></span>`
-top8Transform = new THREE.Object3D()
-group.add(top8Transform) 
-
-for (i = 0; i < 8; i++) {
-
-      var k = link_order[i];
-      var color_code = 0xCC2D6F;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code,
-        .8,
-        top8Transform
-      )
+    requestAnimationFrame(animate)
+    render()
+    }
   }
-top8Transform.visible = true
 
-}
+  animate()
 
-function addTopSongs() {  // adds links for selected values
-
-topTransform = new THREE.Object3D()
-group.add(topTransform) 
-
-for (i = 0; i < 100; i++) {
-
-      var k = link_order[i];
-      var color_code = 0xCC2D6F;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code,
-        .5,
-        topTransform
-      )
+  function render () {
+    dot += 0
+    renderer.setClearColor(0x0F426A, 1)
+    renderer.render(scene, camera)
   }
-topTransform.visible = true
-
-document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #CC2D6F; margin-left:0px;"><strong>Top 100 Songs...</strong></span>`
-}
-
-function addTopEmergingSongs() {  // adds links for Top 12 selected values in outer ring
-
-topETransform = new THREE.Object3D()
-group.add(topETransform) 
-
-for (i = 152; i < 164; i++) {
-
-      var k = link_order[i];
-      var color_code = 0x87ceeb;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code,
-        .2,
-        topETransform
-      )
-  }
-topETransform.visible = true
-}
 
 
-//setTimeout(spacer, 1000);
-setTimeout(addTop8Songs, 200);
-//setTimeout(spacer,500);
-setTimeout(addTopSongs, 1500);
-
-//addTopEmergingSongs()
-*/
+function assignLinks () //this assigns k values to the ranked link ids, so that the highest values occur at the highest chart points for each concentric ring.
 
 
-function getData() //processes JSON data and returns arrays for 5 main variables
   {
-  var xmlhttp = new XMLHttpRequest();
-  xmlhttp.addEventListener("load", getActiveLinks);
-  xmlhttp.addEventListener("load", addLinks);
+  var interval = 20;
 
-  xmlhttp.open("GET", "../youtube_list.php", true);
-  xmlhttp.responseType = 'json';
-  xmlhttp.send(); 
-
-  xmlhttp.onreadystatechange = function() {
-  if (this.readyState == 4 && this.status == 200) {
-    //console.log('FOO'+this.response);
-    //myObj = JSON.parse(this.response);
-    //myObj = this.response;
-    var entries = this.response;
-    //console.log(entries.length);
-    if(entries.length > 0) {
-    for (var i = 0; i < entries.length; i++) {
-    var song = entries[i];
-        //var playerUrl = entry.id.$t;
-        //var vid = playerUrl.split(':').pop();
-        //var song_name = song.id.videoId;
-  var song_name = song.id;
-  var popularity = song.statistics.viewCount;
-  var song_title = song.snippet.title;
-  //console.log(song_title);
-  //console.log(song_name);
-  //console.log(popularity);
-  views.push([popularity]);
-  song_names.push([song_name]);
-  song_titles.push([song_title]);
-  video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
-  //console.log (video_thmbs)
-  //video_titles[video_titles.length] = song.snippet.title;
-     }
-     }
+  for (var i = 0; i < 8; i++) { //link ids for the innermost petal ring
+    k = (i * interval )+ 10;
+    link_order.push(k);
   }
-  } 
+  for (var h = 0; h < 9; h++) {
+    for (var j = 0; j < 8; j++) {
+      k = link_order[j];
+      k1 = k - 2 - h;
+      k2 = k - (-1) + h;
+      link_order.push(k1);
+      link_order.push(k2);
+    }
+  }
+
+  var start = link_order.length;
+  var stop= start + 12
+
+  for (var i = 0; i < 12; i++) {  //link ids for the middle petal ring
+    k = (i * interval )+ 10;
+    k = k + 160;
+    link_order.push(k);
+  }
+  for (var h = 0; h < 9; h++) {
+    for (var j = start; j < stop; j++) {
+      k = link_order[j];
+      k1 = k - 2 - h;
+      k2 = k - (-1) + h;
+      link_order.push(k1);
+      link_order.push(k2);
+    }
+  }
+
 }
 
-getData();
 
 function getActiveLinks()  //sorts for a given set of values from the data obtained above
 {
@@ -662,16 +476,16 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
       var song_value = x[1].toString();
       var song_index = x[0];
 
-            //code to get intro video rank and views to appear -- in the future the opening song will be randomized
-      if (song_value == "-Rfqo7OSimw") {
+      //code to get intro video rank and views to appear -- in the future the opening song will be randomized
+      /*if (song_value == "-Rfqo7OSimw") {
 
         var l = song_index
         //console.log(l)
         var k = link_order[l];
         nowPlaying(k);
-        showThumb(k);
-        showRank(k);
-      }
+        //showThumb(k);
+        //showRank(k);
+      }*/
       
       
       if (rockgenre.includes(song_value))
@@ -742,32 +556,9 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
 
 
 
-
-
 function addLinks() {  // adds links for selected values
 
 console.log (song_names.length) // current actual number of songs being ranked
-
-for (i = 0; i < song_names.length; i++) {
-
-      var k = link_order[i];
-      var color_code = 0xffffff;
-
-      invisibleSpaghetti(
-        k,
-        k_values[k][1],
-        k_values[k][2],
-        k_values[k][3],
-        k_values[k][4],
-        k_values[k][5],
-        k_values[k][6],
-        k_values[k][7],
-        k_values[k][8],
-        color_code,
-        0,
-        parentTransform
-      )
-  }
 
 document.getElementById("rock").style.backgroundColor = "#2387aa"
 addrockLinks()
@@ -795,16 +586,111 @@ addbluesLinks()
 
 addfunkLinks()
 
+parentTransform = new THREE.Object3D()
+group.add(parentTransform)
 
+for (i = 0; i < song_names.length; i++) {
 
+      var k = link_order[i];
+      var color_code = 0xffffff;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        0,
+        parentTransform  //complete set of navigation links
+      )
+  }
 
 }
+
+
+function geometricLinks () {
+
+  assignLinks();
+  getActiveLinks();
+  addLinks();
+
+}
+
+//setTimeout(geometricLinks, 1);
+
+geometricLinks()
+
+
+function getData() //processes JSON data and returns arrays for 5 main variables
+  {
+  var xmlhttp = new XMLHttpRequest();
+  //xmlhttp.addEventListener("load", getActiveLinks);
+  //xmlhttp.addEventListener("load", addLinks);
+
+  xmlhttp.open("GET", "../youtube_list.php", true);
+  xmlhttp.responseType = 'json';
+  xmlhttp.send(); 
+
+  xmlhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    //console.log('FOO'+this.response);
+    //myObj = JSON.parse(this.response);
+    //myObj = this.response;
+    var entries = this.response;
+    console.log(entries.length);
+    song_names.length = 0;
+    if(entries.length > 0) {
+    for (var i = 0; i < entries.length; i++) {
+    var song = entries[i];
+        //var playerUrl = entry.id.$t;
+        //var vid = playerUrl.split(':').pop();
+        //var song_name = song.id.videoId;
+  var song_name = song.id;
+  var popularity = song.statistics.viewCount;
+  var song_title = song.snippet.title;
+  //console.log(song_name);
+  //console.log(popularity);
+  //console.log(song_title);
+  views.push([popularity]);
+  song_names.push([song_name]);
+  song_titles.push([song_title]);
+  video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
+  //console.log (video_thmbs)
+  //video_titles[video_titles.length] = song.snippet.title;
+     }
+     fullyloaded = true; 
+     }
+  }
+  }
+}
+
+getData();
+
+
+
+
+
+var URL = "https://www.youtube.com/embed/" + "-Rfqo7OSimw" + "?autoplay=1&mute=1"
+window.open(URL, 'iframe_a')
+/*document.getElementById("nowplaying").innerHTML = "<b>Song Name</b><p>" + "Small Million \u2022 Sirens";  
+document.getElementById("rank").innerHTML = "<b>Rank</b><p>" + 154;
+document.getElementById("views").innerHTML = "<b>Views</b><p>" + 3251;*/
+nowPlaying(k);
+showThumb(k);
+showRank(k);
+
+
 
 
 function addrockLinks() {  //adds links for selected values
 
 rockTransform = new THREE.Object3D()
-group.add(rockTransform) 
+group.add(rockTransform)
 
 for (i = 0; i < link_order.length; i++) {
 
@@ -830,6 +716,7 @@ for (i = 0; i < link_order.length; i++) {
     }
   }
 rockTransform.visible=true
+
 }
 
 
@@ -1175,19 +1062,33 @@ for (i = 0; i < link_order.length; i++) {
 }
 
 
-  // --- indicator code
-console.log(video_thmbs[0])
-
+  // --- indicator panel code
 
 function nowPlaying(k) {
   l = link_order.indexOf(k)
   var song_title= song_titles[l]; 
-  document.getElementById("nowplaying").innerHTML = "<b>Song Name</b><p>" + song_title;  //test placement code
+  document.getElementById("nowplaying").innerHTML = "<b>Song Name</b><p>" + song_title;
+  if (fullyloaded == false)
+          {
+            document.getElementById("nowplaying").style.visibility  = "hidden";
+          }
+  else
+          {
+            document.getElementById("nowplaying").style.visibility  = "visible";
+          }
 }
 
 function showThumb(k) {
   l = link_order.indexOf(k) 
-  document.getElementById("thumb").innerHTML = "<img src=" + video_thmbs[l] + ">";  //test placement code
+  document.getElementById("thumb").innerHTML = "<img src=" + video_thmbs[l] + ">";
+  if (fullyloaded == false)
+          {
+            document.getElementById("thumb").style.visibility  = "hidden";
+          }
+  else
+          {
+            document.getElementById("thumb").style.visibility  = "visible";
+          }
 }
 
 function showRank(k) {
@@ -1195,6 +1096,16 @@ function showRank(k) {
   var songViews= views[l]; 
   document.getElementById("rank").innerHTML = "<b>Rank</b><p>" + (l+1);
   document.getElementById("views").innerHTML = "<b>Views</b><p>" + songViews;
+  if (fullyloaded == false)
+          {
+            document.getElementById("rank").style.visibility  = "hidden";
+            document.getElementById("views").style.visibility  = "hidden";
+          }
+    else
+          {
+            document.getElementById("rank").style.visibility  = "visible";
+            document.getElementById("views").style.visibility  = "visible";
+          }
 }
 
 function showPointer() {
@@ -1236,22 +1147,6 @@ function toggleControls() {
       showControls();
   }
 }
-
-
-/*/ alt code
-function toggleLinks(linkfunction,linkobject) {
-
-  if (typeof linkobject == 'undefined') {
-    console.log ("undefined")
-    linkfunction()
-  }
-  else
-    {
-    console.log ("defined")
-    linkobject.dispose()
-  }
-}
-/*/
 
 function hideLink()
 {
@@ -1390,7 +1285,8 @@ function hideAll() {
   //top icons
 
   document.getElementById( "reload" ).addEventListener( 'click', function () {
-          window.open("https://lotus.fm", "_self")
+        window.open("https://web.lotus.fm", "_self")
+        //document.write(video_thmbs);
         }, false );
 
   document.getElementById( "about" ).addEventListener( 'click', function () {
@@ -1413,6 +1309,7 @@ function hideAll() {
         }, false );
 
   document.getElementById( "enter" ).addEventListener( 'click', function () {
+
           window.open("https://web.lotus.fm", "_self")
         }, false );
 
@@ -1509,10 +1406,10 @@ function hideAll() {
             activeLink
       )
           activeLink.visible = true;
+          showPointer();
           showThumb(k);
           showRank(k);
           nowPlaying(k);
-          showPointer();
       }      
     } 
     else {
@@ -1546,48 +1443,11 @@ function hideAll() {
     renderer.setSize(window.innerWidth, window.innerHeight)
   }
 
-  //animate and render
-
-  camera.position.z = 3.75  //this value was originally 3.75, and can be tweaked as needed
-
-  function animate () {
-
-    if (play) {
-
-    requestAnimationFrame(animate)
-    render()
-    group.rotation.x += 0.0001
-    group.rotation.y += 0.0002
-    }
-
-    else {
-
-    requestAnimationFrame(animate)
-    render()
-    }
-  }
-
-  animate()
-
-  function render () {
-    dot += 0
-    renderer.setClearColor(0x0F426A, 1)
-    renderer.render(scene, camera)
-  }
 }
+
+
 
 /*/  ---- reference code ----- //  
-
-var blah = {
-  'myFunction': function () 
-  {
-  }
-}
-blah['myFunction']()
-blah.myFunction()
-
-
-//document.write(k + " " + links[k] + ", ");
 
 Site Colors:  
 #656565  - medium grey
