@@ -680,9 +680,7 @@ window.open(URL, 'iframe_a')
 /*document.getElementById("nowplaying").innerHTML = "<b>Song Name</b><p>" + "Small Million \u2022 Sirens";  
 document.getElementById("rank").innerHTML = "<b>Rank</b><p>" + 154;
 document.getElementById("views").innerHTML = "<b>Views</b><p>" + 3251;*/
-nowPlaying(k);
-showThumb(k);
-showRank(k);
+
 
 
 
@@ -1125,12 +1123,8 @@ function hideControls() {
 }
 
 function showControls() {
-  document.getElementById("genres").style.visibility  = "visible";;
+  document.getElementById("genres").style.visibility  = "visible";
   document.getElementById("message").style.visibility  = "visible";
-  document.getElementById("nowplaying").style.visibility  = "visible";
-  document.getElementById("thumb").style.visibility  = "visible";
-  document.getElementById("views").style.visibility  = "visible";
-  document.getElementById("rank").style.visibility  = "visible";
   document.getElementById("share").style.visibility  = "visible";
   document.getElementById("toggleControls").style.backgroundImage  = "url('examples/files/minimize_icon.png')";
 }
@@ -1285,7 +1279,7 @@ function hideAll() {
   //top icons
 
   document.getElementById( "reload" ).addEventListener( 'click', function () {
-        window.open("https://web.lotus.fm", "_self")
+        window.open("https://lotus.fm", "_self")
         //document.write(video_thmbs);
         }, false );
 
