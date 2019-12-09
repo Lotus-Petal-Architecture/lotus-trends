@@ -7,6 +7,9 @@
 		<!-- <script src="https://kit.fontawesome.com/2eef814402.js" crossorigin="anonymous"></script> -->
 		<link rel='stylesheet' id='storefront-fonts-css'  href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,300italic,400italic,700,900&#038;subset=latin%2Clatin-ext' type='text/css' media='all' />
 		<style>
+
+
+
 			body { margin: 0; background-color: #0F426A; font-family: Helvetica, sans serif;}
 			canvas { width: 100%; height: 100%; }
 
@@ -14,7 +17,36 @@
     			text-decoration: none;
     			outline: none;
     			border:none;
+    			color: #0F426A;
 			}
+
+			@media screen and (min-width: 960px) {
+  			#main {
+   			display: block;
+ 					}
+
+ 			#alternate {
+			display: none;
+			}
+			}
+
+			@media screen and (max-width: 960px) {
+  			#main {
+   			display: none;
+ 					}
+				}
+
+		#alternate {
+			position: absolute;
+			top:0px;
+			left:0px;
+			width: 100%;
+			height: 100%;
+			background-color: #FFF;
+			z-index: 100;
+			padding: 20px;
+			color: #0F426A;;
+		}
 
 		#nav {
 	position: absolute;
@@ -202,6 +234,17 @@
 </script>
 	</head>
 	<body>
+		<div id ="alternate"> This content is not yet available for mobile devices. Responsive and assistive versions coming soon. 
+			<br><br><a href="https://web.lotus.fm" target="self" onclick="openURL()">Proceed to mobile-friendly site</a>.
+		<script>
+			function openURL() {
+ 			 window.open("https://web.lotus.fm", "_self");
+			}
+		</script></div>
+			<noscript><div id ="alternate" style="display: block;"> Javascript not enabled! Please enable Javascript on your browser to view interactive content.
+			<br><br><a href="https://web.lotus.fm" target="self">Proceed to main Lotus.fm site</a>.</div>
+		<div id="main" style="display: none;"></noscript>
+			<div id="main">
 		<div id="nav"><button class="icon" id="reload" style="background-image: url('examples/files/lotus_icon.png'); margin-left:0px; margin-right:3px;" alt="Reload Chart" title="Reload Chart"></button>
 		
 		<button class="icon" id="about" style="background-image: url('examples/files/info_icon.png');" alt="About this Visualization" title="About this Visualization"></a></button>
@@ -261,12 +304,14 @@
 				padding:18px;
 				margin:0;
 				background-color: #a5c6d1;
-				border:0;" >
+				border:0;
+				visibility: visible;" >
 			<iframe name="iframe_a"width="355" height="200" style="border:none;" scrolling="no"></iframe></div>
 		</div>
 		<script src="build/three.js"></script>
 		<script src="examples/js/controls/OrbitControls.js"></script>
 		<script src="examples/js/libs/stats.min.js"></script>
-		<script src="examples/js/lotus_renderer.js"></script>
+		<script src="examples/js/lotus_renderer_working.js"></script>
+	</div>
 	</body>
 </html>
