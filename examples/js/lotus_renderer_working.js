@@ -1299,7 +1299,7 @@ function hideAll() {
         }, false );
 
   document.getElementById( "suggest" ).addEventListener( 'click', function () {
-          window.open("https://web.lotus.fm/contact/", "_self")
+          window.open("https://web.lotus.fm/add-your-song-to-the-lotus-400/", "_self")
         }, false );
 
   document.getElementById( "enter" ).addEventListener( 'click', function () {
