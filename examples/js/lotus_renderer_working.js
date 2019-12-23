@@ -8,7 +8,7 @@ var r = 100,
   var scene = new THREE.Scene()
 
   var camera = new THREE.PerspectiveCamera(
-    27,
+    29, // This variable controls size -- the lower the value the larger the rendering. Original value was 27.
     window.innerWidth / window.innerHeight,
     0.1,
     1000
@@ -93,6 +93,11 @@ function init () {
   container = document.createElement('div')
   document.body.appendChild(container)
 
+function spacer () {
+          //top8Transform.visible = false 
+          //topTransform.visible = false
+          document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #CC2D6F; margin-left:0px; text-align:right; margin-top:10px;"><strong></strong></span>`
+  }
 
 //Petal Constructor - draws outline of petal
 function drawPetal (
@@ -393,8 +398,8 @@ drawPetalRing (8, .65, .1, 0x00769d, 160, 20) //center petals
 
 drawPetalRing (12, 1, .1, 0x0289b6, 240, 20)  //middle petals
 
-group.position.set( 0, -.17, .75 );
-group.rotation.set(0,0,.4);
+group.position.set( .1, -.07, .55);
+group.rotation.set(.2,.3,.4);
 
   //animate and render
 
@@ -466,6 +471,8 @@ function assignLinks () //this assigns k values to the ranked link ids, so that 
 
 }
 
+assignLinks();
+
 
 function getActiveLinks()  //sorts for a given set of values from the data obtained above
 {
@@ -475,18 +482,6 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
     for (x of f) {
       var song_value = x[1].toString();
       var song_index = x[0];
-
-      //code to get intro video rank and views to appear -- in the future the opening song will be randomized
-      /*if (song_value == "-Rfqo7OSimw") {
-
-        var l = song_index
-        //console.log(l)
-        var k = link_order[l];
-        nowPlaying(k);
-        //showThumb(k);
-        //showRank(k);
-      }*/
-      
       
       if (rockgenre.includes(song_value))
       {
@@ -615,15 +610,82 @@ for (i = 0; i < song_names.length; i++) {
 
 function geometricLinks () {
 
-  assignLinks();
   getActiveLinks();
   addLinks();
+}
+
+// generates clickable and color-coded links sorted by genre and popularity
+
+function addTop8Songs() {  // adds links for selected values
+
+document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #CC2D6F;"><strong>Top Eight Songs...</strong></span>`
+top8Transform = new THREE.Object3D()
+group.add(top8Transform) 
+
+for (i = 0; i < 8; i++) {
+
+      var k = link_order[i];
+      var color_code = 0xCC2D6F;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .8,
+        top8Transform
+      )
+  }
+top8Transform.visible = true
 
 }
 
-//setTimeout(geometricLinks, 1);
+function addTopSongs() {  // adds links for selected values
 
-geometricLinks()
+topTransform = new THREE.Object3D()
+group.add(topTransform) 
+
+for (i = 0; i < 100; i++) {
+
+      var k = link_order[i];
+      var color_code = 0xCC2D6F;
+
+      invisibleSpaghetti(
+        k,
+        k_values[k][1],
+        k_values[k][2],
+        k_values[k][3],
+        k_values[k][4],
+        k_values[k][5],
+        k_values[k][6],
+        k_values[k][7],
+        k_values[k][8],
+        color_code,
+        .5,
+        topTransform
+      )
+  }
+topTransform.visible = true
+
+document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #CC2D6F; margin-left:0px;"><strong>Top 100 Songs...</strong></span>`
+}
+
+//setTimeout(spacer, 1000);
+setTimeout(addTop8Songs, 200);
+setTimeout(addTopSongs, 1200);
+setTimeout(geometricLinks, 1500);
+setTimeout('document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #CC2D6F; margin-left:0px; text-align:right; margin-top:10px;"><strong>...and counting</strong></span>`'
+, 2000);
+setTimeout(spacer,5500);
+setTimeout(showDetails,6300);
+
+
 
 
 function getData() //processes JSON data and returns arrays for 5 main variables
@@ -663,7 +725,7 @@ function getData() //processes JSON data and returns arrays for 5 main variables
   //console.log (video_thmbs)
   //video_titles[video_titles.length] = song.snippet.title;
      }
-     fullyloaded = true; 
+     fullyloaded = true;
      }
   }
   }
@@ -677,13 +739,21 @@ getData();
 
 var URL = "https://www.youtube.com/embed/" + "-Rfqo7OSimw" + "?autoplay=1&mute=1"
 window.open(URL, 'iframe_a')
-/*document.getElementById("nowplaying").innerHTML = "<b>Song Name</b><p>" + "Small Million \u2022 Sirens";  
+
+function showDetails()
+
+{
+document.getElementById("nowplaying").innerHTML = "<b>Song Name</b><p>" + "Small Million \u2022 Sirens";
+document.getElementById("thumb").innerHTML = "<img src='https://i.ytimg.com/vi/-Rfqo7OSimw/hqdefault.jpg?sqp=-oaymwEYCKgBEF5IVfKriqkDCwgBFQAAiEIYAXAB&rs=AOn4CLDkHyVpHwFKobtpTzY8zYgRKWxE7A' width='120'>";  
 document.getElementById("rank").innerHTML = "<b>Rank</b><p>" + 154;
-document.getElementById("views").innerHTML = "<b>Views</b><p>" + 3251;*/
+document.getElementById("views").innerHTML = "<b>Views</b><p>" + 3251;
+document.getElementById("thumb").style.visibility  = "visible";
+document.getElementById("views").style.visibility  = "visible";
+document.getElementById("rank").style.visibility  = "visible";
+document.getElementById("nowplaying").style.visibility  = "visible";
+}
 
-
-
-
+//showDetails()
 
 function addrockLinks() {  //adds links for selected values
 
@@ -946,7 +1016,7 @@ for (i = 0; i < link_order.length; i++) {
     if (hiphop_links.includes(i)) {
 
       var k = link_order[i];
-      var color_code = 0xFCF51B;
+      var color_code = 0xFFFF00;
 
        invisibleSpaghetti(
         k,
@@ -959,7 +1029,7 @@ for (i = 0; i < link_order.length; i++) {
         k_values[k][7],
         k_values[k][8],
         color_code,
-        .2,
+        .5,
         hiphopTransform
       )
     }
