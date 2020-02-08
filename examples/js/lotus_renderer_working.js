@@ -73,7 +73,7 @@ var r = 100,
 
   //These song IDs are periodically queried from the Lotus YouTube genre playlists.  
 
-  var rockgenre = ["uIP0iIxHLY4","E9yTHSyZeKg","VkavEUCwm0M","rddu5TgrTmE","GFfN5mFjOFo","tAZko_MSZhc","RemMNe7z6vg","rx4woNwVS8g","H3GXCAeWMb0","9Rz4kMBD8jU","XPR2bV8u5rk","KGKJQNtxjhI","DHXYSbs6Rb0","zClCsQnRj-c","yHNB4m1dfKE","4fr8k6O-Bko","w_otXEVPgOk","q-XpcMTnB-A","bU2WUSEC6PY","rQfs5UTzwFQ","8Ux6UnYOLvk","CyDHTJCIfHQ","AwkDVMr4Kso","0Jpqb5IYlEE","l5JhD4wKsrs","8BhdoriXe9Q","KLgWHoGLDx4","iv0ej8cJScM","kXFGQYGFeFU","LEKxlNbjgmE","KYhsehUH5b0","kYKcf7EWEfc","DElGhE2NhtQ","j0iohXlRXKA","_oQIIAdG8xM","Ys4YGRN8hgY","Duot03grNv8","2bHvzuupe4w","FxdnqfyvIkY","Y6BeTnjUqlo","cwHmeFidLbE","W3m7Uz7hF-s","APrpB-i4d_E","FuFtfhOipNQ","ON6pn6suSzc","BzkHp6EswEM","W05cPXpUHGI","kkcbxjWG9Mc","-DjpNgrocKo","MUfgAbFY4CA","D1vQJFF2TKQ","f-MroGCKDcM","hjg39XRkjVc","E5uAH0vNn2s","rCy1VIy8Hj0","Kc1htX3q-F0","pGOO7EE4Lhw","tRNDB9VqI3Q","qOM107PIxV8","Ti1liRM6cao","V4Yw6A_rlHc","d9MA4rFNf7I","OqeKV2UYq1Q","ksTFj6L0mao","E5H8DwJI0uA","qR9DjdMrpHg","zJXQSBWO5Qc","wcICuFnkxe4","pB08AUiTP3w","vZA_7FtttRY","cgr8e7da52o","MbxRu7fwR24","6r1-HTiwGiY","TpLhrLzSaFQ","HwgNMrs-i80","QJu611UdfxA","pO3_ZG7wJPc","sSCb-a2McRI","yyayVIXwg74","TkIloV7OMAk","xRFTYRXS3aw","1WaMgWUiYg0","wsF4TVHr42A","trZ244Ih_E4","iG8D1Kb7xgQ","EIpzPVAHpVg","WGnqoZx7_QY","n7zyfArxibk","UNUmSwWq-LU","Rh2YmGujtFI","PE1ges9nn6A","K_5lt23PRVs","DCI5XqT-AZs","QAhMakentwA","aUfu-lEflbQ","YbP-Aa3V6bA","t7Pv3eZEy4k","VZu1Z0oeFzo","_S0esU0n6sY","pOYN1p4Rc6o","mfA9K1hj2eg","OLTeVRvPq04","0_GeShK7aaY","U3iWpewLuyA","ull6hOYs5ZY","Palxbwco9pM","MP8Fd0mN50E","5AHz8HeDk3c","skvGTkW-qG4","-dJXBCBZwQg","aCgTgyBBswA","HcB7ZnkMnB8"]
+  var rockgenre = ["uIP0iIxHLY4","E9yTHSyZeKg","VkavEUCwm0M","rddu5TgrTmE","GFfN5mFjOFo","tAZko_MSZhc","RemMNe7z6vg","rx4woNwVS8g","H3GXCAeWMb0","9Rz4kMBD8jU","XPR2bV8u5rk","KGKJQNtxjhI","vi7aVsmH_eo","zYwCmcB0XMw","PUMkxH03V5c","jyqWjl7GkCE","-vm8uWFgBRc","RoLTPcD1S4Q","OkITsv3Nk6M","DHXYSbs6Rb0","zClCsQnRj-c","yHNB4m1dfKE","4fr8k6O-Bko","w_otXEVPgOk","q-XpcMTnB-A","bU2WUSEC6PY","rQfs5UTzwFQ","8Ux6UnYOLvk","CyDHTJCIfHQ","AwkDVMr4Kso","0Jpqb5IYlEE","l5JhD4wKsrs","8BhdoriXe9Q","KLgWHoGLDx4","iv0ej8cJScM","kXFGQYGFeFU","LEKxlNbjgmE","KYhsehUH5b0","kYKcf7EWEfc","DElGhE2NhtQ","j0iohXlRXKA","_oQIIAdG8xM","Ys4YGRN8hgY","Duot03grNv8","2bHvzuupe4w","FxdnqfyvIkY","Y6BeTnjUqlo","cwHmeFidLbE","W3m7Uz7hF-s","APrpB-i4d_E","FuFtfhOipNQ","ON6pn6suSzc","BzkHp6EswEM","W05cPXpUHGI","kkcbxjWG9Mc","-DjpNgrocKo","MUfgAbFY4CA","D1vQJFF2TKQ","f-MroGCKDcM","hjg39XRkjVc","E5uAH0vNn2s","rCy1VIy8Hj0","Kc1htX3q-F0","pGOO7EE4Lhw","tRNDB9VqI3Q","qOM107PIxV8","Ti1liRM6cao","V4Yw6A_rlHc","d9MA4rFNf7I","OqeKV2UYq1Q","ksTFj6L0mao","E5H8DwJI0uA","qR9DjdMrpHg","zJXQSBWO5Qc","wcICuFnkxe4","pB08AUiTP3w","vZA_7FtttRY","cgr8e7da52o","MbxRu7fwR24","6r1-HTiwGiY","TpLhrLzSaFQ","HwgNMrs-i80","QJu611UdfxA","pO3_ZG7wJPc","sSCb-a2McRI","yyayVIXwg74","TkIloV7OMAk","xRFTYRXS3aw","1WaMgWUiYg0","wsF4TVHr42A","trZ244Ih_E4","iG8D1Kb7xgQ","EIpzPVAHpVg","WGnqoZx7_QY","n7zyfArxibk","UNUmSwWq-LU","Rh2YmGujtFI","PE1ges9nn6A","K_5lt23PRVs","DCI5XqT-AZs","QAhMakentwA","aUfu-lEflbQ","YbP-Aa3V6bA","t7Pv3eZEy4k","VZu1Z0oeFzo","_S0esU0n6sY","pOYN1p4Rc6o","mfA9K1hj2eg","OLTeVRvPq04","0_GeShK7aaY","U3iWpewLuyA","ull6hOYs5ZY","Palxbwco9pM","MP8Fd0mN50E","5AHz8HeDk3c","skvGTkW-qG4","-dJXBCBZwQg","aCgTgyBBswA","HcB7ZnkMnB8"]  
   var punkgenre = ["hPsdjlPVaJU","0deHAT_KOqE","YypAGqIBrX0","s_vgHgIKPQs","JOUmxw0DPsg","LesJtYAG8zM","pCgEUBf5y18","4qljGaHJbCs","FNFYq8O7DTY","cr5uFjA4TNI","VTd4JCIqL7U","OFOowKu7WjA","_ZydMszfZlQ","LJbtcit8Byg","Hu0wknFNTOk","rFP4gxn_uME","cQhGxSge7aA","5SeI6r8lI_U","WWWKRqzvxMg","LS7KFVYUQT4","uS1PyjaR8WM","LH7XPoWPz-4","hBF8YGF17rQ","0nt2Yn1M0oU","K0q6EYTGXXQ","8QcTCIsFJ2Q","UX1BvCRg6gs"]
   var popgenre = ["E7fzUGR8ZH4","pnfryoGog0A","Cqp-hL-I90A","YGv-OSvQwKY","IbE4ynQd_qQ","yQYu51hlkLk","w39qx5X_Owg","gK04XhlTLOM","XMUxca7gXv4","iLilpPtY2JU","X9BWRh92ifs","srwAMHbHVAE","yntvBrlZNeA","_P63qccOdzs","7hneF9Iu71g","Cg4c0RA2DJQ","uA4RNW3HkcQ","WJi9MXfl3zA","c-kLsqvD6q8","3MfJ9qMXBVQ","fPEoI43MMhs","3jWQzkoPFTg","c8H7Anvad6E","KqXN_5G_kuo","rVqIhE53D_w","9x6Mxs5DyxI","weW-VnINl-E","bS22uZHDr54","gahV15Oe9Xs","Bm1g5Yg0hUw","OCVgWq9B_HE","GiZHmwzNAqE","vtS54c9sP0U","BVh6Jb3DQxE"]
   var countrygenre = ["_86LQH-c1d8","ENODBnQ5ed0","z0lHW09eQRA","SBA_vLLrXr0","c4cBdT5WCoE","nKJeB03TrJg","Pp_e6vZuhBI"]
@@ -81,7 +81,7 @@ var r = 100,
   var metalgenre = ["Ed_16Cblg9s","xuXln0HC-Lg","xxi6VQkCJPY","slua80kJ8zA","s5Eyu9-kchQ","RFmIOaRhOnE","sk4aZSLSkMs","iZtFjqZxBxw","4n8vZyzBWNs","BL8AJFQv9V4","bbt3qhOiH3M","9NrC7pRra9o","nptjor9ee_Q","r6i5PCn7_oY"]
   var jazzgenre = ["6Y_B3wdQLgg","ZEhWfrVOWlE","Ra616vyPBp8","tG2F72T-ixY","t50c2AiAkpw"]
   var psychgenre = ["3zDO7P_P3Aw","A4uAL0T_CUI","KiHrn43djYc","9_N4gVkx9_w","YZJ2rOm-PVA","x9_1ia_nB_E","SVi7fXWKqSk","KR6DysiE9Sk","--w4Ui8Alzc","M1hSddzlxL4","q93hgeROqvk","eNcSFnr3508","aVwVvtP5qJ4","FAL01pUnhGI"]
-  var hiphopgenre =  ["Bi4K58Fd_1o","xL94jLzIGt0","zDoDWbB6RN8","71u8cSuyZrI","W8CrBGhfSiA","njHZdD0MGDs","bqogMblcal0","H_6GtBFCTyQ","RSfii8RLmNM","t1IMifXyJLc","OV2lquaPxSU","AguOdYNF2d4","Z9RsVV-zfgY","QYDXRoHpF0w","mKZBingy2OA","oErErOGaAv0","50ADWH1d3E8","Gv7iV4n7cXM","qepl1N0P-SA","U53SHxO4sbk","fAcdBmxu-6s"]
+  var hiphopgenre = ["Bi4K58Fd_1o","xL94jLzIGt0","zDoDWbB6RN8","71u8cSuyZrI","W8CrBGhfSiA","njHZdD0MGDs","bqogMblcal0","H_6GtBFCTyQ","RSfii8RLmNM","t1IMifXyJLc","OV2lquaPxSU","AguOdYNF2d4","Z9RsVV-zfgY","QYDXRoHpF0w","mKZBingy2OA","oErErOGaAv0","50ADWH1d3E8","Gv7iV4n7cXM","qepl1N0P-SA","U53SHxO4sbk","fAcdBmxu-6s","F3tP0JjUjJU"]   
   var electrogenre = ["MP_2p79Ems4","eg5Emkcjfdo","jt068Vdmfww","6ZowS0dDW1k","yDOi6phVQXM","H7vVXIiisSw","bBMPzOX_VUo","qIhPPceIEV0","f-FOTHUir_4","vAuwQugGdS4","_liZNFe-TDM","2sKF3MHrHEY","XfgAXwaseM8","s9t2QH5zTCQ","iF0IhEpDces","GdK4jqnDNN8","-G1XWvUBXk4","ZGmXbfF8uvM","ms2iYyh6jLI","IgfIh-NBoCw"]
   var bluesgenre = ["-Q53gXuXd5s","uE2R5d6cPYs","AXHi-B2VbU0"]
   var funkgenre = ["DWeB6hWoKyI","SBrMBqFbWok","6u8lUKuaUx8","Pjw-qzT6qBs","yMku_xfki1U","ClVNU2-C3rQ","uL8Dipf5kXc","MJLe_O2J5Xg","599tHbAQVts","8drkE_zLnLk","1jY7kdEIhaA","HmuGq5weoZA","c1UTArVwyZs","U-eK9RcU90s","6SGy0zUCtsk","9IjxNwHkttU","COICJal838M","slqKrANo7Uo","C7r5KziEspU","vxnYp5NyD4k","XTCUjmhWL4Y","Q72ENpHcrDQ"]
@@ -553,8 +553,6 @@ function getActiveLinks()  //sorts for a given set of values from the data obtai
 
 function addLinks() {  // adds links for selected values
 
-console.log (song_names.length) // current actual number of songs being ranked
-
 document.getElementById("rock").style.backgroundColor = "#2387aa"
 addrockLinks()
 
@@ -584,7 +582,7 @@ addfunkLinks()
 parentTransform = new THREE.Object3D()
 group.add(parentTransform)
 
-for (i = 0; i < song_names.length; i++) {
+for (i = 0; i < 304; i++) {  //this value should match entries.length
 
       var k = link_order[i];
       var color_code = 0xffffff;
@@ -700,28 +698,22 @@ function getData() //processes JSON data and returns arrays for 5 main variables
 
   xmlhttp.onreadystatechange = function() {
   if (this.readyState == 4 && this.status == 200) {
-    //console.log('FOO'+this.response);
-    //myObj = JSON.parse(this.response);
-    //myObj = this.response;
     var entries = this.response;
-    console.log(entries.length);
+    //console.log(entries.length);
     song_names.length = 0;
     if(entries.length > 0) {
     for (var i = 0; i < entries.length; i++) {
-    var song = entries[i];
-        //var playerUrl = entry.id.$t;
-        //var vid = playerUrl.split(':').pop();
-        //var song_name = song.id.videoId;
-  var song_name = song.id;
-  var popularity = song.statistics.viewCount;
-  var song_title = song.snippet.title;
-  //console.log(song_name);
+    //console.log (song_names.length) // current actual number of songs being ranked
+      var song = entries[i];
+      var song_name = song.id;
+      var popularity = song.statistics.viewCount;
+      var song_title = song.snippet.title;
   //console.log(popularity);
   //console.log(song_title);
-  views.push([popularity]);
-  song_names.push([song_name]);
-  song_titles.push([song_title]);
-  video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
+      views.push([popularity]);
+      song_names.push([song_name]);
+      song_titles.push([song_title]);
+      video_thmbs[video_thmbs.length] = song.snippet.thumbnails.default.url;
   //console.log (video_thmbs)
   //video_titles[video_titles.length] = song.snippet.title;
      }
