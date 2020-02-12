@@ -1,4 +1,4 @@
-//Copyright 2019 by Lotus.fm LLC
+//Copyright 2020 by Lotus.fm LLC
 
 var camera, scene, raycaster, renderer, parentTransform, rockTransform, activeLink, controlsVisible, allgenresVisible
 var mouse = new THREE.Vector2()
