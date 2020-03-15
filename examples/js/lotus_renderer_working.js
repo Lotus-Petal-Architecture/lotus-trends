@@ -96,7 +96,7 @@ function init () {
 function spacer () {
           //top8Transform.visible = false 
           //topTransform.visible = false
-          document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #CC2D6F; margin-left:0px; text-align:right; margin-top:10px;"><strong></strong></span>`
+          document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #FFF; margin-left:0px; text-align:right; margin-top:10px;"><strong></strong></span>`
   }
 
 //Petal Constructor - draws outline of petal
@@ -616,7 +616,7 @@ function geometricLinks () {
 
 function addTop8Songs() {  // adds links for selected values
 
-document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #CC2D6F;"><strong>Top Eight Songs...</strong></span>`
+document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #FFF;"><strong>Top Eight Songs...</strong></span>`
 top8Transform = new THREE.Object3D()
 group.add(top8Transform) 
 
@@ -671,14 +671,14 @@ for (i = 0; i < 100; i++) {
   }
 topTransform.visible = true
 
-document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #CC2D6F; margin-left:0px;"><strong>Top 100 Songs...</strong></span>`
+document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #FFF; margin-left:0px;"><strong>Top 100 Songs...</strong></span>`
 }
 
 //setTimeout(spacer, 1000);
 setTimeout(addTop8Songs, 200);
 setTimeout(addTopSongs, 1200);
 setTimeout(geometricLinks, 1500);
-setTimeout('document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #CC2D6F; margin-left:0px; text-align:right; margin-top:10px;"><strong>...and counting</strong></span>`'
+setTimeout('document.getElementById("nowplaying").innerHTML = `<span style="font-size: 18px;font-family:Source Sans Pro; color: #FFF; margin-left:0px; text-align:right; margin-top:10px;"><strong>...and counting</strong></span>`'
 , 2000);
 setTimeout(spacer,5500);
 setTimeout(showDetails,6300);
