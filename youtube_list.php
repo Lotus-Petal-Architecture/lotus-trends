@@ -1,11 +1,11 @@
 <?php
 
 // YouTube API keys
-$apikey = 'AIzaSyDCAot4lETPRwRlYRwGWUVfrDMagOyOqGU';
-$apikey2 = 'AIzaSyDvNg5enf6G6R88pALlXRbsLUOzTv92tN4';
-$apikey3 = 'AIzaSyDFd_rOk2q-kC_deCS7ROs7eSTRsETLgDo';
-$apikey4 = 'AIzaSyBu-EdogFJe60KxbM14MaAQwc8dfN2c9Cw';
-$apikey5 = 'AIzaSyDfoZgGnbD6JeoBF_6PVxn8R5kmJjd9S1M';
+$apikey = YOUTUBE API KEY;
+$apikey2 = YOUTUBE API KEY;
+$apikey3 = YOUTUBE API KEY;
+$apikey4 = YOUTUBE API KEY;
+$apikey5 = YOUTUBE API KEY;
 
 
 function getAPI($u) {
